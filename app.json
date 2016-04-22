@@ -1,6 +1,6 @@
 {
-  "name": "Testing 'Deploy to Heroku' button",
-  "description": "Aplicacion prueba",
+  "name": "FelinoTweets",
+  "description": "Aplicación de gestion de tweets",
   "repository": "https://github.com/donrondon/TestRepo.git",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
   "keywords": ["node", "express", "static"],
