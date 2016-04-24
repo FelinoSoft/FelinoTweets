@@ -1,6 +1,7 @@
 var cool = require('cool-ascii-faces');
 var express = require('express');
 var app = express();
+var database = require('./database.js');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -19,8 +20,16 @@ app.get('/', function(request, response) {
 });
 
 app.get('/cool', function(request, response) {
-  response.send(cool());
-}); 
+  database.buscarLoles(function(documents){
+    response.send(documents);
+  });
+});
+
+app.get('/loles', function(request, response) {
+  database.menudosLoles(function(err){
+    response.send(cool());
+  });
+});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
