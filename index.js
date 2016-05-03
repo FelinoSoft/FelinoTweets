@@ -5,6 +5,7 @@ var path = require('path');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var http = require('http');
+var databaseAddress = "mongodb://FelinoUser:superfelino1#@ds013310.mlab.com:13310/felinotweetsdb";
 
 var config = require('./config/config');
 var database = require('./database.js');
@@ -57,7 +58,7 @@ app.get('/loles', function(request, response) {
 });
 
 
-mongoose.connect('mongodb://localhost:27017/felino_tweets',function(err,res){
+mongoose.connect(databaseAddress,function(err,res){
    if(err){
        console.log('Error conectando a la BD');
    } else{
