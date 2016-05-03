@@ -8,35 +8,47 @@ module.exports = function(app){
 
   // 'GET /'
   start = function(req, res) {
-    response.sendFile(path.resolve('./views/main.html'));
+    response.sendFile(path.resolve('../views/main.html'));
+  };
+
+  // 'GET /login'
+  login = function(req, res) {
+    response.sendFile(path.resolve('../views/login.html'));
+  };
+
+  // 'GET /register'
+  register = function(req, res) {
+    response.sendFile(path.resolve('../views/register.html'));
   };
 
   // 'GET /home'
   home = function(req, res) {
-    response.sendFile(path.resolve('./views/home.html'));
+    response.sendFile(path.resolve('../views/home.html'));
   };
 
   // 'GET /home/analytics'
   userAnalytics = function(req, res) {
-    response.sendFile(path.resolve('./views/userAnalytics.html'));
+    response.sendFile(path.resolve('../views/userAnalytics.html'));
   };
 
   // 'GET /admin'
   admin = function(req, res) {
-    response.sendFile(path.resolve('./views/admin.html'));
+    response.sendFile(path.resolve('../views/admin.html'));
   };
 
   // 'GET /admin/users'
   admin = function(req, res) {
-    response.sendFile(path.resolve('./views/adminUsers.html'));
+    response.sendFile(path.resolve('../views/adminUsers.html'));
   };
 
   // 'GET /admin/analytics'
   admin = function(req, res) {
-    response.sendFile(path.resolve('./views/adminAnalytics.html'));
+    response.sendFile(path.resolve('../views/adminAnalytics.html'));
   };
 
   app.get('/', start);
+  app.get('/login', login);
+  app.get('/register', register);
   app.get('/home', home);
   app.get('/home/analytics', userAnalytics);
   app.get('/admin', admin);
