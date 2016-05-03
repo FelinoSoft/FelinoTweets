@@ -33,6 +33,7 @@ module.exports = function(app){
                 console.log(data.short_url);
                 console.log(data.clicks);
                 console.log("esto es data ^");
+                
                 /*
                 updateClicks(req, function(result){
                   if(result.error){
