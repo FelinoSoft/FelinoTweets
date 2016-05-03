@@ -2,7 +2,7 @@
  * Este fichero es el encargado de ejecutar la operacion correspondiente a la
  * peticion recibida, para la coleccion users
  */
-module.exports = function(app){
+module.exports = function(app){ 
 
     var user = require('../models/user.js');
 
@@ -59,74 +59,143 @@ module.exports = function(app){
 
     /* PUT /users/:id */
     updateUser = function(req,res){
-        var response = {};
-        user.findById(req.params.id,function(err,data){
-            if(req.body.admin !== undefined){
-                data.admin = req.body.admin;
-            }
-            if(req.body.email !== undefined){
-                data.email = req.body.email;
-            }
-            if(req.body.password !== undefined){
-                data.password = req.body.password;
-            }
-            if(req.body.first_name !== undefined){
-                data.first_name = req.body.first_name;
-            }
-            if(req.body.last_name !== undefined){
-                data.last_name = req.body.last_name;
-            }
-            if(req.body.last_access_date !== undefined){
-                data.last_access_date = req.body.last_access_date;
-            }
-            if(req.body.hashtags !== undefined){
-                data.hashtags = req.body.hashtags;
-            }
+      var response = {};
 
-            data.save(function(err){
-                if(err){
-                    response = {"error" : true, "message" : "Error updating data"};
-                } else{
-                    response = {"error" : false, "message" : "Data is updated for " + req.params.id};
+      // checks if the user is allowed to edit
+      checkUser(req, res, function(err, admin) {
+        if (err) {
+          response = {"error" : true, "message" : "Error fetching data"};
+        } else {
+
+          var userId = req.session.id;
+          var targetId = req.params.id;
+
+          if( (admin) || (targetId == userId ) ) {
+
+            user.findById(req.params.id,function(err,data){
+                if(req.body.admin !== undefined){
+                    data.admin = req.body.admin;
                 }
-                res.json(response);
+                if(req.body.email !== undefined){
+                    data.email = req.body.email;
+                }
+                if(req.body.password !== undefined){
+                    data.password = req.body.password;
+                }
+                if(req.body.first_name !== undefined){
+                    data.first_name = req.body.first_name;
+                }
+                if(req.body.last_name !== undefined){
+                    data.last_name = req.body.last_name;
+                }
+                if(req.body.last_access_date !== undefined){
+                    data.last_access_date = req.body.last_access_date;
+                }
+                if(req.body.hashtags !== undefined){
+                    data.hashtags = req.body.hashtags;
+                }
+
+                data.save(function(err){
+                    if(err){
+                        response = {"error" : true, "message" : "Error updating data"};
+                    } else{
+                        response = {"error" : false, "message" : "Data is updated for " + req.params.id};
+                    }
+                    res.json(response);
+                });
             });
-        });
+          }
+          else {
+
+            // user is not admin
+            response = {"error" : true, "message" : "Error updating data. Admin permissions required"};
+            res.json(response);
+          }
+        }
+      });
     };
 
     /* DELETE /users */
     deleteAllUsers = function(req,res){
-        var response = {};
+      var response = {};
 
-        user.remove({}, function(err){
-            if(err){
-                response = {"error" : true, "message" : "Error deleting data"};
-                res.json(response);
-            } else{
-                findAllUsers(req,res);
-            }
+      // checks if the user is allowed to delete users (admin)
+      checkUser(req, res, function(err, admin) {
+        if (err) {
+          response = {"error" : true, "message" : "Error fetching data"};
+        } else {
 
-        });
-    };
+          if(admin) {
+
+            user.remove({}, function(err){
+              if(err){
+                  response = {"error" : true, "message" : "Error deleting data"};
+                  res.json(response);
+              } else{
+                  findAllUsers(req,res);
+              }
+            });
+          }
+          else {
+
+            // user is not admin
+            response = {"error" : true, "message" : "Error deleting data. Admin permissions required"};
+            res.json(response);
+          }
+        }
+      });
+    }
 
     /* DELETE /users/:id */
     deleteUser = function(req,res){
-        var response = {};
-        user.findById(req.params.id, function(err,data){
-            if(err){
-                response = {"error" : true, "message" : "Error fetching data"};
-            } else{
-                user.remove({_id : req.params.id}, function(err){
-                    if(err){
-                        response = {"error" : true, "message" : "Error deleting data"};
-                        res.json(response);
-                    } else{
-                        findAllUsers(req,res);
-                    }
+      var response = {};
+
+      // checks if the user is allowed to delete users (admin)
+      checkUser(req, res, function(err, admin) {
+        if (err) {
+          response = {"error" : true, "message" : "Error fetching data"};
+        } else {
+
+          var userId = req.session.id;
+          var targetId = req.params.id;
+
+          if( (admin) || (targetId == userId ) ) {
+            user.findById(targetId, function(err,data){
+              if(err){
+                  response = {"error" : true, "message" : "Error fetching data"};
+              } else{
+                user.remove({_id : targetId}, function(err){
+                  if(err){
+                      response = {"error" : true, "message" : "Error deleting data"};
+                      res.json(response);
+                  } else{
+                      findAllUsers(req,res);
+                  }
                 });
-            }
-        });
+              }
+            });
+          }
+          else {
+
+            // user is not admin
+            response = {"error" : true, "message" : "Error deleting data. Admin permissions required"};
+            res.json(response);
+          }
+        }
+      });
     };
+
+    /* checks if the user is admin or not */
+    checkUser = function(req, res, callback) {
+      user.findById(req.session.id, function(err,data){
+        if(err){
+          callback(err);
+        } else{
+          // return whether the user is admin or not
+          callback(data.message.admin);
+        }
+      });
+    }
 
     app.get('/users', findAllUsers);
     app.get('/users/:id', findById);
