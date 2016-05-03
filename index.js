@@ -36,6 +36,7 @@ app.set('view engine', 'ejs');
 require('./routes/twitter')(app,passport);
 require('./routes/users')(app);
 require('./routes/twitter_accounts')(app);
+require('./routes/urls')(app);
 
 app.get('/', function(request, response) {
     response.sendFile(path.resolve('./public/main.html'));
