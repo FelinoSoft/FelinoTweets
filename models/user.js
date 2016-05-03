@@ -12,7 +12,9 @@ var userSchema = new mongoSchema({
     "first_name" : String,
     "last_name" : String,
     "registration_date" : Date,
-    "last_access_date" : Date
+    "last_access_date" : Date,
+    "account" : String,
+    "hashtags" : { type : Array , "default" : []}
 });
 
 module.exports = mongoose.model('user',userSchema);

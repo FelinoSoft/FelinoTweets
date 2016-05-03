@@ -7,8 +7,8 @@ var mongoose = require('mongoose');
 var mongoSchema = mongoose.Schema;
 
 var tweetSchema = new mongoSchema({
-    "user" : String,
-    "account" : String,
+    "user_id" : String,
+    "account_id" : String,
     "date" : Date,
 });
 
