@@ -40,7 +40,6 @@ require('./routes/twitter_accounts')(app);
 app.get('/', function(request, response) {
     response.sendFile(path.resolve('./public/main.html'));
     database.incrementShortenID(function(err){
-
     });
 });
 
