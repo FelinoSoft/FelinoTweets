@@ -166,6 +166,6 @@ function incrementShortenID(callback){
 
 exports.menudosLoles = menudosLoles;
 exports.buscarLoles = buscarLoles;
-
+exports.incrementShortenID = incrementShortenID;
 exports.test_user = test_user;
 exports.createTwitterAccount = createTwitterAccount;
