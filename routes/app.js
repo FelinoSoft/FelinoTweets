@@ -8,42 +8,42 @@ module.exports = function(app){
 
   // 'GET /'
   start = function(req, res) {
-    response.sendFile(path.resolve('../views/main.html'));
+    res.sendFile(path.resolve('../views/main.html'));
   };
 
   // 'GET /login'
   login = function(req, res) {
-    response.sendFile(path.resolve('../views/login.html'));
+    res.sendFile(path.resolve('../views/login.html'));
   };
 
   // 'GET /register'
   register = function(req, res) {
-    response.sendFile(path.resolve('../views/register.html'));
+    res.sendFile(path.resolve('../views/register.html'));
   };
 
   // 'GET /home'
   home = function(req, res) {
-    response.sendFile(path.resolve('../views/home.html'));
+    res.sendFile(path.resolve('../views/home.html'));
   };
 
   // 'GET /home/analytics'
   userAnalytics = function(req, res) {
-    response.sendFile(path.resolve('../views/userAnalytics.html'));
+    res.sendFile(path.resolve('../views/userAnalytics.html'));
   };
 
   // 'GET /admin'
   admin = function(req, res) {
-    response.sendFile(path.resolve('../views/admin.html'));
+    res.sendFile(path.resolve('../views/admin.html'));
   };
 
   // 'GET /admin/users'
   admin = function(req, res) {
-    response.sendFile(path.resolve('../views/adminUsers.html'));
+    res.sendFile(path.resolve('../views/adminUsers.html'));
   };
 
   // 'GET /admin/analytics'
   admin = function(req, res) {
-    response.sendFile(path.resolve('../views/adminAnalytics.html'));
+    res.sendFile(path.resolve('../views/adminAnalytics.html'));
   };
 
   app.get('/', start);
