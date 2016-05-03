@@ -130,7 +130,6 @@ function getShortenID(callback){
 			}
 
       var collection = connection.collection('shortenID');
-
       collection.find().toArray(function(err, documents){
 					connection.close();
 					if(!err && documents.length > 0) {
