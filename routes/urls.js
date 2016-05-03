@@ -29,6 +29,9 @@ module.exports = function(app){
                 response = {"error" : true, "message" : "Error fetching data"};
                 res.json(response);
             } else{
+                console.log("findbyID");
+                console.log(data);
+                console.log("esto es data ^");
                 updateClicks(req, function(result){
                   if(result.error){
                     // Hubo error al updatear los clicks
@@ -40,6 +43,20 @@ module.exports = function(app){
                   }
                 });
             }
+        });
+    };
+
+    updateClicks = function(req,callback){
+        url.find({"short_url" : req.params.short_url},function(err,data){
+            data.clicks = data.clicks + 1;
+            data.save(function(err){
+                if(err){
+                    response = {"error" : true, "message" : "Error updating data"};
+                } else{
+                    response = {"error" : false, "message" : "Data is updated for " + req.params.short_url};
+                }
+                callback(response);
+            });
         });
     };
 
@@ -84,21 +101,6 @@ module.exports = function(app){
         });
     };
 
-    updateClicks = function(req,callback){
-        url.find({"short_url" : req.params.short_url},function(err,data){
-            data.clicks = data.clicks + 1;
-
-            data.save(function(err){
-                if(err){
-                    response = {"error" : true, "message" : "Error updating data"};
-                } else{
-                    response = {"error" : false, "message" : "Data is updated for " + req.params.short_url};
-                }
-                callback(response);
-            });
-        });
-    };
-
     /* DELETE /url */
     deleteAllUrls = function(req,res){
         var response = {};
@@ -134,8 +136,8 @@ module.exports = function(app){
     };
 
     app.get('/url', findAllUrls);
-    app.get('/url/:id', findById);
+    app.get('/url/:short_url', findById);
     app.post('/url', addUrl);
     app.delete('/url', deleteAllUrls);
-    app.delete('/url/:id',deleteUrl);
+    app.delete('/url/:short_url',deleteUrl);
 };
