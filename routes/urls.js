@@ -30,8 +30,10 @@ module.exports = function(app){
                 res.json(response);
             } else{
                 console.log("findbyID");
-                console.log(data);
+                console.log(data.short_url);
+                console.log(data.clicks);
                 console.log("esto es data ^");
+                /*
                 updateClicks(req, function(result){
                   if(result.error){
                     // Hubo error al updatear los clicks
@@ -42,6 +44,7 @@ module.exports = function(app){
                     res.redirect(data.long_url);
                   }
                 });
+                */
             }
         });
     };
