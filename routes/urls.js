@@ -52,7 +52,7 @@ module.exports = function(app){
         database.getShortenID(function(result){
           if(result === null){
             // Error
-            response = {"error" : true, "message" : "Error adding data"};
+            response = {"error" : true, "message" : "Error getting shortenID"};
             res.json(response);
           } else{
             // No error
@@ -60,7 +60,7 @@ module.exports = function(app){
             database.incrementShortenID(function(err){
               if(err !== null){
                 // Error
-                response = {"error" : true, "message" : "Error adding data"};
+                response = {"error" : true, "message" : "Error incrementing shortenID"};
                 res.json(response);
               } else{
                 // No error
