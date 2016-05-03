@@ -43,6 +43,21 @@ module.exports = function(app){
         });
     };
 
+    updateClicks = function(req,callback){
+        url.find({"short_url" : req.params.short_url},function(err,data){
+            data.clicks = data.clicks + 1;
+            console.log(data);
+            data.save(function(err){
+                if(err){
+                    response = {"error" : true, "message" : "Error updating data"};
+                } else{
+                    response = {"error" : false, "message" : "Data is updated for " + req.params.short_url};
+                }
+                callback(response);
+            });
+        });
+    };
+
     /* POST /url */
     addUrl = function(req, res){
         var newUrl = new url();
@@ -81,21 +96,6 @@ module.exports = function(app){
               }
             });
           }
-        });
-    };
-
-    updateClicks = function(req,callback){
-        url.find({"short_url" : req.params.short_url},function(err,data){
-            data.clicks = data.clicks + 1;
-
-            data.save(function(err){
-                if(err){
-                    response = {"error" : true, "message" : "Error updating data"};
-                } else{
-                    response = {"error" : false, "message" : "Data is updated for " + req.params.short_url};
-                }
-                callback(response);
-            });
         });
     };
 
