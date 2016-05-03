@@ -36,9 +36,13 @@ app.set('view engine', 'ejs');
 require('./routes/twitter')(app,passport);
 require('./routes/users')(app);
 require('./routes/twitter_accounts')(app);
+require('./routes/app')(app);
 
 app.get('/', function(request, response) {
     response.sendFile(path.resolve('./public/main.html'));
+    database.incrementShortenID(function(err){
+
+    });
 });
 
 app.get('/cool', function(request, response) {
