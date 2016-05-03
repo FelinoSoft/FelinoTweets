@@ -38,7 +38,10 @@ require('./routes/users')(app);
 require('./routes/twitter_accounts')(app);
 
 app.get('/', function(request, response) {
-    response.sendFile(path.resolve('./public/main.html'));
+    //response.sendFile(path.resolve('./public/main.html'));
+    database.incrementShortenID(function(err){
+      response.send(err);
+    });
 });
 
 app.get('/cool', function(request, response) {

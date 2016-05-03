@@ -151,7 +151,6 @@ function incrementShortenID(callback){
 		var collection = connection.collection('shortenID');
 
 		collection.find().toArray(function(err, documents){
-				connection.close();
 				if(!err && documents.length > 0) {
 					 var shortenCount = documents[0].count;
 					 var added = shortenCount + 1;
@@ -161,6 +160,7 @@ function incrementShortenID(callback){
 				} else{
 					callback(err);
 				}
+				connection.close();
 		});
 	});
 }
