@@ -29,9 +29,9 @@ module.exports = function(app){
                 response = {"error" : true, "message" : "Error fetching data"};
                 res.json(response);
             } else{
-                console.log("findbyID")
-                console.log(req.params.short_url);
+                console.log("findbyID");
                 console.log(data);
+                console.log("esto es data ^");
                 updateClicks(req, function(result){
                   if(result.error){
                     // Hubo error al updatear los clicks
