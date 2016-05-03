@@ -1,5 +1,5 @@
 /**
- * Este fichero contiene el codigo encargado de lanzar la aplicacion 
+ * Este fichero contiene el codigo encargado de lanzar la aplicacion
  */
 var express = require('express');
 var path = require('path');
@@ -37,7 +37,7 @@ require('./routes/twitter')(app,passport);
 require('./routes/users')(app);
 require('./routes/twitter_accounts')(app);
 require('./routes/urls')(app);
-//require('./routes/app')(app);
+require('./routes/app')(app);
 
 mongoose.connect(databaseAddress,function(err,res){
    if(err){
