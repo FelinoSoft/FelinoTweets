@@ -9,7 +9,7 @@ var mongoSchema = mongoose.Schema;
 
 var urlSchema = new mongoSchema({
    "long_url" : String,
-    "user" : String,
+    "user_id" : String,
     "clicks" : Number
 });
 
