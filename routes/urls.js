@@ -30,6 +30,7 @@ module.exports = function(app){
                 res.json(response);
             } else{
                 console.log("findbyID")
+                console.log(req.params.short_url);
                 console.log(data);
                 updateClicks(req, function(result){
                   if(result.error){
@@ -139,8 +140,8 @@ module.exports = function(app){
     };
 
     app.get('/url', findAllUrls);
-    app.get('/url/:id', findById);
+    app.get('/url/:short_url', findById);
     app.post('/url', addUrl);
     app.delete('/url', deleteAllUrls);
-    app.delete('/url/:id',deleteUrl);
+    app.delete('/url/:short_url',deleteUrl);
 };
