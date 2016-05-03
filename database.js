@@ -154,7 +154,11 @@ function incrementShortenID(callback){
 					 var shortenCount = documents[0].count;
 					 var added = shortenCount + 1;
 					 collection.update({"count" : shortenCount}, {"count" : added}, {upsert:true}, function(err, result){
-						 callback(result);
+						 if(!err){
+							 callback(null);
+						 } else{
+							 callback(err);
+						 }
 					 });
 				} else{
 					callback(err);
