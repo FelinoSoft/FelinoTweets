@@ -163,6 +163,7 @@ function incrementShortenID(callback){
 						 }
 					 });
 				} else{
+					connection.close();
 					callback(err);
 				}
 		});

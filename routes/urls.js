@@ -25,7 +25,7 @@ module.exports = function(app){
     findById = function(req,res){
         var response = {};
         url.find({"short_url" : req.params.short_url}, function(err, data){
-            if(err || data.length == 0){
+            if(err){
                 response = {"error" : true, "message" : "Error fetching data"};
                 res.json(response);
             } else{
@@ -36,7 +36,7 @@ module.exports = function(app){
                     res.json(response);
                   } else{
                     // No error
-                    res.redirect(data[0].long_url);
+                    res.redirect(data.long_url);
                   }
                 });
             }
