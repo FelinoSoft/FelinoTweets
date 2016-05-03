@@ -130,7 +130,6 @@ function getShortenID(callback){
 			}
 
       var collection = connection.collection('shortenID');
-
       collection.find().toArray(function(err, documents){
 					connection.close();
 					if(!err && documents.length > 0) {
@@ -151,15 +150,16 @@ function incrementShortenID(callback){
 		var collection = connection.collection('shortenID');
 
 		collection.find().toArray(function(err, documents){
-				connection.close();
 				if(!err && documents.length > 0) {
 					 var shortenCount = documents[0].count;
-					 collection.update({"count" : shortenCount}, {"count" : shortenCount + 1}, {upsert:true}, function(err, result){
-						 callback(err);
+					 var added = shortenCount + 1;
+					 collection.update({"count" : shortenCount}, {"count" : added}, {upsert:true}, function(err, result){
+						 callback(result);
 					 });
 				} else{
 					callback(err);
 				}
+				connection.close();
 		});
 	});
 }
