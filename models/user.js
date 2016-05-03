@@ -13,7 +13,6 @@ var userSchema = new mongoSchema({
     "last_name" : String,
     "registration_date" : Date,
     "last_access_date" : Date,
-    "account" : String,
     "hashtags" : { type : Array , "default" : []}
 });
 
