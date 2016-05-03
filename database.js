@@ -155,15 +155,16 @@ function incrementShortenID(callback){
 					 var added = shortenCount + 1;
 					 collection.update({"count" : shortenCount}, {"count" : added}, {upsert:true}, function(err, result){
 						 if(!err){
+							 connection.close();
 							 callback(null);
 						 } else{
+							 connection.close();
 							 callback(err);
 						 }
 					 });
 				} else{
 					callback(err);
 				}
-				connection.close();
 		});
 	});
 }
