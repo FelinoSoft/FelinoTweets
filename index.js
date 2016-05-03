@@ -1,5 +1,6 @@
-var cool = require('cool-ascii-faces');
-
+/**
+ * Este fichero contiene el codigo encargado de lanzar la aplicacion 
+ */
 var express = require('express');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -26,8 +27,6 @@ app.use(passport.session());
 
 // views is directory for all template files
 app.set('views', __dirname + '/views');
-
-
 app.set('view engine', 'ejs');
 
 //app.use(express.cookieParser());
@@ -39,24 +38,6 @@ require('./routes/users')(app);
 require('./routes/twitter_accounts')(app);
 require('./routes/urls')(app);
 //require('./routes/app')(app);
-//testingu
-
-app.get('/', function(request, response) {
-    response.sendFile(path.resolve('./public/main.html'));
-});
-
-app.get('/cool', function(request, response) {
-  database.buscarLoles(function(documents){
-    response.send(documents);
-  });
-});
-
-app.get('/loles', function(request, response) {
-  database.menudosLoles(function(err){
-    response.send(cool());
-  });
-});
-
 
 mongoose.connect(databaseAddress,function(err,res){
    if(err){
@@ -66,12 +47,10 @@ mongoose.connect(databaseAddress,function(err,res){
    }
 });
 
-
-
+// initialize twitter data
 twitter.initTwitter();
 
-//database.test_user();
-//database.createTwitterAccount('hola','adios','1');
+// initialize server
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
