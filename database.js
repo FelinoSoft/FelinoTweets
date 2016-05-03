@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
-var server = "mongodb://TestUser:testpassword1#@ds013310.mlab.com:13310/felinotweetsdb";
+var server = "mongodb://FelinoUser:superfelino1#@ds013310.mlab.com:13310/felinotweetsdb";
 //var server = 'mongodb://127.0.0.1:27017/memoSystem';
 
 var user = require('./models/user');
@@ -123,7 +123,46 @@ function createTwitterAccount(token, token_secret, profile_id, authorized,callba
     });
 }
 
+function getShortenID(callback){
+	MongoClient.connect(server,function(err,connection){
+			if (err) {
+				callback(null);
+			}
 
+      var collection = connection.collection('shortenID');
+
+      collection.find().toArray(function(err, documents){
+					connection.close();
+					if(!err && documents.length > 0) {
+						 callback(documents[0].count);
+					} else{
+						callback(null);
+					}
+			});
+		});
+}
+
+function incrementShortenID(callback){
+	MongoClient.connect(server, function(err, connection){
+		if (err) {
+			callback(err);
+		}
+
+		var collection = connection.collection('shortenID');
+
+		collection.find().toArray(function(err, documents){
+				connection.close();
+				if(!err && documents.length > 0) {
+					 var shortenCount = documents[0].count;
+					 collection.update({"count" : shortenCount}, {"count" : shortenCount + 1}, {upsert:true}, function(err, result){
+						 callback(err);
+					 });
+				} else{
+					callback(err);
+				}
+		});
+	});
+}
 
 exports.menudosLoles = menudosLoles;
 exports.buscarLoles = buscarLoles;
