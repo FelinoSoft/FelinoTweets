@@ -32,6 +32,10 @@ app.set('view engine', 'ejs');
 //app.use(express.cookieParser());
 //app.use(express.session({ secret: "holaquease" }));
 
+app.get('/public/css/main.css', function(req, res) {
+  console.log(req);
+});
+
 // includes different routes
 require('./routes/twitter')(app,passport);
 require('./routes/users')(app);
