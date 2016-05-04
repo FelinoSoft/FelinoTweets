@@ -54,3 +54,8 @@ a.navbar-brand.brand{
     padding-left: 10px;
 }
 
+.error{
+    font-weight: lighter;
+    color: red;
+}
+
