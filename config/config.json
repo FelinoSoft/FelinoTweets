@@ -1,6 +1,6 @@
 {
   "domain": "127.0.0.1",
-  "port": 8080,
+  "port": 8888,
   "api_port": 3000,
   "consumerKey": "2tBJZsTwYEzt9iL4JrAYxSTHw",
   "consumerSecret": "tG04Aj77od7jG7a6CQCk7ULbqbNEagFq5d3Z0qQi0qdanYXw2V"

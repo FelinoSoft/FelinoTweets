@@ -21,7 +21,7 @@ app.set('port', (process.env.PORT || config.port));
 app.use(express.static(__dirname + '/public'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({extended:true}));
-app.use(require('express-session')({secret: 'keyboard cat', resave:true, saveUnitializated: true}));
+app.use(require('express-session')({secret: 'keyboard cat', resave:false, saveUninitialized:false}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -31,10 +31,6 @@ app.set('view engine', 'ejs');
 
 //app.use(express.cookieParser());
 //app.use(express.session({ secret: "holaquease" }));
-
-app.get('/public/css/main.css', function(req, res) {
-  console.log(req);
-});
 
 // includes different routes
 require('./routes/twitter')(app,passport);
