@@ -25,16 +25,10 @@ module.exports = function(app){
     findById = function(req,res){
         var response = {};
         url.find({"short_url" : req.params.short_url}, function(err, data){
-            if(err){
+            if(err || data.length == 0){
                 response = {"error" : true, "message" : "Error fetching data"};
                 res.json(response);
             } else{
-                console.log("findbyID");
-                console.log(data.short_url);
-                console.log(data.clicks);
-                console.log("esto es data ^");
-                
-                /*
                 updateClicks(req, function(result){
                   if(result.error){
                     // Hubo error al updatear los clicks
@@ -42,25 +36,28 @@ module.exports = function(app){
                     res.json(response);
                   } else{
                     // No error
-                    res.redirect(data.long_url);
+                    res.redirect(data[0].long_url);
                   }
                 });
-                */
             }
         });
     };
 
     updateClicks = function(req,callback){
         url.find({"short_url" : req.params.short_url},function(err,data){
-            data.clicks = data.clicks + 1;
-            data.save(function(err){
-                if(err){
-                    response = {"error" : true, "message" : "Error updating data"};
-                } else{
-                    response = {"error" : false, "message" : "Data is updated for " + req.params.short_url};
-                }
-                callback(response);
-            });
+            if(err || data.length == 0){
+              response = {"error" : true, "message" : "Error updating data"};
+            } else{
+              data[0].clicks = data[0].clicks + 1;
+              data[0].save(function(err){
+                  if(err){
+                      response = {"error" : true, "message" : "Error updating data"};
+                  } else{
+                      response = {"error" : false, "message" : "Data is updated for " + req.params.short_url};
+                  }
+                  callback(response);
+              });
+            }
         });
     };
 
