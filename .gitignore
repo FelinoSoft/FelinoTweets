@@ -80,6 +80,8 @@ build/Release
 node_modules
 jspm_packages
 
+public/assets/bower_components
+
 # Optional npm cache directory
 .npm
 

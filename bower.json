@@ -1,0 +1,15 @@
+{
+  "name": "FelinoTweets",
+  "description": "Sistema para administrar varias cuentas de twitter desde un solo lugar de una manera sencilla",
+  "version": "0.0.1",
+  "homepage": "https://github.com/FelinoSoft/FelinoTweets",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.5.5",
+    "angular-mocks": "1.5.5",
+    "jquery": "~2.0.3",
+    "bootstrap": "~3.3.6",
+    "angular-route": "1.5.5"
+  }
+}

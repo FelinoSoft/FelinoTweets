@@ -24,7 +24,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(require('cookie-parser')());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(require('express-session')({secret: 'holaquease', resave:false, saveUnitializated: false}));
+app.use(require('express-session')({secret: 'holaquease', resave:false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 
