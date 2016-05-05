@@ -72,7 +72,7 @@ module.exports = function(app){
           response = {"error" : true, "message" : "Error fetching data"};
         } else {
 
-          var userId = req.session.id;
+          var userId = req.session.user_id;
           var targetId = req.params.id;
 
           if( (data) || (targetId == userId ) ) {
@@ -162,7 +162,7 @@ module.exports = function(app){
           res.json(response);
         } else {
 
-          var userId = req.session.id;
+          var userId = req.session.user_id;
           var targetId = req.params.id;
 
           if( (data) || (targetId == userId ) ) {
