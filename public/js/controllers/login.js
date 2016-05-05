@@ -1,43 +1,19 @@
-var loginApp = angular.module('loginApp', []);
-console.log('adios');
+angular.module('loginApp', [])
 
-function mainController($scope, $http) {
+    .controller('mainController', function($scope,$http,$location){
     $scope.formData = {};
-    console.log('hola');
+    $scope.notError = true;
 
-    // when landing on the page, get all memos and show them
-    $http.get('/memos/')
-        .success(function(data) {
-            $scope.memos = data.message;
-            console.log(data);
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
-
-    // when submitting the add form, send the text to the node API
-    $scope.createMemo = function() {
-        $http.post('/memos/', $scope.formData)
-            .success(function(data) {
-                $scope.formData = {}; // clear the form so our user is ready to enter another
-                $scope.memos = data.message;
+    $scope.login = function(){
+        $http.post('/login', $scope.formData)
+            .success(function(data){
+                $scope.formData = {};
                 console.log(data);
             })
-            .error(function(data) {
-                console.log('Error: ' + data);
+            .error(function(data){
+                console.log(data.message);
+                $scope.notError = false;
+                $location.path("/main");
             });
     };
-
-    // delete a memo after checking it
-    $scope.deleteMemo = function(id) {
-        $http.delete('/memos/' + id)
-            .success(function(data) {
-                $scope.memos = data.message;
-                console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
-
-}
+});

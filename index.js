@@ -7,11 +7,12 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var http = require('http');
 var databaseAddress = "mongodb://FelinoUser:superfelino1#@ds013310.mlab.com:13310/felinotweetsdb";
-//var databaseAddress = 'mongodb://127.0.0.1:27017/felinotweetsdb';
-
+var bodyParser = require('body-parser');
 var config = require('./config/config');
 var database = require('./database.js');
 var twitter = require('./twitter');
+var session = require('express-session');
+//var databaseAddress = 'mongodb://127.0.0.1:27017/felinotweetsdb';
 
 require('./passport')(passport);
 
@@ -21,8 +22,9 @@ app.set('port', (process.env.PORT || config.port));
 
 app.use(express.static(__dirname + '/public'));
 app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({extended:true}));
-app.use(require('express-session')({secret: 'keyboard cat', resave:false, saveUninitialized:false}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(require('express-session')({secret: 'holaquease', resave:false, saveUnitializated: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -19,8 +19,9 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/login.css" rel="stylesheet">
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
-    <script src="/js/controllers/login.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.js"></script>
+      <script src="/js/controllers/login.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -68,12 +69,12 @@
                         <h2 class="form-signin-heading">Inicio de sesión</h2>
                         <label for="inputEmail" class="sr-only">Correo electrónico</label>
                         <input type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico"
-                               required="true" autofocus="true">
+                               required="true" autofocus="true" ng-model="formData.email">
                         <label for="inputPassword" class="sr-only">Contraseña</label>
                         <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña"
-                               required="true">
-                        <p class="error">{{err}}</p>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+                               required="true" ng-model="formData.password">
+                        <p class="error" ng-hide="notError">Hola</p>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login()">Entrar</button>
                 </div>
                 <label class="under-form">
                     <p>¿No tiene cuenta? <a href="/register">Regístrese aquí</a></p>
