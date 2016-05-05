@@ -70,34 +70,42 @@ module.exports = function(app){
         database.getShortenID(function(result){
           if(result === null){
             // Error
-            response = {"error" : true, "message" : "Error getting shortenID"};
+            response = {"error" : true, "message" : "Error generating shorter url"};
             res.json(response);
           } else{
             // No error
             var num = result;
-            database.incrementShortenID(function(err){
-              if(err !== null){
-                // Error
-                response = {"error" : true, "message" : "Error incrementing shortenID"};
-                res.json(response);
-                console.log(err);
-              } else{
-                // No error
-                newUrl.short_url = shortener.encode(num);
-                newUrl.long_url = req.body.long_url;
-                newUrl.user_id = req.body.user_id;
-                newUrl.clicks = 0;
+            var str = req.body.long_url;
+            if(str.endsWith(".tk/url/"+shortener.encode(num))){
+              // Invalid long url, its redirecting to itself
+              response = {"error" : true, "message" : "Bad long url"};
+              res.json(response);
+            } else{
+              // Valid long url
+              database.incrementShortenID(function(err){
+                if(err !== null){
+                  // Error
+                  response = {"error" : true, "message" : "Error during generation"};
+                  res.json(response);
+                  console.log(err);
+                } else{
+                  // No error
+                  newUrl.short_url = shortener.encode(num);
+                  newUrl.long_url = req.body.long_url;
+                  newUrl.user_id = req.body.user_id;
+                  newUrl.clicks = 0;
 
-                newUrl.save(function(err){
-                    if(err){
-                        response = {"error" : true, "message" : "Error adding data"};
-                        res.json(response);
-                    } else {
-                        findAllUrls(req,res);
-                    }
-                });
-              }
-            });
+                  newUrl.save(function(err){
+                      if(err){
+                          response = {"error" : true, "message" : "Error adding data"};
+                          res.json(response);
+                      } else {
+                          findAllUrls(req,res);
+                      }
+                  });
+                }
+              });
+            }
           }
         });
     };
