@@ -12,12 +12,12 @@ module.exports = function(app){
   };
 
   // 'GET /login'
-  login = function(req, res) {
+  getLogin = function(req, res) {
     res.sendFile(path.resolve('./views/login.html'));
   };
 
   // 'GET /register'
-  register = function(req, res) {
+  getRegister = function(req, res) {
     res.sendFile(path.resolve('./views/register.html'));
   };
 
