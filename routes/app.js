@@ -8,42 +8,137 @@ module.exports = function(app){
 
   // 'GET /'
   start = function(req, res) {
-    res.sendFile(path.resolve('./views/main.html'));
+
+    // checks if user is logged in, in this case it redirects
+    // to '/home'
+    if (req.session.user_id != undefined) {
+      response = {"error" : false, "message" : {"redirect" : "/home"} };
+      res.json(response);
+    }
+    else {
+      res.sendFile(path.resolve('./views/main.html'));
+    }
   };
 
   // 'GET /login'
   login = function(req, res) {
-    res.sendFile(path.resolve('./views/login.html'));
+
+    // checks if user is logged in, in this case it redirects
+    // to '/home'
+    if (req.session.user_id != undefined) {
+      response = {"error" : false, "message" : {"redirect" : "/home"} };
+      res.json(response);
+    }
+    else {
+      res.sendFile(path.resolve('./views/login.html'));
+    }
   };
 
   // 'GET /register'
   register = function(req, res) {
-    res.sendFile(path.resolve('./views/register.html'));
+
+    // checks if user is logged in, in this case it redirects
+    // to '/home'
+    if (req.session.user_id != undefined) {
+      response = {"error" : false, "message" : {"redirect" : "/home"} };
+      res.json(response);
+    }
+    else {
+      res.sendFile(path.resolve('./views/register.html'));
+    }
   };
 
   // 'GET /home'
   home = function(req, res) {
-    res.sendFile(path.resolve('./views/home.html'));
+
+    // checks if user is not logged in, in this case it redirects
+    // to '/login'
+    if (req.session.user_id == undefined) {
+      response = {"error" : false, "message" : {"redirect" : "/login"} };
+      res.json(response);
+    }
+    else {
+      res.sendFile(path.resolve('./views/home.html'));
+    }
   };
 
   // 'GET /home/analytics'
   userAnalytics = function(req, res) {
-    res.sendFile(path.resolve('./views/userAnalytics.html'));
+
+    // checks if user is not logged in, in this case it redirects
+    // to '/login'
+    if (req.session.user_id == undefined) {
+      response = {"error" : false, "message" : {"redirect" : "/login"} };
+      res.json(response);
+    }
+    else {
+      res.sendFile(path.resolve('./views/userAnalytics.html'));
+    }
   };
 
   // 'GET /admin'
   admin = function(req, res) {
-    res.sendFile(path.resolve('./views/admin.html'));
+
+    // checks if user is not logged in, in this case it redirects
+    // to '/login', if it is logged checks if it is admin
+    if (req.session.user_id == undefined) {
+      response = {"error" : false, "message" : {"redirect" : "/login"} };
+      res.json(response);
+    }
+    else if (!req.session.admin) {
+
+      // admin permissions required
+      response = {"error" : false, "message" : {"redirect" : "/home"} };
+      res.json(response);
+    }
+    else {
+
+      // shows admin main view
+      res.sendFile(path.resolve('./views/admin.html'));
+    }
   };
 
   // 'GET /admin/users'
   adminUsers = function(req, res) {
-    res.sendFile(path.resolve('./views/adminUsers.html'));
+
+    // checks if user is not logged in, in this case it redirects
+    // to '/login', if it is logged checks if it is admin
+    if (req.session.user_id == undefined) {
+      response = {"error" : false, "message" : {"redirect" : "/login"} };
+      res.json(response);
+    }
+    else if (!req.session.admin) {
+
+      // admin permissions required
+      response = {"error" : false, "message" : {"redirect" : "/home"} };
+      res.json(response);
+    }
+    else {
+
+      // shows admin users view
+      res.sendFile(path.resolve('./views/adminUsers.html'));
+    }
   };
 
   // 'GET /admin/analytics'
   adminAnalytics = function(req, res) {
-    res.sendFile(path.resolve('./views/adminAnalytics.html'));
+    // checks if user is not logged in, in this case it redirects
+    // to '/login', if it is logged checks if it is admin
+    if (req.session.user_id == undefined) {
+      response = {"error" : false, "message" : {"redirect" : "/login"} };
+      res.json(response);
+    }
+    else if (!req.session.admin) {
+
+      // admin permissions required
+      response = {"error" : false, "message" : {"redirect" : "/home"} };
+      res.json(response);
+    }
+    else {
+
+      // shows admin analytics view
+      res.sendFile(path.resolve('./views/adminAnalytics.html'));
+    }
   };
 
   app.get('/', start);

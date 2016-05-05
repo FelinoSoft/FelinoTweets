@@ -219,6 +219,7 @@ module.exports = function(app){
 
               // password matches, login succesfull
               req.session.user_id = data.id;
+              req.session.admin = data.admin;
 
               response = {"error" : false, "message" : "Login succesfull"};
               res.json(response);
