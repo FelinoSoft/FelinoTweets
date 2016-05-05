@@ -16,7 +16,7 @@ module.exports = function(app){
       res.json(response);
     }
     else {
-      res.sendFile(path.resolve('./views/main.html'));
+      res.sendFile(path.resolve('./public/views/main/main.html'));
     }
   };
 
@@ -30,7 +30,7 @@ module.exports = function(app){
       res.json(response);
     }
     else {
-      res.sendFile(path.resolve('./views/login.html'));
+      res.sendFile(path.resolve('./public/views/login/login.html'));
     }
   };
 
@@ -44,7 +44,7 @@ module.exports = function(app){
       res.json(response);
     }
     else {
-      res.sendFile(path.resolve('./views/register.html'));
+      res.sendFile(path.resolve('./public/views/register/register.html'));
     }
   };
 
@@ -58,7 +58,7 @@ module.exports = function(app){
       res.json(response);
     }
     else {
-      res.sendFile(path.resolve('./views/home.html'));
+      res.sendFile(path.resolve('./public/views/home/home.html'));
     }
   };
 
@@ -72,7 +72,7 @@ module.exports = function(app){
       res.json(response);
     }
     else {
-      res.sendFile(path.resolve('./views/userAnalytics.html'));
+      res.sendFile(path.resolve('./public/views/userAnalytics/userAnalytics.html'));
     }
   };
 
@@ -94,7 +94,7 @@ module.exports = function(app){
     else {
 
       // shows admin main view
-      res.sendFile(path.resolve('./views/admin.html'));
+      res.sendFile(path.resolve('./public/views/admin/admin.html'));
     }
   };
 
@@ -116,7 +116,7 @@ module.exports = function(app){
     else {
 
       // shows admin users view
-      res.sendFile(path.resolve('./views/adminUsers.html'));
+      res.sendFile(path.resolve('./public/views/adminUsers/adminUsers.html'));
     }
   };
 
@@ -137,7 +137,7 @@ module.exports = function(app){
     else {
 
       // shows admin analytics view
-      res.sendFile(path.resolve('./views/adminAnalytics.html'));
+      res.sendFile(path.resolve('./public/views/adminAnalytics/adminAnalytics.html'));
     }
   };
 
