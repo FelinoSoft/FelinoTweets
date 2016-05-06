@@ -1,6 +1,5 @@
 var app = angular.module('felinotweetsApp', [
   'ngRoute',
-  'angularCSS',
   'mainModule',
   'homeModule',
   'loginModule',
@@ -13,26 +12,22 @@ var app = angular.module('felinotweetsApp', [
         when('/', {
           // redirects to '/'
           templateUrl: 'views/main/main.html',
-          controller: 'mainController',
-          css: 'views/main/main.css'
+          controller: 'mainController'
         }).
         when('/home', {
           // redirects to '/home'
           templateUrl: 'views/home/home.html',
-          controller: 'homeController',
-          css: 'views/home/home.css'
+          controller: 'homeController'
         }).
         when('/login', {
           // redirects to '/login'
           templateUrl: 'views/login/login.html',
-          controller: 'loginController',
-          css: 'views/login/login.css'
+          controller: 'loginController'
         }).
         when('/register', {
           // redirects to '/register'
           templateUrl: 'views/register/register.html',
-          controller: 'registerController',
-          css: 'views/register/register.css'
+          controller: 'registerController'
         }).
         otherwise({
           // redirects to main page

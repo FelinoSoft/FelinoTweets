@@ -1,4 +1,5 @@
-body {
+.reglogin-main{
+  height: 100%;
   padding-top: 80px;
   padding-bottom: 40px;
   background-color: #eee;
