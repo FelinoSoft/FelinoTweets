@@ -199,9 +199,6 @@ module.exports = function(app){
       var email = req.body.email;
       var pass = req.body.password;
 
-        console.log('email: ' + email);
-        console.log('pass: ' + pass);
-
       // checks if the user is already registered
       // and the password matches
       user.findOne({"email" : email}, function(err, data) {

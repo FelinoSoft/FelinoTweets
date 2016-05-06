@@ -30,7 +30,9 @@ module.exports = function(app){
       res.json(response);
     }
     else {
-      res.sendFile(path.resolve('./public/views/login/login.html'));
+      response = {"error" : false, "message" : {"redirect" : "/login"} };
+      res.json(response);
+      //res.sendFile(path.resolve('./public/views/login/login.html'));
     }
   };
 
