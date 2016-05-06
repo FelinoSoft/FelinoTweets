@@ -53,7 +53,7 @@ module.exports = function(app){
 
     // checks if user is not logged in, in this case it redirects
     // to '/login'
-    if (req.session.user_id == undefined) {
+    if (false/*req.session.user_id == undefined*/) {
       response = {"error" : false, "message" : {"redirect" : "/login"} };
       res.json(response);
     }

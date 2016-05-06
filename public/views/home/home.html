@@ -18,7 +18,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/views/main/main.css" rel="stylesheet">
+    <link href="/views/home/home.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -31,60 +31,111 @@
 
   <body>
 
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="/">
-                    <span>
-                        <img alt="FelinoTweets logo" src="/assets/favicon/favicon-32x32.png"/>
-                    </span>
-                  <a class="navbar-brand brand" href="/">FelinoTweets</a>
-              </a>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                      <span>
+                          <img alt="FelinoTweets logo" src="/assets/favicon/favicon-32x32.png"/>
+                      </span>
+                    <a class="navbar-brand brand" href="/">FelinoTweets</a>
+                </a>
 
-              </a>
-              <!--<a class="navbar-brand" href="/">FelinoTweets</a>-->
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-              <div class="navbar-form navbar-right">
-                  <a href="/login" class="btn btn-default">Entrar</a>
-                  <a href="/register" class="btn btn-primary">Registrarse</a>
-              </div>
-          </div><!--/.navbar-collapse -->
-      </div>
-  </nav>
+                </a>
+                <!--<a class="navbar-brand" href="/">FelinoTweets</a>-->
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <div class="navbar-form navbar-right">
+                    <a href="/login" class="btn btn-default">Entrar</a>
+                    <a href="/register" class="btn btn-primary">Registrarse</a>
+                </div>
+            </div><!--/.navbar-collapse -->
+        </div>
+    </nav>
 
     <div class="site-wrapper">
-
       <div class="site-wrapper-inner">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="container" id="lateral">
+              <nav class="navbar navbar-default" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Brand</a>
+                </div>
 
-        <div class="cover-container">
-
-          <div class="inner cover">
-            <h1 class="cover-heading">Administra tus cuentas de Twitter</h1>
-            <p class="lead">FelinoTweets es un sistema que permite administrar todas tus cuentas de Twitter desde un
-                mismo lugar de una manera rápida, fácil e intuitiva. Ah, ¡y es gratis! ¡Regístrate ahora y empieza a probarlo!</p>
-            <p class="lead">
-              <a href="http://getbootstrap.com/examples/cover/#main.html" class="btn btn-lg btn-default">Ajá, cuéntame más</a>
-            </p>
-          </div>
-
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Creado por <a href="https://twitter.com/felinotweets">@FelinoTweets</a>, disponible en <a href="https://github.com/FelinoSoft/FelinoTweets">GitHub</a>.</p>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse" id="lateral">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#">One more separated link</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Search" type="text">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                  </form>
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li><a href="#">Separated link</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div><!-- /.navbar-collapse -->
+              </nav>
             </div>
           </div>
+          <div class="col-md-">
+            <div class="cover-container">
 
-        </div>
+              <div class="inner cover">
+                <h1 class="cover-heading">Administra tus cuentas de Twitter</h1>
+                <p class="lead">FelinoTweets es un sistema que permite administrar todas tus cuentas de Twitter desde un
+                    mismo lugar de una manera rápida, fácil e intuitiva. Ah, ¡y es gratis! ¡Regístrate ahora y empieza a probarlo!</p>
+                <p class="lead">
+                  <a href="http://getbootstrap.com/examples/cover/#main.html" class="btn btn-lg btn-default">Ajá, cuéntame más</a>
+                </p>
+              </div>
 
-      </div>
-
-    </div>
+              <div class="mastfoot">
+                <div class="inner">
+                  <p>Creado por <a href="https://twitter.com/felinotweets">@FelinoTweets</a>, disponible en <a href="https://github.com/FelinoSoft/FelinoTweets">GitHub</a>.</p>
+                </div>
+              </div>
+            </div> <!-- Cover container -->
+          </div> <!-- Col -->
+        </div> <!-- Row -->
+      </div> <!-- Site wrapper inner -->
+    </div> <!-- Site wrapper-->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
