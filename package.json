@@ -35,5 +35,8 @@
     "heroku",
     "express"
   ],
+  "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
   "license": "MIT"
 }
