@@ -6,7 +6,7 @@ module.exports = function(app){
 
     var url = require('../models/url.js');
     var shortener = require('../src/shortener.js');
-    var database = require('../database.js');
+    var database = require('../src/database.js');
 
     /* GET /url */
     findAllUrls = function(req,res){

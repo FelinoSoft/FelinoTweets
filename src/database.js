@@ -3,8 +3,8 @@ var ObjectId = require('mongodb').ObjectID;
 var server = "mongodb://FelinoUser:superfelino1#@ds013310.mlab.com:13310/felinotweetsdb";
 //var server = 'mongodb://127.0.0.1:27017/felinotweetsdb';
 
-var user = require('./models/user');
-var twitter_account = require('./models/twitter_account');
+var user = require('./../models/user');
+var twitter_account = require('./../models/twitter_account');
 
 /**
  * Database.js

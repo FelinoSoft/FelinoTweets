@@ -7,6 +7,7 @@ var mongoSchema = mongoose.Schema;
 
 var twitterSchema = new mongoSchema({
     "user_id" : String,
+    "description" : String,
     "token" : String,
     "token_secret" : String,
     "profile_id" : String

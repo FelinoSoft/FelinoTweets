@@ -9,12 +9,13 @@ var http = require('http');
 var databaseAddress = "mongodb://FelinoUser:superfelino1#@ds013310.mlab.com:13310/felinotweetsdb";
 var bodyParser = require('body-parser');
 var config = require('./config/config');
-var database = require('./database.js');
-var twitter = require('./twitter');
+var database = require('./src/database.js');
+var twitter = require('./src/twitter');
 var session = require('express-session');
+var job = require('./src/cron.js');
 //var databaseAddress = 'mongodb://127.0.0.1:27017/felinotweetsdb';
 
-require('./passport')(passport);
+require('./src/passport')(passport);
 
 var app = express();
 
@@ -48,7 +49,7 @@ mongoose.connect(databaseAddress,function(err,res){
 
 // initialize twitter data
 twitter.initTwitter();
-
+job.initJob();
 // initialize server
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
