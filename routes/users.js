@@ -17,6 +17,7 @@ module.exports = function(app){
 
         if (err) {
           response = {"error" : true, "message" : "Error fetching data"};
+          res.json(response);
         } else {
 
           if (data.admin) {
@@ -39,16 +40,27 @@ module.exports = function(app){
 
     /* GET /users/:id */
     findById = function(req,res){
-        var response = {};
+      var response = {};
 
-        user.findById(req.params.id, function(err, data){
-            if(err){
-                response = {"error" : true, "message" : "Error fetching data"};
-            } else{
-                response = {"error" : false, "message" : data};
-            }
-            res.json(response);
-        });
+      checkUser(req, res, function(err, data) {
+
+        if (err) {
+          response = {"error" : true, "message" : "Error fetching data"};
+          res.json(response);
+        } else {
+
+          if (data.admin || data.user_id == req.params.id) {
+            user.findById(req.params.id, function(err, data){
+              if(err){
+                  response = {"error" : true, "message" : "Error fetching data"};
+              } else{
+                  response = {"error" : false, "message" : data};
+              }
+              res.json(response);
+            });
+          }
+        }
+      });
     };
 
     /* POST /users */
@@ -83,15 +95,16 @@ module.exports = function(app){
 
       // checks if the user is allowed to edit
       checkUser(req, res, function(err, data) {
-        //if (err || data.length == 0) {
+
         if (err) {
           response = {"error" : true, "message" : "Error fetching data"};
+          res.json(response);
         } else {
 
-          var userId = req.session.user_id;
+          var userId = data.user_id;
           var targetId = req.params.id;
 
-          if( (data) || (targetId == userId ) ) {
+          if( (data.admin) || (targetId == userId ) ) {
 
             user.findById(req.params.id,function(err,data){
                 if(req.body.admin !== undefined){
@@ -147,7 +160,7 @@ module.exports = function(app){
           res.json(response);
         } else {
 
-          if(data) {
+          if(data.admin) {
             user.remove({}, function(err){
               if(err){
                   response = {"error" : true, "message" : "Error deleting data"};
@@ -178,10 +191,10 @@ module.exports = function(app){
           res.json(response);
         } else {
 
-          var userId = req.session.user_id;
+          var userId = data.user_id;
           var targetId = req.params.id;
 
-          if( (data) || (targetId == userId ) ) {
+          if( (data.admin) || (targetId == userId ) ) {
             user.findById(targetId, function(err,data){
               if(err){
                   response = {"error" : true, "message" : "Error fetching data"};
@@ -236,7 +249,7 @@ module.exports = function(app){
                 "admin" : data.admin
               };
               var token = jwt.sign(userInfo, app.get('superSecret'), {
-                expiresIn: 10 // expires in 1 hour (3600 secs)
+                expiresIn: 60 // expires in 1 hour (3600 secs)
               });
 
               // return the information including token as JSON
@@ -262,7 +275,6 @@ module.exports = function(app){
 
       // obtains user register info
       var email = req.body.email;
-      var pass = req.body.password;
       var first_name = req.body.first_name;
       var last_name = req.body.last_name;
 
@@ -279,6 +291,9 @@ module.exports = function(app){
           res.json(response);
         }
         else {
+
+          // generates random password :D
+          var pass = "random";
 
           // user not registered, hash the password and inserts it
           bcrypt.hash(pass, 10, function (err, hash) {
@@ -297,13 +312,28 @@ module.exports = function(app){
             newUser.hashtags = req.body.hashtags;
 
             // adds the new user
-            newUser.save(function(err){
+            newUser.save(function(err, data){
               if(err){
                 response = {"error" : true, "message" : "Error registering user"};
                 res.json(response);
               } else {
-                response = {"error" : false, "message" : "Succesfull register"};
-                res.json(response);
+
+                // register succesfull
+                // generates a JSON Web Token (JWT)
+                var userInfo = {
+                  "user_id" : data.id,
+                  "admin" : data.admin
+                };
+                var token = jwt.sign(userInfo, app.get('superSecret'), {
+                  expiresIn: 60 // expires in 1 hour (3600 secs)
+                });
+
+                // return the information including token as JSON
+                res.json({
+                  error: false,
+                  message: 'Enjoy your token! (Register succesfull)',
+                  token: token
+                });
               }
             });
           });
@@ -318,8 +348,6 @@ module.exports = function(app){
       var token = req.body.token ||
                   req.query.token ||
                   req.headers['authorization'];
-
-      console.log(req.headers);
 
       // decode token
       if (token) {
