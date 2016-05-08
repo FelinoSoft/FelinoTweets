@@ -16,6 +16,7 @@
     "ejs": "2.4.1",
     "express": "4.13.3",
     "express-session": "^1.11.3",
+    "jsonwebtoken": "^6.2.0",
     "mongodb": "^1.4.7",
     "mongoose": "^4.1.2",
     "oauth": "~0.9.10",

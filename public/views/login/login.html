@@ -31,7 +31,7 @@
     <div class="container">
 
         <form class="form-signin">
-            <div class="panel panel-default" ng-controller="loginController">
+            <div class="panel panel-default">
                 <div class="panel-body">
                         <h2 class="form-signin-heading">Inicio de sesión</h2>
                         <label for="inputEmail" class="sr-only">Correo electrónico</label>
@@ -40,13 +40,18 @@
                         <label for="inputPassword" class="sr-only">Contraseña</label>
                         <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña"
                                required="true" ng-model="formData.password">
-                        <p class="error" ng-hide="notError">Hola</p>
+                        <p class="error" ng-hide="notError">Error: usuario o contraseña inválidos.</p>
                         <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login()">Entrar</button>
                 </div>
                 <label class="under-form">
                     <p>¿No tiene cuenta? <a href="/register">Regístrese aquí</a></p>
                 </label>
             </div>
+        </form>
+
+        <!-- FORMULARIO DE PRUEBA -->
+        <form class="form-signin">
+          <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="getUsers()">Obtener usuarios</button>
         </form>
 
     </div>

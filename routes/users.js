@@ -3,6 +3,7 @@
  * peticion recibida, para la coleccion users
  */
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 
 module.exports = function(app){
 
@@ -11,13 +12,29 @@ module.exports = function(app){
     /* GET /users */
     findAllUsers = function(req,res){
       var response = {};
-      user.find(function(err,data){
-          if(err) {
-              response = {"error" : true, "message" : "Error fetching data"};
-          } else{
-              response = {"error" : false, "message" : data};
+
+      checkUser(req, res, function(err, data) {
+        console.log(data);
+
+        if (err) {
+          response = {"error" : true, "message" : "Error fetching data"};
+        } else {
+
+          if (data.admin) {
+            user.find(function(err,data){
+              if(err) {
+                response = {"error" : true, "message" : "Error fetching data"};
+              } else{
+                response = {"error" : false, "message" : data};
+              }
+              res.json(response);
+            });
           }
-          res.json(response);
+          else {
+            response = {"error" : true, "message" : "Admin permissions required."};
+            res.json(response);
+          }
+        }
       });
     };
 
@@ -202,24 +219,39 @@ module.exports = function(app){
       // checks if the user is already registered
       // and the password matches
       user.findOne({"email" : email}, function(err, data) {
-        if (err) {
-          response = {"error" : true, "message" : "Fetching error"};
+        if (err || data == null) {
+          response = {"error" : true, "message" : "Login error"};
           res.json(response);
         }
         else {
 
           // user registered, now checks the password
           var hash = data.password;
-          console.log(hash);
           bcrypt.compare(pass, hash, function(err, result) {
             if (result) {
 
               // password matches, login succesfull
-              req.session.user_id = data.id;
-              req.session.admin = data.admin;
+              // generates a JSON Web Token (JWT)
+              var userInfo = {
+                "user_id" : data.id,
+                "admin" : data.admin
+              };
+              var token = jwt.sign(userInfo, app.get('superSecret'), {
+                expiresIn: 10 // expires in 1 hour (3600 secs)
+              });
 
-              response = {"error" : false, "message" : "Login succesfull"};
-              res.json(response);
+              // return the information including token as JSON
+              res.json({
+                error: false,
+                message: 'Enjoy your token! (Login succesfull)',
+                token: token
+              });
+
+              // req.session.user_id = data.id;
+              // req.session.admin = data.admin;
+
+              // response = {"error" : false, "message" : "Login succesfull"};
+              // res.json(response);
             }
             else {
 
@@ -289,23 +321,34 @@ module.exports = function(app){
     /* checks if the user is admin or not */
     checkUser = function(req, res, callback) {
 
-      if (req.session.user_id != undefined) {
+      // check header or url parameters or post parameters for token
+      var token = req.body.token ||
+                  req.query.token ||
+                  req.headers['authorization'];
 
-        // user is logged in
-        user.findById(req.session.user_id, function(err, data){
-          if(err){
-            callback(err, false);
-          } else{
+      console.log(req.headers);
 
-            // return whether the user is admin or not
-            callback(err, data.admin);
+      // decode token
+      if (token) {
+
+        // verifies secret and checks exp
+        jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+          if (err) {
+            return res.json({ error: true, message: 'Failed to authenticate token.'});
+          } else {
+
+            // if everything is good, save to request for use in other routes
+            callback(false, decoded);
           }
         });
-      }
-      else {
+      } else {
 
-        //there is no user logged in
-        callback(false, false);
+        // if there is no token
+        // return an error
+        return res.status(403).send({
+            error : true,
+            message: 'No token provided.'
+        });
       }
     }
 

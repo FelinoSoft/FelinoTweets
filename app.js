@@ -29,6 +29,8 @@ app.use(require('express-session')({secret: 'holaquease', resave:false, saveUnin
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.set('superSecret', config.secret); // secret variable
+
 //app.use(express.cookieParser());
 //app.use(express.session({ secret: "holaquease" }));
 
