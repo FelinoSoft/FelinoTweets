@@ -151,6 +151,14 @@ a.navbar-brand.brand{
  * Affix and center
  */
 
+ @media (min-width: 992px) {
+   .masthead,
+   .mastfoot,
+   .cover-container {
+     width: 700px;
+   }
+ }
+
 @media (min-width: 768px) {
   /* Pull out the header and footer */
   .masthead {
@@ -171,77 +179,32 @@ a.navbar-brand.brand{
   .cover-container {
     width: 100%; /* Must be percentage or pixels for horizontal alignment */
   }
-}
 
-@media (min-width: 992px) {
-  .masthead,
-  .mastfoot,
-  .cover-container {
-    width: 700px;
+  .customcol {
+      width: calc((100vw / 4 ) - 1vw);
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-left: 0.5vw;
+      margin-right: 0.5vw;
+      float: left;
   }
-}
 
-
-@media (min-width: 768px) {
   #lateral{
-
     max-width:150px;
     height:100%;
     padding:0;
-    margin:20;
-}
-    .navbar-collapse {
-      height: auto;
-      border-top: 0;
-      box-shadow: none;
-      max-height: none;
-      padding-left:0;
-      padding-right:0;
-      margin-right:0px;
-      padding:0;
-    }
-    .navbar-collapse.collapse {
-      display: block !important;
-      width: auto !important;
-      padding-bottom: 0;
-      overflow: visible !important;
-      padding:0;
-    }
-    .navbar-collapse.in {
-      overflow-x: visible;
-      padding:0;
-    }
-/*
-    .navbar {
-    	max-width:300px;
-    	margin-right: 0;
-    	margin-left: 0;
-    }
-
-    .navbar-nav,
-    .navbar-nav > li,
-    .navbar-left,
-    .navbar-right,
-    .navbar-header
-    {float:none !important;}
-
-    .navbar-right .dropdown-menu {left:0;right:0;}
-    .navbar-collapse .navbar-nav.navbar-right:last-child {
-        margin-right: 0px;
-        padding:0;
-    }
-*/
-    #Elements{
-      margin-left:0px;
-      width:100%;
-      padding:0;
-    }
-
+  }
+  #Elements{
+    margin-left:0px;
+    width:100%;
+    padding:0;
+  }
 
   #barra-lateral-col{
     height:100%;
     width:60px;
     padding: 0 !important;
+    margin-left:-3px;
   }
 
   #main-row{
@@ -255,15 +218,10 @@ a.navbar-brand.brand{
     width:0;
   }
 
+
+
   #yespadding{
     width:80px;
-  }
-
-  #glifaicon{
-    width:60px;
-    position:0;
-    font-size: 20px;
-    padding:15px;
   }
 
   #element{
@@ -271,4 +229,25 @@ a.navbar-brand.brand{
     padding:10px;
   }
 
+} /* End of min width 768 */
+
+
+
+
+#glifaicon{
+  width:60px;
+  font-size: 25px;
+  padding:15px;
+  overflow-y:hidden;
+}
+
+#nopadding2{
+  padding:8px !important;
+  width:60px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#wrap{
+  margin:0 auto;
 }
