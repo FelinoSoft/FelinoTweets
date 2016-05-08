@@ -14,7 +14,6 @@ module.exports = function(app){
       var response = {};
 
       checkUser(req, res, function(err, data) {
-        console.log(data);
 
         if (err) {
           response = {"error" : true, "message" : "Error fetching data"};

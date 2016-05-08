@@ -124,7 +124,7 @@ angular.module('felinotweetsApp', [
   };
 })
 
-.controller('appController', function(user, auth) {
+.controller('appController', function($scope,user,auth) {
   var self = this;
 
   function handleRequest(res) {
@@ -145,11 +145,13 @@ angular.module('felinotweetsApp', [
     user.getUsers()
       .then(handleRequest, handleRequest)
   }
-  self.logout = function() {
+  $scope.logOut = function() {
     auth.logout && auth.logout()
   }
-  self.isAuthed = function() {
-    return auth.isAuthed ? auth.isAuthed() : false
+  $scope.isLoggedIn = function() {
+    var logged = auth.isAuthed ? auth.isAuthed() : false;
+    console.log("Logeado: " + logged + " ??");
+    return logged;
   }
 })
 
@@ -166,7 +168,12 @@ angular.module('felinotweetsApp', [
       .state('main', {
         url: '/',
         templateUrl: '/views/main/main.html',
-        controller: 'mainController'
+        controller: 'appController',
+        onEnter: ['$state', 'auth', function($state, auth) {
+          if(auth.isAuthed()) {
+            $state.go('home');
+          }
+        }]
       })
       .state('login', {
         url: '/login',
