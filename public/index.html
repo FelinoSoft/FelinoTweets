@@ -18,6 +18,9 @@
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.js"></script>
 
+  <!-- angular ui-routing -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+
   <!-- Loads Bower components -->
   <script src="/assets/bower_components/angular-route/angular-route.js"></script>
   <script src="/assets/bower_components/angular-css/angular-css.min.js"></script>
@@ -48,7 +51,11 @@
 </head>
 <body>
 
+  <ui-view></ui-view>
+  
+  <!--
   <div ng-view class="main"></div>
+  -->
 
 </body>
 

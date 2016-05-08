@@ -1,5 +1,5 @@
 angular.module('felinotweetsApp', [
-  'ngRoute',
+  'ui.router',
   'mainModule',
   'homeModule',
   'loginModule',
@@ -18,8 +18,8 @@ angular.module('felinotweetsApp', [
         config.headers.Authorization = token;
       }
 
-      console.log("PETICION");
-      console.log(config);
+      // console.log("PETICION");
+      // console.log(config);
 
       return config;
     },
@@ -30,8 +30,8 @@ angular.module('felinotweetsApp', [
         auth.saveToken(res.data.token);
       }
 
-      console.log("RESPUESTA");
-      console.log(res);
+      // console.log("RESPUESTA");
+      // console.log(res);
 
       return res;
     }
@@ -65,13 +65,31 @@ angular.module('felinotweetsApp', [
   self.isAuthed = function() {
     var token = self.getToken();
     if(token) {
-      console.log("Autentificando");
-      console.log(token);
+      // console.log("Autentificando");
+      // console.log(token);
 
       var params = self.parseJwt(token);
       return Math.round(new Date().getTime() / 1000) <= params.exp;
     } else {
       return false;
+    }
+  }
+
+  self.isAdmin = function(){
+    if(self.isAuthed()){
+      var token = self.getToken();
+      var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+      return payload.admin;
+    }
+  }
+
+  self.currentUser = function(){
+    if(self.isAuthed()){
+      var token = self.getToken();
+      var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+      return payload.user_id;
     }
   }
 
@@ -135,42 +153,70 @@ angular.module('felinotweetsApp', [
   }
 })
 
-.config(['$routeProvider', '$locationProvider', '$httpProvider',
-  function($routeProvider,$locationProvider,$httpProvider) {
-    $routeProvider.
-      when('/', {
-        // redirects to '/'
-        templateUrl: 'views/main/main.html',
+.config([
+  '$stateProvider',
+  '$urlRouterProvider',
+  '$locationProvider',
+  '$httpProvider',
+  function($stateProvider,$urlRouterProvider,
+    $locationProvider,$httpProvider) {
+
+    // routing with states
+    $stateProvider
+      .state('main', {
+        url: '/',
+        templateUrl: '/views/main/main.html',
         controller: 'mainController'
-      }).
-      when('/home', {
-        // redirects to '/home'
-        templateUrl: 'views/home/home.html',
-        controller: 'homeController'
-      }).
-      when('/login', {
-        // redirects to '/login'
-        templateUrl: 'views/login/login.html',
-        controller: 'loginController'
-      }).
-      when('/register', {
-        // redirects to '/register'
-        templateUrl: 'views/register/register.html',
-        controller: 'registerController'
-      }).
-      when('/admin', {
-        // redirects to '/admin'
-        templateUrl: 'views/admin/admin.html',
-        controller: 'adminController'
-      }).
-      otherwise({
-        // redirects to main page
-        redirectTo: '/'
+      })
+      .state('login', {
+        url: '/login',
+        templateUrl: '/views/login/login.html',
+        controller: 'loginController',
+        onEnter: ['$state', 'auth', function($state, auth) {
+          if(auth.isAuthed()) {
+            $state.go('home');
+          }
+        }]
+      })
+      .state('register', {
+        url: '/register',
+        templateUrl: '/views/register/register.html',
+        controller: 'registerController',
+        onEnter: ['$state', 'auth', function($state, auth) {
+          if(auth.isAuthed()) {
+            $state.go('home');
+          }
+        }]
+      })
+      .state('home', {
+        url: '/home',
+        templateUrl: '/views/home/home.html',
+        controller: 'homeController',
+        onEnter: ['$state', 'auth', function($state, auth) {
+          if(!auth.isAuthed()) {
+            $state.go('login');
+          }
+        }]
+      })
+      .state('admin', {
+        url: '/admin',
+        templateUrl: '/views/admin/admin.html',
+        controller: 'adminController',
+        onEnter: ['$state', 'auth', function($state, auth) {
+          if(!auth.isAuthed()) {
+            $state.go('login');
+          }
+          else if(!auth.isAdmin()) {
+            $state.go('home');
+          }
+        }]
       });
 
-      // http interceptor
-      $httpProvider.interceptors.push('authInterceptor');
+    $urlRouterProvider.otherwise('/');
 
-      // use the HTML5 History API
-      $locationProvider.html5Mode(true);
+    // http interceptor
+    $httpProvider.interceptors.push('authInterceptor');
+
+    // use the HTML5 History API
+    $locationProvider.html5Mode(true);
 }])

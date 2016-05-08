@@ -1,7 +1,7 @@
 var loginModule = angular.module('loginModule', ['felinotweetsApp']);
 
 loginModule.controller('loginController',
-  function($scope,$http,$location,user,auth) {
+  function($scope,$state,user) {
     console.log("LoginController inicializado");
     $scope.notError = true;
 
@@ -26,7 +26,7 @@ loginModule.controller('loginController',
 
           // resets the login form, then it should redirect
           $scope.formData = {};
-          $location.path("/");
+          $state.go('home');
         }
       });
     };

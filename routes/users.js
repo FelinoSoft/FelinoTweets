@@ -246,12 +246,6 @@ module.exports = function(app){
                 message: 'Enjoy your token! (Login succesfull)',
                 token: token
               });
-
-              // req.session.user_id = data.id;
-              // req.session.admin = data.admin;
-
-              // response = {"error" : false, "message" : "Login succesfull"};
-              // res.json(response);
             }
             else {
 
