@@ -158,6 +158,11 @@ angular.module('felinotweetsApp', [
         templateUrl: 'views/register/register.html',
         controller: 'registerController'
       }).
+      when('/admin', {
+        // redirects to '/admin'
+        templateUrl: 'views/admin/admin.html',
+        controller: 'adminController'
+      }).
       otherwise({
         // redirects to main page
         redirectTo: '/'
