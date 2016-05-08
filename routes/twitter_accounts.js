@@ -6,6 +6,7 @@ module.exports = function(app){
 
     var account = require('../models/twitter_account.js');
     var tweet = require('../models/scheduled_tweet.js');
+    var hashtag = require('../models/hashtag.js');
 
     /* GET /twitter_account */
     findAllAccounts = function(req,res){
@@ -204,6 +205,91 @@ module.exports = function(app){
             }
         });
     };
+
+    findAllHashtags = function(req,res){
+        var response = {};
+        hashtag.find({'account_id' : req.params.id}, function(err,data){
+            if(err) {
+                response = {"error" : true, "message" : "Error fetching data"};
+            } else{
+                response = {"error" : false, "message" : data};
+            }
+            res.json(response);
+        });
+    };
+
+    findHashtagById = function(req,res){
+        var response = {};
+        tweet.find({'account_id' : req.params.id, '_id' : req.params.hashtag_id}, function(err, data){
+            if(err) {
+                response = {"error" : true, "message" : "Error fetching data"};
+            } else{
+                response = {"error" : false, "message" : data};
+            }
+            res.json(response);
+        });
+    };
+
+    addHashtag = function(req,res){
+        var newHashtag = new hashtag();
+        var response = {};
+
+        //TODO: leer token para cuenta del usuario
+        newHashtag.user_id = 'temp';
+        newHashtag.account_id = req.params.id;
+        newHashtag.hashtag = req.body.hashtag;
+
+        newHashtag.save(function(err){
+            if(err){
+                response = {"error" : true, "message" : "Error adding data"};
+                res.json(response);
+            } else {
+                findAllHashtags(req,res);
+            }
+        });
+    };
+
+    updateHashtag = function(req, res){
+        var response = {};
+        hashtag.find({'account_id' : req.params.id, '_id' : req.params.hashtag_id}, function(err, data){
+            if(req.body.hashtag !== undefined){
+                data.hashtag = req.body.hashtag;
+            }
+
+            data.save(function(err){
+                if(err){
+                    response = {"error" : true, "message" : "Error updating data"};
+                    res.json(response);
+                } else{
+                    findAllHashtags(req,res);
+                }
+            });
+        });
+    };
+
+    deleteHashtag = function(req,res){
+        var response = {};
+        hashtag.remove({'account_id' : req.params.id, '_id' : req.params.hashtag_id}, function(err){
+            if(err){
+                response = {"error" : true, "message" : "Error deleting data"};
+                res.json(response);
+            } else{
+                findAllHashtags(req,res);
+            }
+        });
+    };
+
+    deleteAllHashtags = function(req, res){
+        var response = {};
+        hashtag.remove({'account_id' : req.params.id}, function(err){
+            if(err){
+                response = {"error" : true, "message" : "Error deleting data"};
+                res.json(response);
+            } else{
+                findAllHashtags(req,res);
+            }
+        });
+    };
     
     
 
@@ -222,4 +308,11 @@ module.exports = function(app){
     app.put('/twitter_accounts/:id/scheduled_tweets/:tweet_id', updateTweet);
     app.delete('/twitter_accounts/:id/scheduled_tweets', deleteAllTweets);
     app.delete('/twitter_accounts/:id/scheduled_tweets/:tweet_id', deleteTweet);
+
+    app.get('/twitter_accounts/:id/hashtags', findAllHashtags);
+    app.get('/twitter_accounts/:id/hashtags/:hashtag_id', findHashtagById);
+    app.post('/twitter_accounts/:id/hashtags', addHashtag);
+    app.put('/twitter_accounts/:id/hashtags/:hashtag_id', updateHashtag);
+    app.delete('/twitter_accounts/:id/hashtags', deleteAllHashtags);
+    app.delete('/twitter_accounts/:id/hashtags/:hashtag_id', deleteHashtag);
 };
