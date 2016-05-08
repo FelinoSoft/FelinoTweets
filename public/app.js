@@ -6,9 +6,8 @@ angular.module('felinotweetsApp', [
   'registerModule'
 ])
 
-// .constant('API', 'http://felinotweets.tk')
-.constant('API', 'http://localhost:8888')
-.factory('authInterceptor', function(API, auth) {
+.constant('API', 'http://felinotweets.tk')
+// .factory('authInterceptor', function(API, auth) {
   return {
 
     // attach Authorization header
