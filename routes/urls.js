@@ -25,7 +25,7 @@ module.exports = function(app){
     findById = function(req,res){
         var response = {};
         url.find({"short_url" : req.params.short_url}, function(err, data){
-            if(err || data.length == 0){
+            if(err || data.length === 0){
                 response = {"error" : true, "message" : "Error fetching data"};
                 res.json(response);
             } else{
@@ -45,7 +45,7 @@ module.exports = function(app){
 
     updateClicks = function(req,callback){
         url.find({"short_url" : req.params.short_url},function(err,data){
-            if(err || data.length == 0){
+            if(err || data.length === 0){
               response = {"error" : true, "message" : "Error updating data"};
             } else{
               data[0].clicks = data[0].clicks + 1;

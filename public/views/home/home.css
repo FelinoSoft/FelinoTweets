@@ -189,7 +189,7 @@ a.navbar-brand.brand{
     height:100%;
     padding:0;
     margin:20;
-
+}
     .navbar-collapse {
       height: auto;
       border-top: 0;
@@ -211,7 +211,7 @@ a.navbar-brand.brand{
       overflow-x: visible;
       padding:0;
     }
-
+/*
     .navbar {
     	max-width:300px;
     	margin-right: 0;
@@ -230,13 +230,13 @@ a.navbar-brand.brand{
         margin-right: 0px;
         padding:0;
     }
-
+*/
     #Elements{
       margin-left:0px;
       width:100%;
       padding:0;
     }
-  }
+
 
   #barra-lateral-col{
     height:100%;
@@ -262,7 +262,8 @@ a.navbar-brand.brand{
   #glifaicon{
     width:60px;
     position:0;
-    height:60px;
+    font-size: 20px;
+    padding:15px;
   }
 
   #element{
