@@ -1,0 +1,49 @@
+.admin{
+    height:100%;
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+
+.list{
+    padding-top: 50px;
+    padding-bottom: 25px;
+}
+/*
+.search{
+    float: right;
+}*/
+
+.cabecera{
+    width: 100%;
+}
+
+.titulo{
+    padding-top : 8px;
+}
+
+.listado{
+    text-align: left;
+    padding-left: 0px;
+    float: none !important;
+}
+
+.botonlistado{
+    margin-top:3px;
+    height: 100%;
+    width: 100%;
+}
+
+.iconlist{
+    padding-left : 2px;
+}
+
+.paneles{
+    margin-bottom: 0px;
+    padding-top : 0px;
+    padding-bottom : 0px;
+}
+
+.listacuenta {
+    margin-left: 10px;
+    padding-left: 0px;
+}
