@@ -16,8 +16,8 @@ loginModule.controller('loginController',
       user.login(email, pass).then(function(error) {
         if (error.data.error) {
 
-          // login error
-          $scope.formData = {};
+          // login error, resets only the password field
+          $scope.formData.password = "";
           $scope.notError = false;
         }
         else {

@@ -209,6 +209,19 @@ angular.module('felinotweetsApp', [
           }
         }]
       })
+      .state('homeStats', {
+        url: '/homeStats',
+        templateUrl: '/views/homeStats/homeStats.html',
+        controller: 'appController',
+        onEnter: ['$state', 'auth', function($state, auth) {
+          if(!auth.isAuthed()) {
+            $state.go('login');
+          }
+          else if(auth.isAdmin()) {
+            $state.go('adminStats');
+          }
+        }]
+      })
       .state('admin', {
         url: '/admin',
         templateUrl: '/views/admin/admin.html',

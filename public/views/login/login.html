@@ -40,7 +40,13 @@
                         <label for="inputPassword" class="sr-only">Contraseña</label>
                         <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña"
                                required="true" ng-model="formData.password">
-                        <p class="error" ng-hide="notError">Error: usuario o contraseña inválidos.</p>
+
+                        <div ng-hide="notError" class="alert alert-danger" role="alert">
+                          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                          <span class="sr-only">Error:</span>
+                          Error: usuario o contraseña inválidos.
+                        </div>
+
                         <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login()">Entrar</button>
                 </div>
                 <label class="under-form">

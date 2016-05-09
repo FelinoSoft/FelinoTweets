@@ -41,7 +41,11 @@
 
                     <label for="inputLastName" class="sr-only">Apellidos</label>
                     <input type="text" id="inputLastName" ng-model="last_name" class="form-control" placeholder="Apellidos" required="true">
-                    <p class="error" ng-hide="notError">Error: {{ messageError }}</p>
+                    <div ng-hide="notError" class="alert alert-danger" role="alert">
+                      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                      <span class="sr-only">Error:</span>
+                      Error: {{ messageError }}
+                    </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="register()">Registrarse</button>
             </div>
             <label class="under-form">
