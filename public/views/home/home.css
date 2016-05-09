@@ -1,0 +1,422 @@
+/*
+ * Globals
+ */
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+
+/* Custom default button */
+.btn-default,
+.btn-default:hover,
+.btn-default:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritence from `body` */
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+  height: 100%;
+  background: url(../../assets/images/cover_background.jpg) no-repeat center center fixed;
+  /*background: url(http://i0.wp.com/www.lavidastartup.co/wp-content/uploads/2015/04/office-desk-background-2-1024x576.jpg?resize=730%2C410) no-repeat center center fixed;*/
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+body {
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+
+/*
+ * Logo y brand en la barra de navegacion
+ */
+a.navbar-brand{
+    padding-top: 9px;
+}
+
+a.navbar-brand.brand{
+    padding-top: 15px;
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+  display: table;
+  padding-top: 50px;
+  padding-bottom: 25px;
+  width: 100%;
+  height: 100%; /* For at least Firefox */
+  min-height: 100%;
+  -webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+          box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+}
+.site-wrapper-inner {
+  display: table-cell;
+  vertical-align: top;
+}
+.cover-container {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Padding for spacing */
+.inner {
+  padding: 30px;
+}
+
+.mastfoot .inner a{
+    color: rgba(0,0,255,0.7);
+}
+
+/*
+ * Header
+ */
+.masthead-brand {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.masthead-nav > li {
+  display: inline-block;
+}
+.masthead-nav > li + li {
+  margin-left: 20px;
+}
+.masthead-nav > li > a {
+  padding-right: 0;
+  padding-left: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff; /* IE8 proofing */
+  color: rgba(255,255,255,.75);
+  border-bottom: 2px solid transparent;
+}
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus {
+  background-color: transparent;
+  border-bottom-color: #a9a9a9;
+  border-bottom-color: rgba(255,255,255,.25);
+}
+.masthead-nav > .active > a,
+.masthead-nav > .active > a:hover,
+.masthead-nav > .active > a:focus {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+@media (min-width: 768px) {
+  .masthead-brand {
+    float: left;
+  }
+  .masthead-nav {
+    float: right;
+  }
+}
+
+
+/*
+ * Cover
+ */
+
+.cover {
+  padding: 0 20px;
+}
+.cover .btn-lg {
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+
+/*
+ * Footer
+ */
+
+.mastfoot {
+  color: #999; /* IE8 proofing */
+  color: rgba(0,0,0,0.6);
+}
+
+/*
+ * Affix and center
+ */
+
+ @media (min-width: 992px) {
+   .masthead,
+   .mastfoot,
+   .cover-container {
+     width: 700px;
+   }
+ }
+
+@media (min-width: 768px) {
+  /* Pull out the header and footer */
+  .masthead {
+    position: fixed;
+    top: 0;
+  }
+  .mastfoot {
+    position: fixed;
+    bottom: 0;
+  }
+  /* Start the vertical centering */
+  .site-wrapper-inner {
+    vertical-align: middle;
+  }
+  /* Handle the widths */
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 100%; /* Must be percentage or pixels for horizontal alignment */
+  }
+}
+
+#lateral{
+  max-width:150px;
+  height:100%;
+  padding:0;
+}
+#Elements{
+  margin-left:0px;
+  width:100%;
+  padding:0;
+}
+
+@media (min-width: 320px) {
+  #barra-lateral-col{
+    height:100%;
+    width:60px;
+    padding: 0 !important;
+    margin-left:-3px;
+    margin-right:0px !important;
+    max-width:60px;
+    float:left !important;
+  }
+}
+
+@media (max-width: 320px){
+  #barra-lateral-col{
+    height:100%;
+    padding: 0 !important;
+    margin-left:-3px;
+    margin-right:0px !important;
+    float:left !important;
+  }
+}
+
+#main-row{
+  height:100%;
+  width:100%;
+  margin:0px;
+}
+
+#nopadding{
+  padding:0 !important;
+  width:0;
+}
+
+#yespadding{
+  width:80px;
+}
+
+#element{
+  width:60px;
+  padding:10px;
+}
+
+#glifaicon{
+  width:60px;
+  font-size: 25px;
+  padding:15px;
+  overflow-y:hidden;
+}
+
+#nopadding2{
+  padding:8px !important;
+  width:60px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#wrap{
+  margin:0 auto;
+}
+
+.panel-heading{
+  padding:0px;
+  height:100%;
+}
+
+.mainView{
+  padding-left:5px;
+  padding-right:5px;
+}
+
+.imgDiv{
+  width:50px;
+  float:left !important;
+  margin-right: 8px;
+  margin-left: 5px;
+  margin-top:5px;
+}
+
+.twitImgDiv{
+  width:30px;
+  float:left !important;
+  margin-right: 3px;
+  margin-left: 5px;
+  margin-top:2px;
+}
+
+.panelImg{
+  margin-left:2px;
+  margin-top:2px;
+}
+
+.panelRow{
+  width:inherit;
+  padding-left:5px;
+  margin-top:2px;
+  margin-bottom:2px;
+}
+
+.cuentaText{
+  font-size:large;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding-left:0;
+  text-align:left;
+  margin-left:0;
+  margin-right:0 !important;
+}
+
+.descriptionText{
+  text-align:left;
+  width:100%;
+  margin-left:8px;
+  padding-right:20px;
+  font-size:small;
+}
+
+.colPanel{
+  padding:0;
+  margin-left:36px;
+}
+
+.temp{
+  overflow:hidden
+}
+
+.panel-twitter{
+  margin-top:20px;
+  border:0px;
+  min-height:550px;
+}
+
+.panel-body{
+  height:400px !important;
+  padding:0;
+  overflow-y:scroll;
+}
+
+.panel-heading{
+  min-height:100%;
+}
+
+.panelRow{
+  padding:0px;
+}
+
+.twitUser{
+  color:gray;
+  text-align:left;
+  font-size:x-small;
+}
+
+.twitText{
+  color:black;
+  text-align:left;
+  font-size:small;
+  margin-left:5px;
+  margin-bottom:0px;
+}
+
+.glifaiconsRT{
+  color:green;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.glifaiconsRT:hover{
+  color:green;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.glifaiconsFAV{
+  color:red;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.glifaiconsFAV:hover{
+  color:red;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.glifaiconsINFO{
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.glifaiconsINFO:hover{
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.twitButtons{
+  color:black;
+}
+
+.zeroPadding{
+  padding:0;
+}
+
+.panel-add{
+  background-color:rgba(10, 10, 10, 0.2);
+  margin-top:20px;
+  min-height:550px;
+}
+
+.addPanelText{
+  font-size:xx-large;
+  vertical-align:middle;
+  margin-top:225px;
+  text-decoration:none;
+}
+
+.addPanelButton{
+  text-decoration:none;
+}
+
+.addPanelButton:visited, .addPanelButton:link, .addPanelButton:active{
+  text-decoration:none;
+}
+
+.addPanelButton:hover{
+  text-decoration:none;
+  color:blue;
+}
