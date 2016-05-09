@@ -212,7 +212,7 @@ angular.module('felinotweetsApp', [
       .state('admin', {
         url: '/admin',
         templateUrl: '/views/admin/admin.html',
-        controller: 'adminController',
+        controller: 'appController',
         onEnter: ['$state', 'auth', function($state, auth) {
           if(!auth.isAuthed()) {
             $state.go('login');
