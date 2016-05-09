@@ -36,7 +36,7 @@
                     <div class="form-group cabecera">
                         <label for="searchInput" class="col-md-3 col-sm-5 col-xs-9 titulo"><b>LISTADO DE USUARIOS</b></label>
                         <div class="input-group search col-md-offset-6 col-sm-offset-3 col-md-3 col-sm-4 col-xs-12">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Buscar usuario...">
+                            <input ng-model="query" type="text" id="searchInput" class="form-control" placeholder="Buscar usuario...">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button">Go</button>
                             </span>
@@ -45,109 +45,85 @@
                 </form>
             </div>
             <div class="list-group">
-                <div class=" list-group-item form-inline">
+
+                <!-- Loop's start -->
+                <div ng-repeat="user in users | filter:{email:query}" class=" list-group-item form-inline">
                     <div class="col-md-11 col-sm-10 col-xs-10">
-                        <button type="button" class="list-group-item listado">
-                            alejandromarquez_94@hotmail.com
+                        <button ng-click="toggleSelected($index)" type="button" class="list-group-item listado">
+                            {{ user.email }}
                             <span class="iconlist glyphicon glyphicon-triangle-bottom"></span>
 
                         </button>
                     </div>
                     <div class="col-md-1 col-sm-2 col-xs-2">
-                        <button class="btn btn-danger botonlistado glyphicon glyphicon-trash" type="button"></button>
+                        <button ng-click="deleteUser(user._id)" class="btn btn-danger botonlistado glyphicon glyphicon-trash" type="button"></button>
                     </div>
                     <div class="clearfix visible-xs"></div>
                     <div class="clearfix visible-sm"></div>
                     <div class="clearfix visible-md"></div>
                     <div class="clearfix visible-lg"></div>
-                </div>
-                <div class=" list-group-item form-inline">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div ng-show="isSelected($index)" class=" list-group-item form-inline">
+                      <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="panel panel-default paneles">
-                            <div class="panel-body paneles">
+                          <div class="panel-body paneles">
+                            <ul class="list-group paneles">
+                              <li class="list-group-item col-md-6">
+                                <p>
+                                  <label>Nombre:</label>
+                                  {{ user.first_name }}
+                                  <span>
+                                    <a ng-click="" class="glyphicon glyphicon-edit" type="button"></a>
+                                  </span>
+                                </p>
+                              </li>
+                              <li class="list-group-item col-md-6">
+                                <p>
+                                  <label>Apellidos:</label>
+                                  {{ user.last_name }}
+                                </p>
+                              </li>
+                              <li class="list-group-item col-md-6">
+                                <p>
+                                  <label>Fecha de alta:</label>
+                                  {{ user.registration_date }}
+                                </p>
+                              </li>
+                              <li class="list-group-item col-md-6">
+                                <p>
+                                  <label>Fecha de último acceso:</label>
+                                  {{ user.last_access_date }}
+                                </p>
+                              </li>
+                              <li class="list-group-item col-md-6">
+                                <p>
+                                  <label>Tweets enviados desde FelinoTweets:</label>
+                                  459
+                                </p>
+                              </li>
+                              <li class="list-group-item col-md-12">
+                                <p>
+                                  <label>Cuentas de Twitter:</label>
+                                </p>
                                 <ul class="list-group paneles">
-                                    <li class="list-group-item col-md-6">
-                                        <p>
-                                            <label>Nombre:</label>
-                                            Alejandro
-                                        </p>
-                                    </li>
-                                    <li class="list-group-item col-md-6">
-                                        <p>
-                                            <label>Apellidos:</label>
-                                            Márquez Ferrer
-                                        </p>
-                                    </li>
-                                    <li class="list-group-item col-md-6">
-                                        <p>
-                                            <label>Fecha de alta:</label>
-                                            12-12-2004
-                                        </p>
-                                    </li>
-                                    <li class="list-group-item col-md-6">
-                                        <p>
-                                            <label>Fecha de último acceso:</label>
-                                            12-12-2005
-                                        </p>
-                                    </li>
-                                    <li class="list-group-item col-md-6">
-                                        <p>
-                                            <label>Tweets enviados desde FelinoTweets:</label>
-                                            459
-                                        </p>
-                                    </li>
-                                    <li class="list-group-item col-md-12">
-                                        <p>
-                                            <label>Cuentas de Twitter:</label>
-                                        </p>
-                                        <ul class="list-group paneles">
-                                            <li class="listacuenta col-md-6"><a href="http://twitter.com/a_marquez94">@A_Marquez94</a></li>
-                                            <li class="listacuenta col-md-offset-1 col-md-4"><a href="http://twitter.com/a_marquez94">@A_Marquez94</a></li>
-                                            <li class="listacuenta col-md-6"><a href="http://twitter.com/a_marquez94">@A_Marquez94</a></li>
-                                            <li class="listacuenta col-md-offset-1 col-md-4"><a href="http://twitter.com/a_marquez94">@A_Marquez94</a></li>
-                                        </ul>
-                                    </li>
+                                  <li class="listacuenta col-md-6"><a href="http://twitter.com/a_marquez94">@A_Marquez94</a></li>
+                                  <li class="listacuenta col-md-offset-1 col-md-4"><a href="http://twitter.com/a_marquez94">@A_Marquez94</a></li>
+                                  <li class="listacuenta col-md-6"><a href="http://twitter.com/a_marquez94">@A_Marquez94</a></li>
+                                  <li class="listacuenta col-md-offset-1 col-md-4"><a href="http://twitter.com/a_marquez94">@A_Marquez94</a></li>
                                 </ul>
-                            </div>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
+                      </div>
+                      <div class="clearfix visible-xs"></div>
+                      <div class="clearfix visible-sm"></div>
+                      <div class="clearfix visible-md"></div>
+                      <div class="clearfix visible-lg"></div>
                     </div>
-                    <div class="clearfix visible-xs"></div>
-                    <div class="clearfix visible-sm"></div>
-                    <div class="clearfix visible-md"></div>
-                    <div class="clearfix visible-lg"></div>
                 </div>
-                <div class=" list-group-item form-inline">
-                    <div class="col-md-11 col-sm-10 col-xs-10">
-                        <button type="button" class="list-group-item listado">
-                            alejandromarquez_94@hotmail.com
-                            <span class="iconlist glyphicon glyphicon-triangle-bottom"></span>
+                <!-- Loop's end -->
 
-                        </button>
-                    </div>
-                    <div class="col-md-1 col-sm-2 col-xs-2">
-                        <button class="btn btn-danger botonlistado glyphicon glyphicon-trash" type="button"></button>
-                    </div>
-                    <div class="clearfix visible-xs"></div>
-                    <div class="clearfix visible-sm"></div>
-                    <div class="clearfix visible-md"></div>
-                    <div class="clearfix visible-lg"></div>
-                </div>
-                <div class=" list-group-item form-inline">
-                    <div class="col-md-11 col-sm-10 col-xs-10">
-                        <button type="button" class="list-group-item listado">
-                            alejandromarquez_94@hotmail.com
-                            <span class="iconlist glyphicon glyphicon-triangle-bottom"></span>
-
-                        </button>
-                    </div>
-                    <div class="col-md-1 col-sm-2 col-xs-2">
-                        <button class="btn btn-danger botonlistado glyphicon glyphicon-trash" type="button"></button>
-                    </div>
-                    <div class="clearfix visible-xs"></div>
-                    <div class="clearfix visible-sm"></div>
-                    <div class="clearfix visible-md"></div>
-                    <div class="clearfix visible-lg"></div>
-                </div>
             </div>
         </div>
     </div>

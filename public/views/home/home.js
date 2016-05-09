@@ -1,5 +1,12 @@
-angular.module('homeModule', [])
+var homeModule = angular.module('homeModule', [
+  'felinotweetsApp'
+])
 
-  .controller('homeController', function($scope,$http,$location){
+  homeModule.controller('homeController',
+    function($scope,$http,$location,auth){
+    console.log("HomeController inicializado");
 
+    $scope.logOut = function() {
+      auth.logout && auth.logout()
+    }
   });

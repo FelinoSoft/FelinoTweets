@@ -3,7 +3,8 @@ angular.module('felinotweetsApp', [
   'mainModule',
   'homeModule',
   'loginModule',
-  'registerModule'
+  'registerModule',
+  'adminModule'
 ])
 
 .constant('API', 'http://localhost:8888')
@@ -75,6 +76,12 @@ angular.module('felinotweetsApp', [
   // obtiene todos los usuarios
   self.getUsers = function() {
     return $http.get(API + '/users')
+  }
+
+  // obtiene todos los usuarios
+  self.deleteUser = function(id) {
+    console.log("Intentando borrar usuario " + id);
+    return $http.delete(API + '/users/' + id)
   }
 
   // register method
@@ -225,13 +232,19 @@ angular.module('felinotweetsApp', [
       .state('admin', {
         url: '/admin',
         templateUrl: '/views/admin/admin.html',
-        controller: 'appController',
-        onEnter: ['$state', 'auth', function($state, auth) {
+        controller: 'adminController',
+        onEnter: ['$state', 'auth',
+            function($state, auth) {
           if(!auth.isAuthed()) {
             $state.go('login');
           }
           else if(!auth.isAdmin()) {
             $state.go('home');
+          }
+          else {
+
+            // loads users info
+            //$scope.users = $scope.getUsers();
           }
         }]
       })
