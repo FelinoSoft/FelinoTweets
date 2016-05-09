@@ -34,15 +34,15 @@
             <div class="panel-body">
                     <h2 class="form-signin-heading">Crear nueva cuenta</h2>
                     <label for="inputEmail" class="sr-only">Correo electrónico</label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico" required="true" autofocus="true">
+                    <input type="email" id="inputEmail" ng-model="email" class="form-control" placeholder="Correo electrónico" required="true" autofocus="true">
 
                     <label for="inputName" class="sr-only">Nombre</label>
-                    <input type="text" id="inputName" class="form-control" placeholder="Nombre" required="true">
+                    <input type="text" id="inputName" ng-model="first_name" class="form-control" placeholder="Nombre" required="true">
 
                     <label for="inputLastName" class="sr-only">Apellidos</label>
-                    <input type="text" id="inputLastName" class="form-control" placeholder="Apellidos" required="true">
-
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Registrarse</button>
+                    <input type="text" id="inputLastName" ng-model="last_name" class="form-control" placeholder="Apellidos" required="true">
+                    <p class="error" ng-hide="notError">Error: {{ messageError }}</p>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="register()">Registrarse</button>
             </div>
             <label class="under-form">
                 <p>¿Ya tiene cuenta? <a href="/login">Inicie sesión aquí</a></p>

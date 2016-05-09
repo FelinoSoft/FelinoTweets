@@ -287,7 +287,7 @@ module.exports = function(app){
         else if (data != undefined) {
 
           // user is already registered
-          response = {"error" : true, "message" : "Email already in use"};
+          response = {"error" : true, "message" : "correo electrónico en uso."};
           res.json(response);
         }
         else {

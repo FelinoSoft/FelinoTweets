@@ -6,8 +6,8 @@ angular.module('felinotweetsApp', [
   'registerModule'
 ])
 
-// .constant('API', 'http://localhost:8888')
-.constant('API', 'http://felinotweets.tk')
+.constant('API', 'http://localhost:8888')
+// .constant('API', 'http://felinotweets.tk')
 .factory('authInterceptor', function(API, auth) {
   return {
 
@@ -36,6 +36,63 @@ angular.module('felinotweetsApp', [
       return res;
     }
   }
+})
+
+.controller('appController', function($scope, auth) {
+  var self = this;
+
+  function handleRequest(res) {
+    var token = res.data ? res.data.token : null;
+    if(token) { console.log('JWT:', token); }
+    self.message = res.data.message;
+  }
+
+  self.login = function() {
+    user.login(self.email, self.password)
+      .then(handleRequest, handleRequest)
+  }
+  self.register = function() {
+    user.register(self.email, self.password)
+      .then(handleRequest, handleRequest)
+  }
+  self.getUsers = function() {
+    user.getUsers()
+      .then(handleRequest, handleRequest)
+  }
+  $scope.logOut = function() {
+    auth.logout && auth.logout()
+  }
+  $scope.isLoggedIn = function() {
+    var logged = auth.isAuthed ? auth.isAuthed() : false;
+    console.log("Logeado: " + logged + " ??");
+    return logged;
+  }
+})
+
+.service('user', function($http, API) {
+  var self = this;
+
+  // obtiene todos los usuarios
+  self.getUsers = function() {
+    return $http.get(API + '/users')
+  }
+
+  // register method
+  self.register = function(email, first_name, last_name) {
+    return $http.post(API + '/register', {
+      email: email,
+      first_name: first_name,
+      last_name: last_name
+    })
+  }
+
+  // login method
+  self.login = function(email, password) {
+    return $http.post(API + '/login', {
+      email: email,
+      password: password
+    });
+  };
 })
 
 .service('auth', function($window) {
@@ -99,62 +156,6 @@ angular.module('felinotweetsApp', [
   }
 })
 
-.service('user', function($http, API, auth) {
-  var self = this;
-
-  // obtiene todos los usuarios
-  self.getUsers = function() {
-    return $http.get(API + '/users')
-  }
-
-  // register method
-  self.register = function(email, password) {
-    return $http.post(API + '/register', {
-      email: email,
-      password: password
-    })
-  }
-
-  // login method
-  self.login = function(email, password) {
-    return $http.post(API + '/login', {
-      email: email,
-      password: password
-    });
-  };
-})
-
-.controller('appController', function($scope,user,auth) {
-  var self = this;
-
-  function handleRequest(res) {
-    var token = res.data ? res.data.token : null;
-    if(token) { console.log('JWT:', token); }
-    self.message = res.data.message;
-  }
-
-  self.login = function() {
-    user.login(self.email, self.password)
-      .then(handleRequest, handleRequest)
-  }
-  self.register = function() {
-    user.register(self.email, self.password)
-      .then(handleRequest, handleRequest)
-  }
-  self.getUsers = function() {
-    user.getUsers()
-      .then(handleRequest, handleRequest)
-  }
-  $scope.logOut = function() {
-    auth.logout && auth.logout()
-  }
-  $scope.isLoggedIn = function() {
-    var logged = auth.isAuthed ? auth.isAuthed() : false;
-    console.log("Logeado: " + logged + " ??");
-    return logged;
-  }
-})
-
 .config([
   '$stateProvider',
   '$urlRouterProvider',
@@ -212,6 +213,9 @@ angular.module('felinotweetsApp', [
         onEnter: ['$state', 'auth', function($state, auth) {
           if(!auth.isAuthed()) {
             $state.go('login');
+          }
+          else if(auth.isAdmin()) {
+            $state.go('admin');
           }
           else if(!auth.isAdmin()) {
             $state.go('home');

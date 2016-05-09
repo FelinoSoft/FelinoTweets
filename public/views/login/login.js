@@ -1,4 +1,6 @@
-var loginModule = angular.module('loginModule', ['felinotweetsApp']);
+var loginModule = angular.module('loginModule', [
+  'felinotweetsApp'
+]);
 
 loginModule.controller('loginController',
   function($scope,$state,user) {
