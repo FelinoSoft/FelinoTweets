@@ -7,7 +7,7 @@ module.exports = function(app){
   redirectTo = function(req, res) {
     var newRoute = '/#' + req.params.url;
     res.redirect(newRoute);
-  }
+  };
 
   app.get('/:url', redirectTo);
 };
