@@ -249,7 +249,7 @@ module.exports = function(app){
                 "admin" : data.admin
               };
               var token = jwt.sign(userInfo, app.get('superSecret'), {
-                expiresIn: 60 // expires in 1 hour (3600 secs)
+                expiresIn: 3600 // expires in 1 hour (3600 secs)
               });
 
               // return the information including token as JSON

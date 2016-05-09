@@ -53,11 +53,16 @@ html,body{
  * Logo y brand en la barra de navegacion
  */
 a.navbar-brand{
+    padding-top: 15px;
+}
+
+a.navbar-brand.marca{
     padding-top: 9px;
 }
 
 a.navbar-brand.brand{
     padding-top: 15px;
+    margin-right: 10px;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */

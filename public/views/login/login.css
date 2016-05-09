@@ -5,14 +5,6 @@
   background-color: #eee;
 }
 
-a.navbar-brand{
-    padding-top: 9px;
-}
-
-a.navbar-brand.brand{
-    padding-top: 15px;
-}
-
 .form-signin {
   max-width: 400px;
   padding: 15px;
