@@ -420,3 +420,25 @@ a.navbar-brand.brand{
   text-decoration:none;
   color:blue;
 }
+
+.glifaiconsCols{
+  font-size:xx-large;
+}
+
+.currentAccountText{
+  font-size:xx-large;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding-left:0;
+  text-align:left;
+  margin-left:0;
+  margin-right:0 !important;
+}
+
+.mentionClass{
+  width:50px;
+  float:left !important;
+  margin-right: 8px;
+  margin-left: 5px;
+  margin-top:0px;
+}
