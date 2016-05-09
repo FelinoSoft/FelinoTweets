@@ -6,8 +6,8 @@ angular.module('felinotweetsApp', [
   'registerModule'
 ])
 
-.constant('API', 'http://localhost:8888')
-// .constant('API', 'http://felinotweets.tk')
+// .constant('API', 'http://localhost:8888')
+.constant('API', 'http://felinotweets.tk')
 .factory('authInterceptor', function(API, auth) {
   return {
 
@@ -204,6 +204,9 @@ angular.module('felinotweetsApp', [
           if(!auth.isAuthed()) {
             $state.go('login');
           }
+          else if(auth.isAdmin()) {
+            $state.go('admin');
+          }
         }]
       })
       .state('admin', {
@@ -213,9 +216,6 @@ angular.module('felinotweetsApp', [
         onEnter: ['$state', 'auth', function($state, auth) {
           if(!auth.isAuthed()) {
             $state.go('login');
-          }
-          else if(auth.isAdmin()) {
-            $state.go('admin');
           }
           else if(!auth.isAdmin()) {
             $state.go('home');
