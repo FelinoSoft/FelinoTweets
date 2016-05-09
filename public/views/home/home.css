@@ -375,6 +375,18 @@ a.navbar-brand.brand{
   padding-bottom:5px;
 }
 
+.glifaiconsINFO{
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.glifaiconsINFO:hover{
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
 .twitButtons{
   color:black;
 }
