@@ -251,3 +251,21 @@ a.navbar-brand.brand{
 #wrap{
   margin:0 auto;
 }
+
+.panel-heading{
+  padding:0px;
+  height:100%;
+}
+
+.imgPanel{
+  width:50px;
+  height:50px;
+}
+
+.imgDiv{
+  width:50px;
+  margin:0px;
+}
+
+.textDiv{
+}
