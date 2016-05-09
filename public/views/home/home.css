@@ -179,60 +179,60 @@ a.navbar-brand.brand{
   .cover-container {
     width: 100%; /* Must be percentage or pixels for horizontal alignment */
   }
+}
 
-  .customcol {
-      width: calc((100vw / 4 ) - 1vw);
-      padding-left: 0px;
-      padding-right: 0px;
-      margin-left: 0.5vw;
-      margin-right: 0.5vw;
-      float: left;
-  }
+#lateral{
+  max-width:150px;
+  height:100%;
+  padding:0;
+}
+#Elements{
+  margin-left:0px;
+  width:100%;
+  padding:0;
+}
 
-  #lateral{
-    max-width:150px;
-    height:100%;
-    padding:0;
-  }
-  #Elements{
-    margin-left:0px;
-    width:100%;
-    padding:0;
-  }
-
+@media (min-width: 320px) {
   #barra-lateral-col{
     height:100%;
     width:60px;
     padding: 0 !important;
     margin-left:-3px;
+    margin-right:0px !important;
+    max-width:60px;
+    float:left !important;
   }
+}
 
-  #main-row{
+@media (max-width: 320px){
+  #barra-lateral-col{
     height:100%;
-    width:100%;
-    margin:0px;
+    padding: 0 !important;
+    margin-left:-3px;
+    margin-right:0px !important;
+    float:left !important;
   }
+}
 
-  #nopadding{
-    padding:0 !important;
-    width:0;
-  }
+#main-row{
+  height:100%;
+  width:100%;
+  margin:0px;
+}
 
+#nopadding{
+  padding:0 !important;
+  width:0;
+}
 
+#yespadding{
+  width:80px;
+}
 
-  #yespadding{
-    width:80px;
-  }
-
-  #element{
-    width:60px;
-    padding:10px;
-  }
-
-} /* End of min width 768 */
-
-
-
+#element{
+  width:60px;
+  padding:10px;
+}
 
 #glifaicon{
   width:60px;
@@ -257,15 +257,154 @@ a.navbar-brand.brand{
   height:100%;
 }
 
-.imgPanel{
-  width:50px;
-  height:50px;
+.mainView{
+  padding-left:5px;
+  padding-right:5px;
 }
 
 .imgDiv{
   width:50px;
-  margin:0px;
+  float:left !important;
+  margin-right: 8px;
+  margin-left: 5px;
+  margin-top:5px;
 }
 
-.textDiv{
+.twitImgDiv{
+  width:30px;
+  float:left !important;
+  margin-right: 3px;
+  margin-left: 5px;
+  margin-top:2px;
+}
+
+.panelImg{
+  margin-left:2px;
+  margin-top:2px;
+}
+
+.panelRow{
+  width:inherit;
+  padding-left:5px;
+  margin-top:2px;
+  margin-bottom:2px;
+}
+
+.cuentaText{
+  font-size:large;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding-left:0;
+  text-align:left;
+  margin-left:0;
+  margin-right:0 !important;
+}
+
+.descriptionText{
+  text-align:left;
+  width:100%;
+  margin-left:8px;
+  padding-right:20px;
+  font-size:small;
+}
+
+.colPanel{
+  padding:0;
+  margin-left:36px;
+}
+
+.temp{
+  overflow:hidden
+}
+
+.panel-twitter{
+  margin-top:20px;
+  border:0px;
+  min-height:550px;
+}
+
+.panel-body{
+  height:400px !important;
+  padding:0;
+  overflow-y:scroll;
+}
+
+.panel-heading{
+  min-height:100%;
+}
+
+.panelRow{
+  padding:0px;
+}
+
+.twitUser{
+  color:gray;
+  text-align:left;
+  font-size:x-small;
+}
+
+.twitText{
+  color:black;
+  text-align:left;
+  font-size:small;
+  margin-left:5px;
+  margin-bottom:0px;
+}
+
+.glifaiconsRT{
+  color:green;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.glifaiconsRT:hover{
+  color:green;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.glifaiconsFAV{
+  color:red;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.glifaiconsFAV:hover{
+  color:red;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.twitButtons{
+  color:black;
+}
+
+.zeroPadding{
+  padding:0;
+}
+
+.panel-add{
+  background-color:rgba(10, 10, 10, 0.2);
+  margin-top:20px;
+  min-height:550px;
+}
+
+.addPanelText{
+  font-size:xx-large;
+  vertical-align:middle;
+  margin-top:225px;
+  text-decoration:none;
+}
+
+.addPanelButton{
+  text-decoration:none;
+}
+
+.addPanelButton:visited, .addPanelButton:link, .addPanelButton:active{
+  text-decoration:none;
+}
+
+.addPanelButton:hover{
+  text-decoration:none;
+  color:blue;
 }
