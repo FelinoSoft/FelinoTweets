@@ -4,6 +4,7 @@
  */
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+var crypto = require('crypto');
 
 module.exports = function(app){
 
@@ -293,49 +294,51 @@ module.exports = function(app){
         else {
 
           // generates random password :D
-          var pass = "random";
+          randomString(10,function(pass){
 
-          // user not registered, hash the password and inserts it
-          bcrypt.hash(pass, 10, function (err, hash) {
+              // user not registered, hash the password and inserts it
+              bcrypt.hash(pass, 10, function (err, hash) {
 
-            // creates the new user
-            var newUser = new user();
+                  // creates the new user
+                  var newUser = new user();
 
-            // user info
-            newUser.admin = false;
-            newUser.email = email;
-            newUser.password = hash;
-            newUser.first_name = first_name;
-            newUser.last_name = last_name;
-            newUser.registration_date = Date.now();
-            newUser.last_access_date = newUser.registration_date;
-            newUser.hashtags = req.body.hashtags;
+                  // user info
+                  newUser.admin = false;
+                  newUser.email = email;
+                  newUser.password = hash;
+                  newUser.first_name = first_name;
+                  newUser.last_name = last_name;
+                  newUser.registration_date = Date.now();
+                  newUser.last_access_date = newUser.registration_date;
+                  newUser.hashtags = req.body.hashtags;
 
-            // adds the new user
-            newUser.save(function(err, data){
-              if(err){
-                response = {"error" : true, "message" : "Error registering user"};
-                res.json(response);
-              } else {
+                  // adds the new user
+                  newUser.save(function(err, data){
+                      if(err){
+                          response = {"error" : true, "message" : "Error registering user"};
+                          res.json(response);
+                      } else {
 
-                // register succesfull
-                // generates a JSON Web Token (JWT)
-                var userInfo = {
-                  "user_id" : data.id,
-                  "admin" : data.admin
-                };
-                var token = jwt.sign(userInfo, app.get('superSecret'), {
-                  expiresIn: 60 // expires in 1 hour (3600 secs)
-                });
+                          // register succesfull
+                          // generates a JSON Web Token (JWT)
+                          var userInfo = {
+                              "user_id" : data.id,
+                              "admin" : data.admin
+                          };
+                          var token = jwt.sign(userInfo, app.get('superSecret'), {
+                              expiresIn: 60 // expires in 1 hour (3600 secs)
+                          });
 
-                // return the information including token as JSON
-                res.json({
-                  error: false,
-                  message: 'Enjoy your token! (Register succesfull)',
-                  token: token
-                });
-              }
-            });
+                          // return the information including token as JSON
+                          res.json({
+                              error: false,
+                              message: 'Enjoy your token! (Register succesfull)',
+                              password: pass,
+                              token: token
+                          });
+                      }
+                  });
+              });
           });
         }
       });
@@ -389,3 +392,17 @@ module.exports = function(app){
     // '/register' methods
     app.post('/register', register);
 };
+
+function randomString(length, callback){
+
+    var rnd  = crypto.randomBytes(length)
+        , value = new Array(length)
+        , chars = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789"
+        , len = chars.length;
+
+    for (var i = 0; i < length; i++){
+        value[i] = chars[ rnd[i] % len]
+    }
+
+    callback(value.join(''));
+}

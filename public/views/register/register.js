@@ -1,7 +1,7 @@
-var loginModule = angular.module('registerModule', ['felinotweetsApp']);
+var loginModule = angular.module('registerModule', ['felinotweetsApp','ngDialog']);
 
 loginModule.controller('registerController',
-  function($scope,$state,user) {
+  function($scope,$state,user,ngDialog) {
     console.log("RegisterController inicializado");
     $scope.notError = true;
     $scope.messageError = "";
@@ -12,13 +12,13 @@ loginModule.controller('registerController',
       var last_name = $scope.last_name;
 
       // posts the login user info
-      user.register(email, first_name, last_name).then(function(error) {
-        if (error.data.error) {
+      user.register(email, first_name, last_name).then(function(result) {
+        if (result.data.error) {
 
           // register error
           $scope.email = "";
           $scope.notError = false;
-          $scope.messageError = error.data.message;
+          $scope.messageError = result.data.message;
         }
         else {
 
@@ -26,8 +26,30 @@ loginModule.controller('registerController',
           $scope.email = "";
           $scope.first_name = "";
           $scope.last_name = "";
-          $state.go('home');
+          $scope.pass = result.data.password;
+          console.log('palabra clave que pueda entender que sepa que no  va a ser object');
+          ngDialog.open(
+              {template : '/views/register/popup.html',
+               className : 'ngdialog-theme-default',
+               controller: 'InsideCtrl',
+               scope: $scope,
+               closeByNavigation : true,
+               closeByDocument: false,
+               closeByEscape: false,
+               showClose: false
+               }
+          );
+          //$state.go('home');
         }
       });
     };
 });
+
+loginModule.controller('InsideCtrl', function ($scope, $state) {
+    
+    $scope.goHome = function(){
+        $state.go('home');
+    }
+});
+
+

@@ -10,6 +10,7 @@
     "angular-mocks": "1.5.5",
     "jquery": "~2.0.3",
     "bootstrap": "~3.3.6",
-    "angular-route": "1.5.5"
+    "angular-route": "1.5.5",
+    "ng-dialog": "^0.6.1"
   }
 }
