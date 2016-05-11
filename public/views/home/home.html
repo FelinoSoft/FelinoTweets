@@ -1,306 +1,263 @@
-<!DOCTYPE html>
-<!-- saved from url=(0039)http://getbootstrap.com/examples/cover/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <div class="body-main">
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="/">
+                        <span>
+                            <img alt="FelinoTweets logo" src="/assets/favicon/favicon-32x32.png"/>
+                        </span>
+                  </a>
+                  <a class="navbar-brand brand" href="/">FelinoTweets</a>
+                  <!--<a class="navbar-brand" href="/">FelinoTweets</a>-->
+              </div>
+              <div id="navbar" class="navbar-collapse collapse">
+                  <a class="navbar-brand" href="/admin">
+                      <span class="glyphicon glyphicon-home"></span>  Home</a>
+                  <a class="navbar-brand" href="/adminStats">
+                      <span class="glyphicon glyphicon-stats"></span>  Estadísticas</a>
+                  <form class="navbar-form navbar-right">
+                      <a href="/" data-ng-click="logOut()" class="btn btn-danger">Salir</a>
+                  </form>
+              </div><!--/.navbar-collapse -->
+          </div>
+      </nav>
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="/assets/favicon/favicon.ico">
-
-    <title>FelinoTweets</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="https://maxcdn.bootstrapcdn.com/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="/views/home/home.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-
-  </head>
-
-  <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">
-                      <span>
-                          <img alt="FelinoTweets logo" src="/assets/favicon/favicon-32x32.png"/>
-                      </span>
+      <div class="site-wrapper" id="home-wrap">
+        <div class="container homeMainView">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="panel panel-default panel-twitter">
+              <div class="panel-heading home-panel-heading">
+                <div class="container homePanelRow">
+                    <div class="col-xs-12 homePanelRow">
+                      <div class="homeImgDiv">
+                        <a href="#">
+                          <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive img-circle" alt="Cinque Terre">
+                        </a>
+                      </div>
+                      <div class="cuentaText">
+                        @MiPollaEnAlmibar
+                      </div>
+                        <p class="descriptionText">
+                        Tuitero de poca monta y subnormal a tiempo completo fsdkj lfds alj kfsd alkjfd sl jkf d
+                         asj lk fda sjlkñfdsj lkñ dfsa jñkld fsañl j kfds añ   sñl jkjjjjjsdaffadss dfafds
+                       </p>
+                    </div>
+                </div>
+              </div>
+              <div class="panel-body home-panel-body">
+                <div class="container homePanelRow">
+                  <div class="col-xs-12 homeZeroPadding">
+                    <ul class="list-group">
+                      <li class="list-group-item homeZeroPadding">
+                        <div class="homeTwitImgDiv">
+                          <a href="#">
+                            <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
+                          </a>
+                        </div>
+                        <div class="homeTwitUser">
+                          @MiPollaEnAlmibar
+                        </div>
+                        <p class="homeTwitText">
+                          Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                        </p>
+                        <div class="homeTwitButtons">
+                          <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
+                          <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
+                          <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- Panel twitter -->
+          </div> <!-- Col -->
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="panel panel-primary panel-twitter">
+              <div class="panel-heading home-panel-heading">
+                <div class="container homePanelRow">
+                    <div class="col-xs-12 homePanelRow">
+                      <div class="homeImgDiv">
+                        <span class="glyphicon glyphicon-home homeGlifaiconsCols"></span>
+                      </div>
+                      <div class="homeCurrentAccountText">
+                        Home
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="panel-body home-panel-body">
+                <div class="container homePanelRow">
+                  <div class="col-xs-12 homeZeroPadding">
+                    <ul class="list-group">
+                      <li class="list-group-item homeZeroPadding">
+                        <div class="homeTwitImgDiv">
+                          <a href="#">
+                            <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
+                          </a>
+                        </div>
+                        <div class="homeTwitUser">
+                          @MiPollaEnAlmibar
+                        </div>
+                        <p class="homeTwitText">
+                          Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                        </p>
+                        <div class="homeTwitButtons">
+                          <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
+                          <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
+                          <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- Panel twitter -->
+          </div> <!-- Col -->
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="panel panel-primary panel-twitter">
+              <div class="panel-heading home-panel-heading">
+                <div class="container homePanelRow">
+                    <div class="col-xs-12 homePanelRow">
+                      <div class="homeImgDiv">
+                        <span class="glyphicon glyphicon-list-alt homeGlifaiconsCols"></span>
+                      </div>
+                      <div class="homeCurrentAccountText">
+                        Mis Tweets
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="panel-body home-panel-body">
+                <div class="container homePanelRow">
+                  <div class="col-xs-12 homeZeroPadding">
+                    <ul class="list-group">
+                      <li class="list-group-item homeZeroPadding">
+                        <div class="homeTwitImgDiv">
+                          <a href="#">
+                            <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
+                          </a>
+                        </div>
+                        <div class="homeTwitUser">
+                          @MiPollaEnAlmibar
+                        </div>
+                        <p class="homeTwitText">
+                          Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                        </p>
+                        <div class="homeTwitButtons">
+                          <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
+                          <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
+                          <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- Panel twitter -->
+          </div> <!-- Col -->
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="panel panel-primary panel-twitter">
+              <div class="panel-heading home-panel-heading">
+                <div class="container homePanelRow">
+                    <div class="col-xs-12 homePanelRow">
+                      <div class="homeImgDiv">
+                        <span class="glyphicon glyphicon-hourglass homeGlifaiconsCols"></span>
+                      </div>
+                      <div class="homeCurrentAccountText">
+                        Programados
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="panel-body home-panel-body">
+                <div class="container homePanelRow">
+                  <div class="col-xs-12 homeZeroPadding">
+                    <ul class="list-group">
+                      <li class="list-group-item homeZeroPadding">
+                        <div class="homeTwitImgDiv">
+                          <a href="#">
+                            <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
+                          </a>
+                        </div>
+                        <div class="homeTwitUser">
+                          @MiPollaEnAlmibar
+                        </div>
+                        <p class="homeTwitText">
+                          Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                        </p>
+                        <div class="homeTwitButtons">
+                          <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
+                          <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
+                          <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- Panel twitter -->
+          </div> <!-- Col -->
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="panel panel-primary panel-twitter">
+              <div class="panel-heading home-panel-heading">
+                <div class="container homePanelRow">
+                    <div class="col-xs-12 homePanelRow">
+                      <div class="homeMentionClass">
+                        <i class="fa fa-comment fa-3x" aria-hidden="true"></i>
+                      </div>
+                      <div class="homeCurrentAccountText">
+                        Menciones
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="panel-body home-panel-body">
+                <div class="container homePanelRow">
+                  <div class="col-xs-12 homeZeroPadding">
+                    <ul class="list-group">
+                      <li class="list-group-item homeZeroPadding">
+                        <div class="homeTwitImgDiv">
+                          <a href="#">
+                            <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
+                          </a>
+                        </div>
+                        <div class="homeTwitUser">
+                          @MiPollaEnAlmibar
+                        </div>
+                        <p class="homeTwitText">
+                          Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                        </p>
+                        <div class="homeTwitButtons">
+                          <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
+                          <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
+                          <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- Panel twitter -->
+          </div> <!-- Col -->
+          <!--
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="panel panel-default home-panel-add">
+              <div class="homeAddPanelText">
+                <a href="#" class="homeAddPanelButton">
+                  <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                  <br>
+                  Add account
                 </a>
-                <a class="navbar-brand brand" href="/">FelinoTweets</a>
-                <!--<a class="navbar-brand" href="/">FelinoTweets</a>-->
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <a class="navbar-brand" href="/admin">
-                    <span class="glyphicon glyphicon-home"></span>  Home</a>
-                <a class="navbar-brand" href="/adminStats">
-                    <span class="glyphicon glyphicon-stats"></span>  Estadísticas</a>
-                <form class="navbar-form navbar-right">
-                    <a href="/" ng-click="logOut()" class="btn btn-danger">Salir</a>
-                </form>
-            </div><!--/.navbar-collapse -->
-        </div>
-    </nav>
-
-    <div class="site-wrapper" id="wrap">
-      <div class="container mainView">
-        <div class="col-md-3 col-sm-4 col-xs-12">
-          <div class="panel panel-default panel-twitter">
-            <div class="panel-heading">
-              <div class="container panelRow">
-                  <div class="col-xs-12 panelRow">
-                    <div class="imgDiv">
-                      <a href="#">
-                        <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive img-circle" alt="Cinque Terre">
-                      </a>
-                    </div>
-                    <div class="cuentaText">
-                      @MiPollaEnAlmibar
-                    </div>
-                      <p class="descriptionText">
-                      Tuitero de poca monta y subnormal a tiempo completo fsdkj lfds alj kfsd alkjfd sl jkf d
-                       asj lk fda sjlkñfdsj lkñ dfsa jñkld fsañl j kfds añ   sñl jkjjjjjsdaffadss dfafds
-                     </p>
-                  </div>
               </div>
-            </div>
-            <div class="panel-body">
-              <div class="container panelRow">
-                <div class="col-xs-12 zeroPadding">
-                  <ul class="list-group">
-                    <li class="list-group-item zeroPadding">
-                      <div class="twitImgDiv">
-                        <a href="#">
-                          <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
-                        </a>
-                      </div>
-                      <div class="twitUser">
-                        @MiPollaEnAlmibar
-                      </div>
-                      <p class="twitText">
-                        Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
-                      </p>
-                      <div class="twitButtons">
-                        <a class="glifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet glifaiconsRT"></span> 0 </a>
-                        <a class="glifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart glifaiconsFAV"></span> 0 </a>
-                        <a class="glifaiconsINFO" href="#"><span class="glyphicon glyphicon-time glifaiconsINFO"></span> 30 Feb 2019 </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div> <!-- Panel twitter -->
-        </div> <!-- Col -->
-        <div class="col-md-3 col-sm-4 col-xs-12">
-          <div class="panel panel-primary panel-twitter">
-            <div class="panel-heading">
-              <div class="container panelRow">
-                  <div class="col-xs-12 panelRow">
-                    <div class="imgDiv">
-                      <span class="glyphicon glyphicon-home glifaiconsCols"></span>
-                    </div>
-                    <div class="currentAccountText">
-                      Home
-                    </div>
-                  </div>
-              </div>
-            </div>
-            <div class="panel-body">
-              <div class="container panelRow">
-                <div class="col-xs-12 zeroPadding">
-                  <ul class="list-group">
-                    <li class="list-group-item zeroPadding">
-                      <div class="twitImgDiv">
-                        <a href="#">
-                          <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
-                        </a>
-                      </div>
-                      <div class="twitUser">
-                        @MiPollaEnAlmibar
-                      </div>
-                      <p class="twitText">
-                        Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
-                      </p>
-                      <div class="twitButtons">
-                        <a class="glifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet glifaiconsRT"></span> 0 </a>
-                        <a class="glifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart glifaiconsFAV"></span> 0 </a>
-                        <a class="glifaiconsINFO" href="#"><span class="glyphicon glyphicon-time glifaiconsINFO"></span> 30 Feb 2019 </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div> <!-- Panel twitter -->
-        </div> <!-- Col -->
-        <div class="col-md-3 col-sm-4 col-xs-12">
-          <div class="panel panel-primary panel-twitter">
-            <div class="panel-heading">
-              <div class="container panelRow">
-                  <div class="col-xs-12 panelRow">
-                    <div class="imgDiv">
-                      <span class="glyphicon glyphicon-list-alt glifaiconsCols"></span>
-                    </div>
-                    <div class="currentAccountText">
-                      Mis Tweets
-                    </div>
-                  </div>
-              </div>
-            </div>
-            <div class="panel-body">
-              <div class="container panelRow">
-                <div class="col-xs-12 zeroPadding">
-                  <ul class="list-group">
-                    <li class="list-group-item zeroPadding">
-                      <div class="twitImgDiv">
-                        <a href="#">
-                          <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
-                        </a>
-                      </div>
-                      <div class="twitUser">
-                        @MiPollaEnAlmibar
-                      </div>
-                      <p class="twitText">
-                        Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
-                      </p>
-                      <div class="twitButtons">
-                        <a class="glifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet glifaiconsRT"></span> 0 </a>
-                        <a class="glifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart glifaiconsFAV"></span> 0 </a>
-                        <a class="glifaiconsINFO" href="#"><span class="glyphicon glyphicon-time glifaiconsINFO"></span> 30 Feb 2019 </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div> <!-- Panel twitter -->
-        </div> <!-- Col -->
-        <div class="col-md-3 col-sm-4 col-xs-12">
-          <div class="panel panel-primary panel-twitter">
-            <div class="panel-heading">
-              <div class="container panelRow">
-                  <div class="col-xs-12 panelRow">
-                    <div class="imgDiv">
-                      <span class="glyphicon glyphicon-hourglass glifaiconsCols"></span>
-                    </div>
-                    <div class="currentAccountText">
-                      Programados
-                    </div>
-                  </div>
-              </div>
-            </div>
-            <div class="panel-body">
-              <div class="container panelRow">
-                <div class="col-xs-12 zeroPadding">
-                  <ul class="list-group">
-                    <li class="list-group-item zeroPadding">
-                      <div class="twitImgDiv">
-                        <a href="#">
-                          <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
-                        </a>
-                      </div>
-                      <div class="twitUser">
-                        @MiPollaEnAlmibar
-                      </div>
-                      <p class="twitText">
-                        Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
-                      </p>
-                      <div class="twitButtons">
-                        <a class="glifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet glifaiconsRT"></span> 0 </a>
-                        <a class="glifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart glifaiconsFAV"></span> 0 </a>
-                        <a class="glifaiconsINFO" href="#"><span class="glyphicon glyphicon-time glifaiconsINFO"></span> 30 Feb 2019 </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div> <!-- Panel twitter -->
-        </div> <!-- Col -->
-        <div class="col-md-3 col-sm-4 col-xs-12">
-          <div class="panel panel-primary panel-twitter">
-            <div class="panel-heading">
-              <div class="container panelRow">
-                  <div class="col-xs-12 panelRow">
-                    <div class="mentionClass">
-                      <i class="fa fa-comment fa-3x" aria-hidden="true"></i>
-                    </div>
-                    <div class="currentAccountText">
-                      Menciones
-                    </div>
-                  </div>
-              </div>
-            </div>
-            <div class="panel-body">
-              <div class="container panelRow">
-                <div class="col-xs-12 zeroPadding">
-                  <ul class="list-group">
-                    <li class="list-group-item zeroPadding">
-                      <div class="twitImgDiv">
-                        <a href="#">
-                          <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
-                        </a>
-                      </div>
-                      <div class="twitUser">
-                        @MiPollaEnAlmibar
-                      </div>
-                      <p class="twitText">
-                        Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
-                      </p>
-                      <div class="twitButtons">
-                        <a class="glifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet glifaiconsRT"></span> 0 </a>
-                        <a class="glifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart glifaiconsFAV"></span> 0 </a>
-                        <a class="glifaiconsINFO" href="#"><span class="glyphicon glyphicon-time glifaiconsINFO"></span> 30 Feb 2019 </a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div> <!-- Panel twitter -->
-        </div> <!-- Col -->
-        <!--
-        <div class="col-md-3 col-sm-4 col-xs-12">
-          <div class="panel panel-default panel-add">
-            <div class="addPanelText">
-              <a href="#" class="addPanelButton">
-                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                <br>
-                Add account
-              </a>
-            </div>
-          </div>  Panel add
-        </div>  Col -->
-      </div> <!-- Row -->
-    </div> <!-- Site wrapper-->
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"><\/script>')</script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="https://maxcdn.bootstrapcdn.com/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="https://use.fontawesome.com/5ece2c3e4f.js"></script>
-
-</body></html>
+            </div>  Panel add
+          </div>  Col -->
+        </div> <!-- Row -->
+      </div> <!-- Site wrapper-->
+  </div>
