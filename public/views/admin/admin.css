@@ -47,3 +47,12 @@
     margin-left: 10px;
     padding-left: 0px;
 }
+
+.barraSelected{
+    background-color: black;
+    color: white !important;
+}
+
+.barraSelected:hover{
+    background-color: black !important;
+}
