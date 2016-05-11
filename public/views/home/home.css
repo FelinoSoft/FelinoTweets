@@ -2,6 +2,15 @@
   margin:0 auto;
 }
 
+.home-body-main {
+  background: url(../../assets/images/cover_background.jpg) no-repeat center center fixed;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 .home-panel-heading{
   padding:0px;
   height:100%;
@@ -62,7 +71,7 @@
 .home-panel-body{
   height:400px !important;
   padding:0;
-  overflow-y:scroll;
+  overflow-y:auto;
 }
 
 .home-panel-heading{
