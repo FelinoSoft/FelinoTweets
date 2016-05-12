@@ -132,10 +132,10 @@ module.exports = function(app){
                 data.save(function(err){
                   if(err){
                       response = {"error" : true, "message" : "Error updating data"};
+                      res.json(response);
                   } else{
-                      response = {"error" : false, "message" : "Data is updated for " + req.params.id};
+                    findAllUsers(req,res);
                   }
-                  res.json(response);
                 });
             });
           }

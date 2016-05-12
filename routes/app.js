@@ -8,6 +8,6 @@ module.exports = function(app){
     var newRoute = '/#' + req.params.url;
     res.redirect(newRoute);
   };
-
+  
   app.get('/:url', redirectTo);
 };
