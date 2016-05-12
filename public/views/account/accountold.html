@@ -16,12 +16,10 @@
         </a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-        <a class="navbar-brand" href="/home">
+        <a class="navbar-brand" href="/admin">
           <span class="glyphicon glyphicon-home"></span>  Home</a>
-        <a class="navbar-brand" href="/homeStats">
+        <a class="navbar-brand" href="/adminStats">
           <span class="glyphicon glyphicon-stats"></span>  Estadísticas</a>
-        <a class="navbar-brand barraSelected" href="/account">
-          <span class="fa fa-at"></span>  Cuenta</a>
         <form class="navbar-form navbar-right">
           <a href="/" ng-click="logOut()" class="btn btn-danger">Salir</a>
         </form>
@@ -31,14 +29,13 @@
 
   <div class="site-wrapper" id="home-wrap">
     <div class="container homeMainView">
-      <!-- For each de this div -->
-      <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="pan in panels">
+      <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="panel panel-primary panel-twitter">
           <div class="panel-heading home-panel-heading">
             <div class="container homePanelRow">
                 <div class="col-xs-12 homePanelRow">
                   <div class="homeIconDiv">
-                    <span class="glyphicon glyphicon-home homeGlifaiconsCols" ng-show="'Home'==pan.kind"></span>
+                    <span class="glyphicon glyphicon-home homeGlifaiconsCols"></span>
                   </div>
                   <div class="homeCurrentAccountText">
                     Home
