@@ -6,9 +6,11 @@ var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
 
+var user = require('../models/user.js');
+var account = require('../models/twitter_account.js');
+
 module.exports = function(app){
 
-    var user = require('../models/user.js');
 
     /* GET /users */
     findAllUsers = function(req,res){
@@ -222,6 +224,36 @@ module.exports = function(app){
       });
     }
 
+    findTwitterAccounts = function(req, res) {
+      var response = {};
+
+      checkUser(req, res, function(err, data) {
+        if (err) {
+          response = {"error" : true, "message" : "Error fetching data"};
+          res.json(response);
+        } else {
+
+          var userId = data.user_id;
+          var targetId = req.params.id;
+
+          if( (data.admin) || (targetId == userId ) ) {
+            account.find({"user_id": targetId}, function(err,data){
+              if(err) {
+                response = {"error" : true, "message" : "Error fetching data"};
+              } else{
+                response = {"error" : false, "message" : data};
+              }
+              res.json(response);
+            });
+          }
+          else {
+            response = {"error" : true, "message" : "Admin permissions required."};
+            res.json(response);
+          }
+        }
+      });
+    }
+
     login = function(req, res) {
       var response = {};
 
@@ -376,6 +408,20 @@ module.exports = function(app){
       }
     }
 
+    function randomString(length, callback){
+
+      var rnd  = crypto.randomBytes(length)
+      , value = new Array(length)
+      , chars = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789"
+      , len = chars.length;
+
+      for (var i = 0; i < length; i++){
+        value[i] = chars[ rnd[i] % len]
+      }
+
+      callback(value.join(''));
+    }
+
     // '/users' methods
     app.get('/users', findAllUsers);
     app.post('/users', addUser);
@@ -385,24 +431,9 @@ module.exports = function(app){
     app.get('/users/:id', findById);
     app.put('/users/:id',updateUser);
     app.delete('/users/:id',deleteUser);
+    app.get('/users/:id/twitter_accounts', findTwitterAccounts);
 
-    // '/login' methods
+    // access control methods
     app.post('/login', login);
-
-    // '/register' methods
     app.post('/register', register);
 };
-
-function randomString(length, callback){
-
-    var rnd  = crypto.randomBytes(length)
-        , value = new Array(length)
-        , chars = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789"
-        , len = chars.length;
-
-    for (var i = 0; i < length; i++){
-        value[i] = chars[ rnd[i] % len]
-    }
-
-    callback(value.join(''));
-}

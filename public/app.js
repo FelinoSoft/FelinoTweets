@@ -175,6 +175,11 @@ angular.module('felinotweetsApp', [
   var self = this;
 
   // obtiene todos los usuarios
+  self.getAccountData = function(id) {
+    return $http.get(API + '/users/' + id + '/twitter_accounts');
+  };
+
+  // autoriza a una nueva cuenta de twitter
   self.twitterAuth = function() {
     return $http.get(API + '/twitter/auth');
   };
