@@ -2,12 +2,11 @@ var accountModule = angular.module('accountModule', [
   'felinotweetsApp'
 ]);
 
-  accountModule.controller('accountController',
-    function($scope,$http,$location,auth){
+accountModule.controller('accountController',
+  function($scope,$http,$location,auth){
     console.log("AccountController inicializado");
 
     $scope.implemented = false;
-
 
     $scope.getAllDefaultPanels();
     console.log(panels);
@@ -57,7 +56,8 @@ var accountModule = angular.module('accountModule', [
             "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
           };
           return {"kind":kind, "tweets":[tweet3,tweet4]};
-        } else if(kind == "Programados"){
+        }
+      } else if(kind == "Programados"){
           // Get data of programmed tweets
           if(!implemented){
             // Mock data dpm
@@ -72,24 +72,23 @@ var accountModule = angular.module('accountModule', [
               "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
             };
             return {"kind":kind, "tweets":[tweet5,tweet6]};
-          } else if(kind == "Menciones"){
-            // Get data of programmed tweets
-            if(!implemented){
-              // Mock data dpm
-              var tweet7 = {"author":"Lolazo","text":"@Lolazo Uff que bien se siente",
-                "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-                "nRetweets":"214", "nLikes":"12", "rted":false, "liked":false, "day":"7",
-                "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-              };
-              var tweet8 = {"author":"Lolazo","text":"@Lolazo Que me da algo lel",
-                "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-                "nRetweets":"214", "nLikes":"12", "rted":true, "liked":true, "day":"7",
-                "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-              };
-              return {"kind":kind, "tweets":[tweet7,tweet8]};
-            }
           }
+      } else if(kind == "Menciones") {
+        // Get data of programmed tweets
+        if(!implemented){
+          // Mock data dpm
+          var tweet7 = {"author":"Lolazo","text":"@Lolazo Uff que bien se siente",
+            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
+            "nRetweets":"214", "nLikes":"12", "rted":false, "liked":false, "day":"7",
+            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
+          };
+          var tweet8 = {"author":"Lolazo","text":"@Lolazo Que me da algo lel",
+            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
+            "nRetweets":"214", "nLikes":"12", "rted":true, "liked":true, "day":"7",
+            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
+          };
+          return {"kind":kind, "tweets":[tweet7,tweet8]};
         }
       }
     };
-  });
+});
