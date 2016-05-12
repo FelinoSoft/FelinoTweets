@@ -54,3 +54,13 @@
 .formUser {
   padding-top: 15px;
 }
+
+
+.barraSelected{
+    background-color: black;
+    color: white !important;
+}
+
+.barraSelected:hover{
+    background-color: black !important;
+}

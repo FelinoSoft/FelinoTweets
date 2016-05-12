@@ -52,7 +52,7 @@
 }
 
 .cuentaText{
-  font-size:large;
+  /*font-size:large;*/
   overflow:hidden;
   text-overflow:ellipsis;
   padding-left:0;
@@ -155,7 +155,7 @@
 }
 
 .homeAddPanelText{
-  font-size:xx-large;
+  /*font-size:large;*/
   vertical-align:middle;
   margin-top:225px;
   text-decoration:none;
@@ -175,11 +175,11 @@
 }
 
 .homeGlifaiconsCols{
-  font-size:xx-large;
+  font-size:large;
 }
 
 .homeCurrentAccountText{
-  font-size:xx-large;
+  font-size:large;
   overflow:hidden;
   white-space: nowrap;
   text-overflow:ellipsis;
@@ -190,7 +190,8 @@
 }
 
 .homeMentionClass{
-  width:50px;
+  font-size:large;
+  /*width:50px;*/
   float:left !important;
   margin-right: 8px;
   margin-left: 5px;
