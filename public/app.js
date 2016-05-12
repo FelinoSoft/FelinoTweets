@@ -85,6 +85,14 @@ angular.module('felinotweetsApp', [
     return $http.delete(API + '/users/' + id)
   };
 
+  // update method
+  self.updateUser = function(id, first_name, last_name) {
+    return $http.put(API + '/users/' + id, {
+      first_name: first_name,
+      last_name: last_name,
+    })
+  }
+
   // register method
   self.register = function(email, first_name, last_name) {
     return $http.post(API + '/register', {
@@ -163,6 +171,15 @@ angular.module('felinotweetsApp', [
   }
 })
 
+.service('twitter', function($http, API) {
+  var self = this;
+
+  // obtiene todos los usuarios
+  self.twitterAuth = function() {
+    return $http.get(API + '/twitter/auth');
+  };
+})
+
 .config([
   '$stateProvider',
   '$urlRouterProvider',
@@ -204,9 +221,9 @@ angular.module('felinotweetsApp', [
         }]
       })
       .state('home', {
-        url: '/account',
-        templateUrl: '/views/account/account.html',
-        controller: 'accountController',
+        url: '/home',
+        templateUrl: '/views/home/home.html',
+        controller: 'homeController',
         onEnter: ['$state', 'auth', function($state, auth) {
           if(!auth.isAuthed()) {
             $state.go('login');

@@ -52,7 +52,7 @@
 }
 
 .cuentaText{
-  /*font-size:large;*/
+  font-size:large;
   overflow:hidden;
   text-overflow:ellipsis;
   padding-left:0;
@@ -115,6 +115,36 @@
   padding-bottom:5px;
 }
 
+.homeGlifaiconsNoRT{
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.homeGlifaiconsNoRT:hover{
+  color:green;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.homeGlifaiconsRTNolink{
+  color:#C8C8C8;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.homeGlifaiconsNoFAV{
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
+.homeGlifaiconsNoFAV:hover{
+  color:red;
+  vertical-align:middle;
+  padding-bottom:5px;
+}
+
 .homeGlifaiconsFAV{
   color:red;
   vertical-align:middle;
@@ -155,23 +185,33 @@
 }
 
 .homeAddPanelText{
-  /*font-size:large;*/
+  font-size:large;
   vertical-align:middle;
   margin-top:225px;
   text-decoration:none;
+  color:white;
+  text-align:center;
 }
 
 .homeAddPanelButton{
   text-decoration:none;
+  font-size:x-large;
+  color:white;
+  text-align:center;
 }
 
 .homeAddPanelButton:visited, .homeAddPanelButton:link, .homeAddPanelButton:active{
   text-decoration:none;
+  font-size:x-large;
+  color:white;
+  text-align:center;
 }
 
 .homeAddPanelButton:hover{
   text-decoration:none;
-  color:blue;
+  font-size:x-large;
+  color:white;
+  text-align:center;
 }
 
 .homeGlifaiconsCols{

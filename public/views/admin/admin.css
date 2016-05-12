@@ -23,7 +23,6 @@
 
 .listado{
     text-align: left;
-    padding-left: 0px;
     float: none !important;
 }
 
@@ -47,6 +46,15 @@
     margin-left: 10px;
     padding-left: 0px;
 }
+
+.listaUsuarios {
+  padding: 0;
+}
+
+.formUser {
+  padding-top: 15px;
+}
+
 
 .barraSelected{
     background-color: black;

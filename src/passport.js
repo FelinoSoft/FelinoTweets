@@ -38,9 +38,7 @@ module.exports = function(passport) {
 			if(err) throw(err);
 			// Si existe en la Base de Datos, lo devuelve
 			if(!err && twitter!= null){
-				sender.makeTweet(twitter.token,twitter.token_secret,'@donrondon testing FelinoTweets, the ultimate twitter experience',function(){
-					done(null, twitter);
-				});
+				done(null,twitter);
 			} else {
 				// Si no existe crea un nuevo objecto usuario
 				var twitter = new twitter_account({
