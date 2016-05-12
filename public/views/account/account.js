@@ -1,4 +1,4 @@
-var homeModule = angular.module('homeModule', [
+var accountModule = angular.module('accountModule', [
   'felinotweetsApp'
 ]);
 

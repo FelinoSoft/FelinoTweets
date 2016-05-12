@@ -1,0 +1,32 @@
+.imagenTweet{
+    height: 40px;
+    padding: 1px;
+}
+
+.imagenTweetImg{
+    width:auto;
+    height:100%;
+}
+
+.formTweet{
+    height: 40px;
+}
+
+.formTweetExpanded{
+    width: 100%;
+}
+
+.fechaTiempo{
+    padding-top: 6px;
+}
+
+.botonEnviar{
+    margin-top: 3px;
+}
+
+.caracteresRestantes{
+    color: #9d9d9d;
+    font-size: large;
+    margin-top: 15px !important;
+    display:inline;
+}

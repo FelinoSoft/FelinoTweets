@@ -31,6 +31,35 @@
 
   <div class="site-wrapper" id="home-wrap">
     <div class="container homeMainView">
+      <div class="col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+
+            <div class="input-group formTweetExpanded">
+              <textarea class="form-control formTweetExpanded" rows="3" placeholder="¿Qué está pasando?" style="resize:none"></textarea>
+            </div>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+              <div class="fechaTiempo">
+                <label>Programar tweet: </label>
+                <input id="input-datetime-local" type="datetime-local" value="">
+                <span class="result"></span>
+              </div>
+            </div>
+            <div class="col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-12">
+              <span class="caracteresRestantes"><p class="caracteresRestantes">140 &nbsp &nbsp</p></span>
+              <a href="/" ng-click="" class="btn btn-primary botonEnviar"><i class="fa fa-twitter" aria-hidden="true"></i> Twittear</a>
+            </div>
+
+
+            <!--    NO BORRAR
+              <div class="input-group">
+                <span class="input-group-addon imagenTweet" id="sizing-addon2"><img class="imagenTweetImg" src="https://pbs.twimg.com/profile_images/471939443297755136/d99B1Syp.jpeg"/></span>
+                <input type="text" class="form-control formTweet" placeholder="¿Qué está pasando?">
+              </div>-->
+          </div>
+        </div>
+      </div>
+
       <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="panel panel-primary panel-twitter">
           <div class="panel-heading home-panel-heading">
