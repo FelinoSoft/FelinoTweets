@@ -163,6 +163,15 @@ angular.module('felinotweetsApp', [
   }
 })
 
+.service('twitter', function($http, API) {
+  var self = this;
+
+  // obtiene todos los usuarios
+  self.twitterAuth = function() {
+    return $http.get(API + '/twitter/auth');
+  };
+})
+
 .config([
   '$stateProvider',
   '$urlRouterProvider',
@@ -204,9 +213,9 @@ angular.module('felinotweetsApp', [
         }]
       })
       .state('home', {
-        url: '/account',
-        templateUrl: '/views/account/account.html',
-        controller: 'accountController',
+        url: '/home',
+        templateUrl: '/views/home/home.html',
+        controller: 'homeController',
         onEnter: ['$state', 'auth', function($state, auth) {
           if(!auth.isAuthed()) {
             $state.go('login');

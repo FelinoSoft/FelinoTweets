@@ -29,23 +29,23 @@
 
   <div class="site-wrapper" id="home-wrap">
     <div class="container homeMainView">
-      <div class="col-md-3 col-sm-4 col-xs-12">
+      <!-- Repeat this shit -->
+      <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="pan in panels">
         <div class="panel panel-default panel-twitter">
           <div class="panel-heading home-panel-heading">
             <div class="container homePanelRow">
                 <div class="col-xs-12 homePanelRow">
                   <div class="homeImgDiv">
                     <a href="#">
-                      <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive img-circle" alt="Cinque Terre">
+                      <img src={{pan.imgLink}} class="imgPanel img-responsive img-circle" alt="Cinque Terre">
                     </a>
                   </div>
                   <div class="cuentaText">
-                    @MiPollaEnAlmibar
+                    @{{ pan.user }}
                   </div>
-                    <p class="descriptionText">
-                    Tuitero de poca monta y subnormal a tiempo completo fsdkj lfds alj kfsd alkjfd sl jkf d
-                     asj lk fda sjlkñfdsj lkñ dfsa jñkld fsañl j kfds añ   sñl jkjjjjjsdaffadss dfafds
-                   </p>
+                  <p class="descriptionText">
+                    {{ pan.desc }}
+                  </p>
                 </div>
             </div>
           </div>
@@ -53,22 +53,56 @@
             <div class="container homePanelRow">
               <div class="col-xs-12 homeZeroPadding">
                 <ul class="list-group">
-                  <li class="list-group-item homeZeroPadding">
+                  <li class="list-group-item homeZeroPadding" ng-repeat="tweet in pan.tweets">
                     <div class="homeTwitImgDiv">
                       <a href="#">
-                        <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
+                        <img src={{tweet.imgLink}} class="imgPanel img-responsive" alt="Cinque Terre">
                       </a>
                     </div>
                     <div class="homeTwitUser">
-                      @MiPollaEnAlmibar
+                      @{{tweet.author}}
                     </div>
                     <p class="homeTwitText">
-                      Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                      {{tweet.text}}
                     </p>
+                    <!-- RT button -->
                     <div class="homeTwitButtons">
-                      <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
-                      <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
-                      <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                      <span class="homeGlifaiconsRTNolink" ng-show="isSameUserAndAuthor(pan.user,tweet.author)">
+                        <span class="glyphicon glyphicon-retweet homeGlifaiconsRTNoLink">
+                        </span>
+                        {{tweet.nRetweets}}
+                      </span>
+
+                      <a class="homeGlifaiconsNoRT" href="#" ng-show="RThasToShow(pan.user, tweet.author, tweet.rted, 1)">
+                        <span class="glyphicon glyphicon-retweet">
+                        </span>
+                        {{tweet.nRetweets}}
+                      </a>
+
+                      <a class="homeGlifaiconsRT" href="#" ng-show="RThasToShow(pan.user, tweet.author, tweet.rted, 2)">
+                        <span class="glyphicon glyphicon-retweet">
+                        </span>
+                        {{tweet.nRetweets}}
+                      </a>
+
+                      <!-- Fav button -->
+                      <a class="homeGlifaiconsNoFAV" href="#" ng-show="!tweet.liked">
+                        <span class="glyphicon glyphicon-heart">
+                        </span>
+                        {{tweet.nLikes}}
+                      </a>
+
+                      <a class="homeGlifaiconsFAV" href="#" ng-show="tweet.liked">
+                        <span class="glyphicon glyphicon-heart">
+                        </span>
+                        {{tweet.nLikes}}
+                      </a>
+                      <!-- Tweet Info. Always shows up -->
+                      <a class="homeGlifaiconsINFO" href={{tweet.tweetLink}}>
+                        <span class="glyphicon glyphicon-time homeGlifaiconsINFO">
+                        </span>
+                        {{tweet.day}} {{tweet.month}} {{tweet.year}}
+                      </a>
                     </div>
                   </li>
                 </ul>
@@ -80,13 +114,13 @@
       <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="panel panel-default home-panel-add">
           <div class="homeAddPanelText">
-            <a href="#" class="homeAddPanelButton">
+            <a target="_blank" href="/twitter/auth" class="homeAddPanelButton">
               <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
               <br>
               Add account
             </a>
           </div>
-        </div>  Panel add
+        </div>  <!-- Panel add -->
       </div> <!-- Col -->
     </div> <!-- Row -->
   </div> <!-- Site wrapper-->
