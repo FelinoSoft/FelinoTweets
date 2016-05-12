@@ -15,6 +15,6 @@ module.exports = function(app){
     }
     res.redirect(newRoute);
   };
-
+  
   app.get('/:url', redirectTo);
 };

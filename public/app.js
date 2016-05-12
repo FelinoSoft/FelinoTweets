@@ -85,6 +85,14 @@ angular.module('felinotweetsApp', [
     return $http.delete(API + '/users/' + id)
   };
 
+  // update method
+  self.updateUser = function(id, first_name, last_name) {
+    return $http.put(API + '/users/' + id, {
+      first_name: first_name,
+      last_name: last_name,
+    })
+  }
+
   // register method
   self.register = function(email, first_name, last_name) {
     return $http.post(API + '/register', {
