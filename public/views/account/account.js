@@ -12,7 +12,10 @@ var homeModule = angular.module('homeModule', [
       }
     };
 
-    $scope.getPanel = function(kind) {
-      
+    $scope.getPanel = function(kind, index) {
+      if(kind == "TL"){
+        // Get data of timeline
+
+      }
     };
   });

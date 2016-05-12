@@ -1,10 +1,10 @@
-var homeModule = angular.module('homeModule', [
+var accountModule = angular.module('accountModule', [
   'felinotweetsApp'
 ]);
 
-  homeModule.controller('homeController',
-    function($scope,$http,$location,auth){
-    console.log("HomeController inicializado");
+  accountModule.controller('accountController',
+    function($scope,auth){
+    console.log("accountController inicializado");
 
     $scope.logOut = function() {
       if(auth.logout){
@@ -12,10 +12,7 @@ var homeModule = angular.module('homeModule', [
       }
     };
 
-    $scope.getPanel = function(kind, index) {
-      if(kind == "TL"){
-        // Get data of timeline
-
-      }
+    $scope.getPanel = function(kind) {
+      
     };
   });
