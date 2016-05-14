@@ -5,7 +5,8 @@ angular.module('felinotweetsApp', [
   'loginModule',
   'registerModule',
   'accountModule',
-  'adminModule'
+  'adminModule',
+  'adminStatsModule'
 ])
 
 .constant('API', 'http://localhost:8888')
@@ -71,46 +72,6 @@ angular.module('felinotweetsApp', [
   }
 })
 
-.service('user', function($http, API) {
-  var self = this;
-
-  // obtiene todos los usuarios
-  self.getUsers = function() {
-    return $http.get(API + '/users')
-  };
-
-  // obtiene todos los usuarios
-  self.deleteUser = function(id) {
-    console.log("Intentando borrar usuario " + id);
-    return $http.delete(API + '/users/' + id)
-  };
-
-  // update method
-  self.updateUser = function(id, first_name, last_name) {
-    return $http.put(API + '/users/' + id, {
-      first_name: first_name,
-      last_name: last_name,
-    })
-  }
-
-  // register method
-  self.register = function(email, first_name, last_name) {
-    return $http.post(API + '/register', {
-      email: email,
-      first_name: first_name,
-      last_name: last_name
-    })
-  };
-
-  // login method
-  self.login = function(email, password) {
-    return $http.post(API + '/login', {
-      email: email,
-      password: password
-    });
-  };
-})
-
 .service('auth', function($window) {
   var self = this;
 
@@ -169,6 +130,46 @@ angular.module('felinotweetsApp', [
   self.logout = function() {
     $window.localStorage.removeItem('jwtToken');
   }
+})
+
+.service('user', function($http, API) {
+  var self = this;
+
+  // obtiene todos los usuarios
+  self.getUsers = function() {
+    return $http.get(API + '/users')
+  };
+
+  // obtiene todos los usuarios
+  self.deleteUser = function(id) {
+    console.log("Intentando borrar usuario " + id);
+    return $http.delete(API + '/users/' + id)
+  };
+
+  // update method
+  self.updateUser = function(id, first_name, last_name) {
+    return $http.put(API + '/users/' + id, {
+      first_name: first_name,
+      last_name: last_name,
+    })
+  }
+
+  // register method
+  self.register = function(email, first_name, last_name) {
+    return $http.post(API + '/register', {
+      email: email,
+      first_name: first_name,
+      last_name: last_name
+    })
+  };
+
+  // login method
+  self.login = function(email, password) {
+    return $http.post(API + '/login', {
+      email: email,
+      password: password
+    });
+  };
 })
 
 .service('twitter', function($http, API) {
@@ -262,11 +263,6 @@ angular.module('felinotweetsApp', [
           }
           else if(!auth.isAdmin()) {
             $state.go('home');
-          }
-          else {
-
-            // loads users info
-            //$scope.users = $scope.getUsers();
           }
         }]
       })

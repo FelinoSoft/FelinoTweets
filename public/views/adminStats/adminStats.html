@@ -28,6 +28,7 @@
         </div>
     </nav>
 
+    <!-- Admin stats -->
     <div class="container list">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -38,61 +39,34 @@
                 </form>
             </div>
             <div class="panel-body">
-                <div class="col-md-6">
+
+                <!-- Shows each stat of the array -->
+                <div ng-repeat="stat in stats"
+                     class="col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <form class="form-inline">
                                 <div class="form-group cabecera">
-                                    <p class="titulo"><b>Estadística 1</b></p>
+                                    <p class="titulo"><b>Estadística {{$index + 1}}</b></p>
                                 </div><!-- /input-group -->
                             </form>
                         </div>
+
+                        <!-- Contains the representation of each stat -->
                         <div class="panel-body">
 
+                          <!-- Chart's charts -->
+                          <div>
+                            <canvas ng-attr-id="{{ 'chart-' + $index }}"
+                                    width="400"
+                                    height="400">
+                                    {{ showChart($index) }}
+                            </canvas>
+                          </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <form class="form-inline">
-                                <div class="form-group cabecera">
-                                    <p class="titulo"><b>Estadística 2</b></p>
-                                </div><!-- /input-group -->
-                            </form>
-                        </div>
-                        <div class="panel-body">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <form class="form-inline">
-                                <div class="form-group cabecera">
-                                    <p class="titulo"><b>Estadísitca 3</b></p>
-                                </div><!-- /input-group -->
-                            </form>
-                        </div>
-                        <div class="panel-body">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <form class="form-inline">
-                                <div class="form-group cabecera">
-                                    <p class="titulo"><b>Estadística 4</b></p>
-                                </div><!-- /input-group -->
-                            </form>
-                        </div>
-                        <div class="panel-body">
-                        </div>
-                    </div>
-                </div>
+                <!-- End of stats -->
             </div>
         </div>
     </div>
