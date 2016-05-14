@@ -264,7 +264,7 @@ module.exports = function(app){
       // checks if the user is already registered
       // and the password matches
       user.findOne({"email" : email}, function(err, data) {
-        if (err || data == null) {
+        if (err || data === null) {
           response = {"error" : true, "message" : "Login error"};
           res.json(response);
         }
@@ -286,6 +286,12 @@ module.exports = function(app){
               });
 
               // return the information including token as JSON
+
+              console.log("Cookie time");
+
+              console.log(data.id);
+
+              res.cookie("user_id",data.id);
               res.json({
                 error: false,
                 message: 'Enjoy your token! (Login succesfull)',

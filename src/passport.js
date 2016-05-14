@@ -6,6 +6,7 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 // Este archivo no debe subirse a GitHub ya que contiene datos
 // que pueden comprometer la seguridad de la aplicación.
 var config = require('./../config/config');
+var cookieParser = require('cookie-parser');
 
 var sender = require('./twitter');
 
@@ -17,12 +18,14 @@ module.exports = function(passport) {
 
 	// Serializa al usuario para almacenarlo en la sesión
 	passport.serializeUser(function(user, done) {
+		console.log("call to serialize");
 		done(null, user);
 	});
 
 	// Deserializa el objeto usuario almacenado en la sesión para
 	// poder utilizarlo
 	passport.deserializeUser(function(obj, done) {
+		console.log("call to deserialize");
 		done(null, obj);
 	});
 
@@ -30,20 +33,25 @@ module.exports = function(passport) {
 	passport.use(new TwitterStrategy({
 		consumerKey		 : config.consumerKey,
 		consumerSecret	: config.consumerSecret,
-		callbackURL		 : '/twitter/auth/callback'
-	}, function(accessToken, refreshToken, profile, done) {
+		callbackURL		 : '/twitter/auth/callback',
+		passReqToCallback : true
+	}, function(req, accessToken, refreshToken, profile, done) {
 		// Busca en la base de datos si el usuario ya se autenticó en otro
 		// momento y ya está almacenado en ella
+		console.log("Passport.js");
+		console.log("Profile.id: "+profile.id);
+
 		twitter_account.findOne({profile_id : profile.id}, function(err, twitter) {
+			console.log("Twitter: "+ twitter);
 			if(err) throw(err);
 			// Si existe en la Base de Datos, lo devuelve
-			if(!err && twitter!= null){
+			if(!err && twitter !== null){
 				done(null,twitter);
 			} else {
+				console.log("Creando twitter account");
 				// Si no existe crea un nuevo objecto usuario
-				var twitter = new twitter_account({
-					//TODO: account id real
-					"account_id": 'test_account',
+				var twitterAcc = new twitter_account({
+					"account_id": req.cookies.user_id,
 					"token": accessToken,
 					"token_secret": refreshToken,
 					"profile_id": profile.id,
@@ -51,9 +59,9 @@ module.exports = function(passport) {
 					"authorized": true
 				});
 				//...y lo almacena en la base de datos
-				twitter.save(function (err) {
+				twitterAcc.save(function (err) {
 					if (err) throw err;
-					sender.makeTweet(twitter.token, twitter.token_secret, 'Enviando por primera vez tweet de prueba', function () {
+					sender.postTweet(twitterAcc.token, twitterAcc.token_secret, 'Enviando por primera vez tweet de prueba', function () {
 						done(null, twitter);
 					});
 				});

@@ -80,7 +80,6 @@ var accountModule = angular.module('homeModule', [
     };
 
     $scope.isSameUserAndAuthor = function(user, author){
-      console.log(user==author);
       return user == author;
     };
 
