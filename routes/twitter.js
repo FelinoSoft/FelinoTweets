@@ -2,8 +2,11 @@ module.exports = function(app,passport){
 
 
     /* GET /twitter/home */
-    getAllTLs = function(req,res){
+    getHomeTLs = function(req,res){
         // Jeje está sin implementar esto FIXME
+        var felinoTweetsUserID = req.cookies.user_id;
+
+        
     };
 
 
