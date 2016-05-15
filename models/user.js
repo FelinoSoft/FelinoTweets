@@ -13,8 +13,7 @@ var userSchema = new mongoSchema({
     "last_name" : String,
     "registration_date" : Date,
     "last_access_date" : Date,
-    //TODO: eliminar los hashtags y meterlos en una nueva coleccion
-    "hashtags" : { type : Array , "default" : []}
+    "n_tweets" : Number
 });
 
 module.exports = mongoose.model('user',userSchema);

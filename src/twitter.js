@@ -1,6 +1,7 @@
 var config = require('./../config/config');
 var OAuth = require('oauth').OAuth;
 var oa;
+var user = require('../models/user.js');
 
 function initTwitterOauth(){
     oa = new OAuth(
@@ -146,14 +147,20 @@ function getMDs(userToken, userSecret, count, since_id, max_id, callback){
     }
 }
 
-function postTweet(userToken, userSecret, tweet, callback){
+function postTweet(userID, userToken, userSecret, tweet, callback){
     oa.post(
         "https://api.twitter.com/1.1/statuses/update.json",
         userToken,
         userSecret,
         {"status" : tweet},
         function(err,data){
-            callback(err,data);
+            if(!err){
+                user.findByIdAndUpdate(userID, {$inc: {n_tweets : 1}}, function(err){
+                    callback(err,data);
+                });
+            } else{
+                callback(err,data);
+            }
         }
     );
 }

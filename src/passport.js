@@ -18,14 +18,12 @@ module.exports = function(passport) {
 
 	// Serializa al usuario para almacenarlo en la sesión
 	passport.serializeUser(function(user, done) {
-		console.log("call to serialize");
 		done(null, user);
 	});
 
 	// Deserializa el objeto usuario almacenado en la sesión para
 	// poder utilizarlo
 	passport.deserializeUser(function(obj, done) {
-		console.log("call to deserialize");
 		done(null, obj);
 	});
 
@@ -56,8 +54,11 @@ module.exports = function(passport) {
 					"description": profile._json.description
 				});
 				//...y lo almacena en la base de datos
-				twitterAcc.save(function (err) {
+				twitterAcc.save(function (err, data) {
 					if (err) throw err;
+					else{
+						done(null, data);
+					}
 				});
 			}
 		});

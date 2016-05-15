@@ -5,7 +5,6 @@
 module.exports = function(app){
 
   redirectTo = function(req, res) {
-    console.log("Hola caracola "+req.params.url);
     var newRoute = "";
     if(req.params.url == "twitter/auth"){
       console.log("paque");
