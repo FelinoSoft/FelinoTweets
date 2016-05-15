@@ -9,7 +9,7 @@ angular.module('felinotweetsApp', [
   'adminStatsModule'
 ])
 
-.constant('API', 'http://localhost:8888')
+.constant('API', 'http://127.0.0.1:8888')
 //.constant('API', 'http://felinotweets.tk')
 .factory('authInterceptor', function(API, auth) {
   return {

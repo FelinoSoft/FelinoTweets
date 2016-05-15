@@ -12,12 +12,6 @@ loginModule.controller('adminController',
     $scope.selected = -1;
     $scope.editing = -1;
 
-    // user info
-    $scope.query = "";
-    $scope.users = {};
-    $scope.first_name = "";
-    $scope.last_name = "";
-
     user.getUsers().then(function(result) {
       if (result.data.error) {
 
