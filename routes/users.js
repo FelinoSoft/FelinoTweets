@@ -276,27 +276,36 @@ module.exports = function(app){
             if (result) {
 
               // password matches, login succesfull
-              // generates a JSON Web Token (JWT)
-              var userInfo = {
-                "user_id" : data.id,
-                "admin" : data.admin
-              };
-              var token = jwt.sign(userInfo, app.get('superSecret'), {
-                expiresIn: 3600 // expires in 1 hour (3600 secs)
+              data.last_access_date = Date.now();
+              data.save(function(err){
+                if(err){
+                    response = {"error" : true, "message" : "Error updating data"};
+                    res.json(response);
+                } else{
+
+                  // last_access_date update succesfull
+                  // generates a JSON Web Token (JWT)
+                  var userInfo = {
+                    "user_id" : data.id,
+                    "admin" : data.admin
+                  };
+                  var token = jwt.sign(userInfo, app.get('superSecret'), {
+                    expiresIn: 3600 // expires in 1 hour (3600 secs)
+                  });
+
+                  console.log("Cookie time");
+                  console.log(data.id);
+
+                  // return the information including token as JSON
+                  res.cookie("user_id",data.id);
+                  res.json({
+                    error: false,
+                    message: 'Enjoy your token! (Login succesfull)',
+                    token: token
+                  });
+                }
               });
 
-              // return the information including token as JSON
-
-              console.log("Cookie time");
-
-              console.log(data.id);
-
-              res.cookie("user_id",data.id);
-              res.json({
-                error: false,
-                message: 'Enjoy your token! (Login succesfull)',
-                token: token
-              });
             }
             else {
 
