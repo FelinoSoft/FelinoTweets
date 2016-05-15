@@ -1,16 +1,18 @@
 module.exports = function(app,passport){
 
+
+    /* GET /twitter/home */
+    getAllTLs = function(req,res){
+        // Jeje está sin implementar esto FIXME
+    };
+
+
+
     app.get('/twitter/auth', passport.authorize('twitter', { failureRedirect: '/' }));
 
-    app.get('/twitter/auth/callback', passport.authorize('twitter', { failureRedirect: '/account' }),
+    app.get('/twitter/auth/callback', passport.authorize('twitter', { failureRedirect: '/' }),
       function(req, res){
 
-      console.log("Omg");
-
-      console.log(req.user);
-      console.log(req.account);
-      console.log(req.cookies);
-      console.log(req.params);
 
       req.logout();
       req.account = undefined;
