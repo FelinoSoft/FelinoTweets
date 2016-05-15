@@ -38,11 +38,8 @@ module.exports = function(passport) {
 	}, function(req, accessToken, refreshToken, profile, done) {
 		// Busca en la base de datos si el usuario ya se autenticó en otro
 		// momento y ya está almacenado en ella
-		console.log("Passport.js");
-		console.log("Profile.id: "+profile.id);
 
-		twitter_account.findOne({profile_id : profile.id}, function(err, twitter) {
-			console.log("Twitter: "+ twitter);
+		twitter_account.findOne({'profile_name' : profile.screen_name, 'account_id': req.cookies.user_id }, function(err, twitter) {
 			if(err) throw(err);
 			// Si existe en la Base de Datos, lo devuelve
 			if(!err && twitter !== null){
@@ -54,16 +51,13 @@ module.exports = function(passport) {
 					"account_id": req.cookies.user_id,
 					"token": accessToken,
 					"token_secret": refreshToken,
-					"profile_id": profile.id,
-					"description": profile.description,
-					"authorized": true
+					"profile_name": profile._json.screen_name,
+					"photo_url": profile._json.profile_image_url,
+					"description": profile._json.description
 				});
 				//...y lo almacena en la base de datos
 				twitterAcc.save(function (err) {
 					if (err) throw err;
-					sender.postTweet(twitterAcc.token, twitterAcc.token_secret, 'Enviando por primera vez tweet de prueba', function () {
-						done(null, twitter);
-					});
 				});
 			}
 		});
