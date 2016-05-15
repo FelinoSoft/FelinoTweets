@@ -11,9 +11,11 @@ module.exports = function(app,passport){
 
 
 
-    app.get('/twitter/auth', passport.authorize('twitter', { failureRedirect: '/' }));
+    app.get('/twitter/auth', passport.authorize('twitter', 
+        { userAuthorizationURL: 'https://api.twitter.com/oauth/authorize?force_login=true', failureRedirect: '/' }));
 
-    app.get('/twitter/auth/callback', passport.authorize('twitter', { failureRedirect: '/' }),
+    app.get('/twitter/auth/callback', passport.authorize('twitter', 
+        { userAuthorizationURL: 'https://api.twitter.com/oauth/authorize?force_login=true', failureRedirect: '/' }),
       function(req, res){
 
 
