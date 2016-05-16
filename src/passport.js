@@ -6,9 +6,6 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 // Este archivo no debe subirse a GitHub ya que contiene datos
 // que pueden comprometer la seguridad de la aplicación.
 var config = require('./../config/config');
-var cookieParser = require('cookie-parser');
-
-var sender = require('./twitter');
 
 // Exportamos como módulo las funciones de passport, de manera que
 // podamos utilizarlas en otras partes de la aplicación.

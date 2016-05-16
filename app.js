@@ -31,9 +31,6 @@ app.use(passport.session());
 
 app.set('superSecret', config.secret); // secret variable
 
-//app.use(express.cookieParser());
-//app.use(express.session({ secret: "holaquease" }));
-
 // includes different routes
 require('./routes/twitter')(app,passport);
 require('./routes/users')(app);
