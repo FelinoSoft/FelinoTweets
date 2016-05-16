@@ -36,19 +36,34 @@
           <div class="panel-body">
 
             <div class="input-group formTweetExpanded">
-              <textarea class="form-control formTweetExpanded" rows="3" placeholder="¿Qué está pasando?" style="resize:none"></textarea>
+              <textarea ng-trim="false" class="form-control formTweetExpanded" rows="3" placeholder="¿Qué está pasando?" style="resize:none" ng-model="tweet">
+              </textarea>
             </div>
-            <div class="col-md-8 col-sm-8 col-xs-12">
-              <div class="fechaTiempo">
-                <label>Programar tweet: </label>
-                <input id="input-datetime-local" type="datetime-local" value="">
-                <span class="result"></span>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-3 col-xs-1 account-programar-tweet">
+                <div class="fechaTiempo">
+                  <label>Programar tweet: </label>
+                  <input id="input-datetime-local" type="datetime-local" value="">
+                  <span class="result"></span>
+                </div>
               </div>
-            </div>
-            <div class="col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-12">
-              <span class="caracteresRestantes"><p class="caracteresRestantes">140 &nbsp &nbsp</p></span>
-              <a href="/" ng-click="" class="btn btn-primary botonEnviar"><i class="fa fa-twitter" aria-hidden="true"></i> Twittear</a>
-            </div>
+              <div class="col-lg-offset-3 col-lg-3 col-md-offset-2 col-md-3 col-sm-offset-5 col-sm-3 col-xs-offset-5 col-xs-3">
+                <div class="row account-tweet-button-row">
+                  <div class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-2 col-xs-1 caracteresRestantesCol">
+                    <span class="caracteresRestantes">
+                      <div ng-class"{'redText': true}">
+                        <p>
+                          {{140 - tweet.length}} &nbsp &nbsp
+                        </p>
+                      </div>
+                    </span>
+                  </div>
+                  <div class="col-xs-1 col-md-1 col-sm-1 ">
+                    <button ng-disabled="canTweet(140-tweet.length)" ng-click="" class="btn btn-primary botonEnviar"><i class="fa fa-twitter" aria-hidden="true"></i> Twittear</button>
+                  </div>
+                </div> <!-- Row for both elements -->
+              </div> <!-- Col for characters remaining and button -->
+            </div> <!-- Row under text for tweet -->
 
 
             <!--    NO BORRAR

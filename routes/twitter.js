@@ -1,10 +1,10 @@
 var twitter = require('./../src/twitter.js');
 
 module.exports = function(app,passport){
-    
+
     getTweetAccount = function(req, res){
-        
-    }
+
+    };
 
 
 
@@ -13,7 +13,7 @@ module.exports = function(app,passport){
 
     app.get('/twitter/auth/callback', passport.authenticate('twitter',
         { successRedirect: '/', failureRedirect: '/' }));
-    
-    
-    
+
+
+
 };

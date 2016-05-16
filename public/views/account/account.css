@@ -24,9 +24,25 @@
     margin-top: 3px;
 }
 
+.botonEnviar.hover{
+  cursor:hand;
+}
+.caracteresRestantesCol{
+  padding-left:0px;
+  padding-right:20px;
+}
+
 .caracteresRestantes{
     color: #9d9d9d;
     font-size: large;
     margin-top: 15px !important;
     display:inline;
+}
+
+.account-tweet-button-row{
+  padding-right:15px;
+}
+
+.redText{
+  color:red;
 }

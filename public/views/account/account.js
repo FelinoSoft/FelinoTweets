@@ -20,4 +20,8 @@ accountModule.controller('accountController',
 
       }
     };
+
+    $scope.canTweet = function(length){
+      return length < 0;
+    };
 });

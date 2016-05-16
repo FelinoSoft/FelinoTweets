@@ -29,7 +29,7 @@ var accountModule = angular.module('homeModule', [
             "nRetweets":"214", "nLikes":"12", "rted":true, "liked":true, "day":"7",
             "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
           };
-          return {"user":kind, "desc":"Bla ble bli blo blu","imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg","tweets":[tweet1,tweet2]};
+          return {"user":kind, "desc":"AAAAAAAAAAAAAA AAA A  A AA A A AAAAAAA AAAAAAAAAAAAA  AA  A AAAAAAAAAAAAAAAAAAAA","imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg","tweets":[tweet1,tweet2]};
         }
       } else if(kind == "SrFelino"){
         // Get data of own tweets
