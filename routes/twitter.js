@@ -1,4 +1,4 @@
-var twitter = requires('../src/twitter.js');
+var twitter = require('./../src/twitter.js');
 
 module.exports = function(app,passport){
     
