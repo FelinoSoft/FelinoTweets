@@ -31,7 +31,7 @@ function getTL(userToken, userSecret, account, count, since_id, max_id, callback
     if(since_id == -1 || max_id == -1){
         oa.get(
             "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + encodeURIComponent(account) +
-            "&count=" + count + "&trim_user=" + true,
+            "&count=" + count,
             userToken,
             userSecret,
             function(err,data){
@@ -41,7 +41,7 @@ function getTL(userToken, userSecret, account, count, since_id, max_id, callback
     } else{
         oa.get(
             "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + encodeURIComponent(account) +
-            "&count=" + count + "&since_id=" + since_id + "&max_id=" + max_id + "&trim_user=" + true,
+            "&count=" + count + "&since_id=" + since_id + "&max_id=" + max_id,
             userToken,
             userSecret,
             function(err,data){
@@ -54,8 +54,7 @@ function getTL(userToken, userSecret, account, count, since_id, max_id, callback
 function getHome(userToken, userSecret, count, since_id, max_id, callback){
     if(since_id == -1 || max_id == -1){
         oa.get(
-            "https://api.twitter.com/1.1/statuses/home_timeline.json?count=" + count
-            + "&trim_user=" + true,
+            "https://api.twitter.com/1.1/statuses/home_timeline.json?count=" + count,
             userToken,
             userSecret,
             function(err,data){
@@ -65,7 +64,7 @@ function getHome(userToken, userSecret, count, since_id, max_id, callback){
     } else{
         oa.get(
             "https://api.twitter.com/1.1/statuses/home_timeline.json?count=" + count +
-            "&since_id=" + since_id + "&max_id=" + max_id + "&trim_user=" + true,
+            "&since_id=" + since_id + "&max_id=" + max_id,
             userToken,
             userSecret,
             function(err,data){
@@ -78,8 +77,7 @@ function getHome(userToken, userSecret, count, since_id, max_id, callback){
 function getMentions(userToken, userSecret, count, since_id, max_id, callback){
     if(since_id == -1 || max_id == -1){
         oa.get(
-            "https://api.twitter.com/1.1/statuses/mentions_timeline.json?count=" + count
-            + "&trim_user=" + true,
+            "https://api.twitter.com/1.1/statuses/mentions_timeline.json?count=" + count,
             userToken,
             userSecret,
             function(err,data){
@@ -89,7 +87,7 @@ function getMentions(userToken, userSecret, count, since_id, max_id, callback){
     } else{
         oa.get(
             "https://api.twitter.com/1.1/statuses/mentions_timeline.json?count=" + count +
-            "&since_id=" + since_id + "&max_id=" + max_id + "&trim_user=" + true,
+            "&since_id=" + since_id + "&max_id=" + max_id,
             userToken,
             userSecret,
             function(err,data){
@@ -102,8 +100,7 @@ function getMentions(userToken, userSecret, count, since_id, max_id, callback){
 function searchHashtag(userToken, userSecret, query, count, since_id, max_id, callback){
     if(since_id == -1 || max_id == -1){
         oa.get(
-            "https://api.twitter.com/1.1/search/tweets.json?q=" + encodeURIComponent(query) + "&count=" + count
-            + "&trim_user=" + true,
+            "https://api.twitter.com/1.1/search/tweets.json?q=" + encodeURIComponent(query) + "&count=" + count,
             userToken,
             userSecret,
             function(err,data){
@@ -113,7 +110,7 @@ function searchHashtag(userToken, userSecret, query, count, since_id, max_id, ca
     } else{
         oa.get(
             "https://api.twitter.com/1.1/search/tweets.json?q=" + encodeURIComponent(query) + "&count=" + count +
-            "&since_id=" + since_id + "&max_id=" + max_id + "&trim_user=" + true,
+            "&since_id=" + since_id + "&max_id=" + max_id,
             userToken,
             userSecret,
             function(err,data){
@@ -137,7 +134,7 @@ function getMDs(userToken, userSecret, count, since_id, max_id, callback){
     } else{
         oa.get(
             "https://api.twitter.com/1.1/direct_messages.json?count=" + count +
-            "&since_id=" + since_id + "&max_id=" + max_id + "&trim_user=" + true,
+            "&since_id=" + since_id + "&max_id=" + max_id,
             userToken,
             userSecret,
             function(err,data){
