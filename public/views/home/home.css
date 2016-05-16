@@ -197,6 +197,11 @@
   font-size:x-large;
   color:white;
   text-align:center;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  overflow: hidden;
+  outline:none;
 }
 
 .homeAddPanelButton:visited, .homeAddPanelButton:link, .homeAddPanelButton:active{
@@ -209,7 +214,7 @@
 .homeAddPanelButton:hover{
   text-decoration:none;
   font-size:x-large;
-  color:white;
+  color:cornflowerblue;
   text-align:center;
 }
 
