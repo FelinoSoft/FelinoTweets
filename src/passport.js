@@ -37,7 +37,8 @@ module.exports = function(passport) {
 		// Busca en la base de datos si el usuario ya se autenticó en otro
 		// momento y ya está almacenado en ella
 
-		twitter_account.findOne({'profile_name' : profile.screen_name, 'account_id': req.cookies.user_id }, function(err, twitter) {
+		twitter_account.findOne({'profile_name' : profile._json.screen_name, 'account_id': req.cookies.user_id }, function(err, twitter) {
+
 			if(err) throw(err);
 			// Si existe en la Base de Datos, lo devuelve
 			if(!err && twitter !== null){
