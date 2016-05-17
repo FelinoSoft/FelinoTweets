@@ -6,14 +6,13 @@ module.exports = function(app){
 
   redirectTo = function(req, res) {
     var newRoute = "";
-    if(req.params.url == "twitter/auth"){
-      console.log("paque");
-      newRoute = req.params.url;
+    if(req.path == "/twitter/auth"){
+      newRoute = req.path;
     } else{
-      newRoute = '/#' + req.params.url;
+      newRoute = '/#' + req.path;
     }
     res.redirect(newRoute);
   };
 
-  app.get('/:url', redirectTo);
+  app.get('/*', redirectTo);
 };
