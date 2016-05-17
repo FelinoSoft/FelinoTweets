@@ -84,6 +84,16 @@
   overflow-y:auto;
 }
 
+.homeTwitName{
+  color:black;
+}
+
+.homeTwitName a{
+  color:black !important;
+  font-weight: bold;
+  font-size: small;
+}
+
 .homeTwitUser{
   color:gray;
   text-align:left;

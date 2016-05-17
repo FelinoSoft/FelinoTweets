@@ -358,6 +358,7 @@ module.exports = function(app){
                   newUser.registration_date = Date.now();
                   newUser.last_access_date = newUser.registration_date;
                   newUser.hashtags = req.body.hashtags;
+                  newUser.n_tweets = 0;
 
                   // adds the new user
                   newUser.save(function(err, data){
