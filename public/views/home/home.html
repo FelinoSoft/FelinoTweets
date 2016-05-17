@@ -36,7 +36,7 @@
             <div class="container homePanelRow">
                 <div class="col-xs-12 homePanelRow">
                   <div class="homeImgDiv">
-                    <a href="#">
+                    <a href="/account/{{pan.mongoID}}">
                       <img src={{pan.imgLink}} class="imgPanel img-responsive img-circle" alt="Profile pic">
                     </a>
                   </div>
@@ -63,14 +63,17 @@
                 <ul class="list-group">
                   <li class="list-group-item homeZeroPadding" ng-repeat="tweet in pan.tweets">
                     <div class="homeTwitImgDiv">
-                      <a href="#">
+                      <a href="https://twitter.com/{{tweet.author}}">
                         <img src={{tweet.imgLink}} class="imgPanel img-responsive" alt="Cinque Terre">
                       </a>
                     </div>
-                    <div class="homeTwitUser">
-                      @{{tweet.author}}
+                    <div class="homeTwitUser" linkify="twitter">
+                      <span class="homeTwitName">
+                          <a href="https://twitter.com/{{tweet.author}}">{{tweet.name}}</a>
+                      </span>
+                        @{{tweet.author}}
                     </div>
-                    <p class="homeTwitText">
+                    <p class="homeTwitText" linkify="twitter">
                       {{tweet.text}}
                     </p>
                     <!-- RT button -->

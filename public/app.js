@@ -302,7 +302,7 @@ angular.module('felinotweetsApp', [
       .state('homeStats', {
         url: '/homeStats',
         templateUrl: '/views/homeStats/homeStats.html',
-        controller: 'appController',
+        controller: 'homeStatsController',
         onEnter: ['$state', 'auth', function($state, auth) {
           if(!auth.isAuthed()) {
             $state.go('login');

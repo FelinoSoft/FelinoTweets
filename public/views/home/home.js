@@ -1,6 +1,7 @@
 var homeModule = angular.module('homeModule', [
   'felinotweetsApp',
-  'infinite-scroll'
+  'linkify'/*,
+  'infinite-scroll'*/
 ]);
 
   homeModule.controller('homeController',
@@ -36,17 +37,16 @@ var homeModule = angular.module('homeModule', [
                 maxID = tweets[j].id;
               }
               var author;
+              var name;
               var text;
               var imgLinkT;
               var nRetweets;
               var nLikes;
               var tweetLink;
               var date;
-              var day;
-              var month;
-              var year;
               if(tweets[j].retweeted){
                 author = tweets[j].retweeted_status.user.screen_name;
+                name = tweets[j].retweeted_status.user.name;
                 text = tweets[j].retweeted_status.text;
                 imgLinkT = tweets[j].retweeted_status.user.profile_image_url;
                 nRetweets = tweets[j].retweeted_status.retweet_count;
@@ -57,6 +57,7 @@ var homeModule = angular.module('homeModule', [
                 date = $filter('date')(date, 'dd MMM yyyy');
               } else{
                 author = tweets[j].user.screen_name;
+                name = tweets[j].user.name;
                 text = tweets[j].text;
                 imgLinkT = tweets[j].user.profile_image_url;
                 nRetweets = tweets[j].retweet_count;
@@ -66,10 +67,11 @@ var homeModule = angular.module('homeModule', [
                 date = new Date(tweets[j].created_at);
                 date = $filter('date')(date, 'dd MMM yyyy');
               }
+              /*text = $scope.parseText(text);*/
               var rted = tweets[j].retweeted;
               var liked = tweets[j].favorited;
 
-              var finalTweet = {'author':author, 'text':text, 'imgLink':imgLinkT,
+              var finalTweet = {'author':author, 'name':name, 'text':text, 'imgLink':imgLinkT,
                                 'nRetweets':nRetweets, 'nLikes':nLikes, 'rted':rted,
                                 'liked':liked, 'date':date,
                                 'tweetLink':tweetLink
@@ -151,5 +153,9 @@ var homeModule = angular.module('homeModule', [
 
     // Call to getAccountPanels
     $scope.getAccountPanels();
+
+    $scope.parseText = function(text){
+
+    };
 
   });

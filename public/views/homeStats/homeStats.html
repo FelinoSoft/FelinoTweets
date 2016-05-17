@@ -1,0 +1,119 @@
+<div class="admin">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand marca" href="/">
+                    <span>
+                        <img alt="FelinoTweets logo" src="/assets/favicon/favicon-32x32.png"/>
+                    </span>
+                    <a class="navbar-brand brand" href="/main">FelinoTweets</a>
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <a class="navbar-brand" href="/admin">
+                    <span class="glyphicon glyphicon-home"></span>  Home</a>
+                <a class="navbar-brand barraSelected" href="/adminStats">
+                    <span class="glyphicon glyphicon-stats"></span>  Estadísticas</a>
+                <form class="navbar-form navbar-right">
+                    <a href="/" ng-click="logOut()" class="btn btn-danger">Salir</a>
+                </form>
+            </div><!--/.navbar-collapse -->
+        </div>
+    </nav>
+
+    <!-- Admin stats -->
+    <div class="container list">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <form class="form-inline">
+                    <div class="form-group cabecera">
+                        <p class="titulo">
+                          <b>ESTADÍSTICAS</b>
+                          <span class="col-md-offset-6 col-sm-offset-4 col-xs-offset-2">
+                            <b>Usuarios activos</b> (en la última semana):
+                            <span class="badge">{{ activeUsers }}</span>
+                          </span>
+                        </p>
+                    </div><!-- /input-group -->
+                </form>
+            </div>
+            <div class="panel-body">
+
+                <!-- Register stat -->
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <form class="form-inline">
+                                <div class="form-group cabecera">
+                                  <p class="titulo"><b>{{ statTitle[0] }}</b></p>
+                                </div><!-- /input-group -->
+                            </form>
+                        </div>
+
+                        <!-- Contains the representation of each stat -->
+                        <div class="panel-body">
+                          <canvas id="chart-0"
+                                  width="400"
+                                  height="400">
+                                  {{ showChart(0) }}
+                          </canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of stats -->
+
+                <!-- Access stat -->
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <form class="form-inline">
+                                <div class="form-group cabecera">
+                                  <p class="titulo"><b>{{ statTitle[1] }}</b></p>
+                                </div><!-- /input-group -->
+                            </form>
+                        </div>
+
+                        <!-- Contains the representation of each stat -->
+                        <div class="panel-body">
+                          <canvas id="chart-1"
+                                  width="400"
+                                  height="400">
+                                  {{ showChart(1) }}
+                          </canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ranking stat -->
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <form class="form-inline">
+                                <div class="form-group cabecera">
+                                  <p class="titulo"><b>{{ statTitle[2] }}</b></p>
+                                </div><!-- /input-group -->
+                            </form>
+                        </div>
+
+                        <!-- Contains the representation of each stat -->
+                        <div class="panel-body">
+                          <canvas id="chart-2"
+                                  width="400"
+                                  height="400">
+                                  {{ showChart(2) }}
+                          </canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of stats -->
+            </div>
+        </div>
+    </div>
+</div>
