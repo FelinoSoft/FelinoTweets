@@ -40,14 +40,17 @@
                       <img src={{pan.imgLink}} class="imgPanel img-responsive img-circle" alt="Cinque Terre">
                     </a>
                   </div>
-                  <div class="cuentaText">
+                  <div class="col-md-offset-3 col-md-7 cuentaText">
                     <a href="/account">
                       @{{ pan.user }}
                     </a>
                   </div>
-                  <p class="descriptionText">
-                    {{ pan.desc }}
-                  </p>
+                  <div class="col-md-2 col-sm-2 col-xs-2">
+                    <button class="btn btn-default eliminarCuenta"><span class="glyphicon glyphicon-remove"> </span></button>
+                  </div>
+                    <p class="descriptionText">
+                      {{ pan.desc }}
+                    </p>
                 </div>
             </div>
           </div>
