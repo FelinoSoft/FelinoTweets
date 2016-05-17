@@ -186,6 +186,11 @@ angular.module('felinotweetsApp', [
                       accountName + '&count=' + count + '&since_id=' + since_id +
                       '&max_id=' + max_id);
   };
+
+  // obtiene la timeline de una cuenta de twitter
+  self.removeTwitterAccount = function(accountID) {
+    return $http.delete(API + '/twitter_accounts/' + accountID);
+  };
 })
 
 .service('twitter', function($http, API) {

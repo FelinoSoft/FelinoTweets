@@ -46,7 +46,10 @@
                     </a>
                   </div>
                   <div class="col-md-2 col-sm-2 col-xs-2">
-                    <button class="btn btn-default eliminarCuenta"><span class="glyphicon glyphicon-remove"> </span></button>
+                    <i class="fa fa-spinner fa-spin fa-fw fa-lg" ng-show="isDeleting(pan.mongoID)"></i>
+                    <button class="btn btn-default eliminarCuenta" ng-show="!isDeleting(pan.mongoID)" ng-click="deleteAccount(pan.mongoID)">
+                      <span class="glyphicon glyphicon-remove" ng-show="!isDeleting(pan.mongoID)"> </span>
+                    </button>
                   </div>
                     <p class="descriptionText">
                       {{ pan.desc }}
