@@ -212,6 +212,35 @@ angular.module('felinotweetsApp', [
       'hashtag' : hashtag
     });
   };
+
+  self.createRetweet = function(account_id,tweet_id){
+    return $http.post(API + '/twitter/retweet', {
+      'tweet_id' : tweet_id,
+      'id' : account_id
+    });
+  };
+
+  self.deleteRetweet = function(account_id,tweet_id){
+    return $http.post(API + '/twitter/unretweet', {
+      'tweet_id' : tweet_id,
+      'id' : account_id
+    });
+  };
+
+  self.createFav = function(account_id,tweet_id){
+    return $http.post(API + '/twitter/fav', {
+      'tweet_id' : tweet_id,
+      'id' : account_id
+    });
+  };
+
+  self.deleteFav = function(account_id,tweet_id){
+    return $http.post(API + '/twitter/unfav', {
+      'tweet_id' : tweet_id,
+      'id' : account_id
+    });
+  };
+
 })
 
 .service('stats', function($http, API) {

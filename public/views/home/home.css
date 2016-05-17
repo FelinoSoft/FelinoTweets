@@ -111,25 +111,33 @@
 .homeGlifaiconsRT{
   color:green;
   vertical-align:middle;
-  padding-bottom:5px;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
 }
 
 .homeGlifaiconsRT:hover{
   color:green;
   vertical-align:middle;
-  padding-bottom:5px;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
 }
 
 .homeGlifaiconsNoRT{
   color:gray;
   vertical-align:middle;
-  padding-bottom:5px;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
 }
 
 .homeGlifaiconsNoRT:hover{
   color:green;
   vertical-align:middle;
-  padding-bottom:5px;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
 }
 
 .homeGlifaiconsRTNolink{
@@ -141,25 +149,33 @@
 .homeGlifaiconsNoFAV{
   color:gray;
   vertical-align:middle;
-  padding-bottom:5px;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
 }
 
 .homeGlifaiconsNoFAV:hover{
   color:red;
   vertical-align:middle;
-  padding-bottom:5px;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
 }
 
 .homeGlifaiconsFAV{
   color:red;
   vertical-align:middle;
-  padding-bottom:5px;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
 }
 
 .homeGlifaiconsFAV:hover{
   color:red;
   vertical-align:middle;
-  padding-bottom:5px;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
 }
 
 .homeGlifaiconsINFO{

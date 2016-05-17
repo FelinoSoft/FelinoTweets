@@ -162,6 +162,56 @@ function postTweet(userID, userToken, userSecret, tweet, callback){
     );
 }
 
+function postRetweet(userToken, userSecret, tweet_ID, callback) {
+    oa.post(
+        "https://api.twitter.com/1.1/statuses/retweet/" + tweet_ID + ".json",
+        userToken,
+        userSecret,
+        {},
+        function(err,data){
+            callback(err,data);
+        }
+    );
+}
+
+function postUnretweet(userToken, userSecret, tweet_ID, callback) {
+    oa.post(
+        "https://api.twitter.com/1.1/statuses/unretweet/" + tweet_ID + ".json",
+        userToken,
+        userSecret,
+        {},
+        function(err,data){
+            callback(err,data);
+        }
+    );
+}
+
+function postCreateFav(userToken, userSecret, tweet_ID, callback) {
+    oa.post(
+        "https://api.twitter.com/1.1/favorites/create.json",
+        userToken,
+        userSecret,
+        {"id" : tweet_ID},
+        function(err,data){
+            callback(err,data);
+        }
+    );
+}
+
+function postDeleteFav(userToken, userSecret, tweet_ID, callback) {
+    oa.post(
+        "https://api.twitter.com/1.1/favorites/destroy.json",
+        userToken,
+        userSecret,
+        {"id" : tweet_ID},
+        function(err,data){
+            callback(err,data);
+        }
+    );
+}
+
+
+
 function postMD(userToken, userSecret, user, md, callback){
     oa.post(
         "https://api.twitter.com/1.1/direct_messages/new.json",
@@ -186,4 +236,8 @@ exports.getMDs = getMDs;
 exports.searchHashtag = searchHashtag;
 
 exports.postTweet = postTweet;
+exports.postRetweet = postRetweet;
+exports.postUnretweet = postUnretweet;
+exports.postCreateFav = postCreateFav;
+exports.postDeleteFav = postDeleteFav;
 exports.postMD = postMD;
