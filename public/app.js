@@ -200,7 +200,7 @@ angular.module('felinotweetsApp', [
   self.twitterAuth = function() {
     return $http.get(API + '/twitter/auth');
   };
-  
+
   self.saveHashtag = function(account_id, hashtag){
     return $http.post(API + '/twitter_accounts/' + account_id + '/hashtags', {
       'hashtag' : hashtag
@@ -297,7 +297,7 @@ angular.module('felinotweetsApp', [
       .state('homeStats', {
         url: '/homeStats',
         templateUrl: '/views/homeStats/homeStats.html',
-        controller: 'appController',
+        controller: 'homeStatsController',
         onEnter: ['$state', 'auth', function($state, auth) {
           if(!auth.isAuthed()) {
             $state.go('login');
