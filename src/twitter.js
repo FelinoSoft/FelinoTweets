@@ -28,27 +28,23 @@ function getTweetAccount(userToken, userSecret, account, callback){
 }
 
 function getTL(userToken, userSecret, account, count, since_id, max_id, callback){
-    if(since_id == -1 || max_id == -1){
-        oa.get(
-            "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + encodeURIComponent(account) +
-            "&count=" + count,
-            userToken,
-            userSecret,
-            function(err,data){
-                callback(err,data);
-            }
-        );
-    } else{
-        oa.get(
-            "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + encodeURIComponent(account) +
-            "&count=" + count + "&since_id=" + since_id + "&max_id=" + max_id,
-            userToken,
-            userSecret,
-            function(err,data){
-                callback(err,data);
-            }
-        );
+    var part = "";
+    if(since_id != -1){
+        part = part + "&since_id=" + since_id;
     }
+    if(max_id != -1){
+        part = part + "&max_id=" +  max_id;
+    }
+
+    oa.get(
+        "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + encodeURIComponent(account) +
+        "&count=" + count + part,
+        userToken,
+        userSecret,
+        function(err,data){
+            callback(err,data);
+        }
+    );
 }
 
 function getHome(userToken, userSecret, count, since_id, max_id, callback){

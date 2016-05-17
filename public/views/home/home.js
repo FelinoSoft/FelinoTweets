@@ -34,11 +34,13 @@ var homeModule = angular.module('homeModule', [
             var max_id;
             var since_id;
             console.log(tweets);
+            console.log("First time");
             for(j = 0; j < tweets.length; j++){
+              console.log('ID: ' + tweets[j].id);
               if(j === 0){
                 since_id = tweets[j].id;
               }
-              if(j == tweets.length - 1){
+              if(j === tweets.length - 1){
                 max_id = tweets[j].id;
               }
               var author;
@@ -166,7 +168,7 @@ var homeModule = angular.module('homeModule', [
             $scope.panels.splice(index, 1);
           }
         }
-      }, boo);
+      });
     };
 
     $scope.loadMore = function(mongoID, index){
@@ -182,8 +184,7 @@ var homeModule = angular.module('homeModule', [
         console.log(result);
         var mongoID = result.data.message.pop();
         var tweets = result.data.message;
-        tweets.splice(0, 1);
-        console.log(tweets);
+        //console.log(tweets);
         for(j = 0; j < tweets.length; j++){
           if(j == tweets.length - 1){
             $scope.panels[index].max_id = tweets[j].id;
