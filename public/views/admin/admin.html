@@ -60,48 +60,39 @@
               <div ng-show="isSelected($index)" class="list-group-item">
                 <form class="form-horizontal">
 
-                  <div class="row">
+                  <!-- User's first name -->
+                  <div class="form-group">
+                    <label class="control-label col-sm-3">Nombre</label>
+                    <div class="col-sm-4">
 
-                    <!-- User's first name -->
-                    <div class="form-group">
-                      <label for="fn"
-                             class="control-label col-sm-3">Nombre</label>
-                      <div class="col-sm-4">
+                      <input ng-show="isEditing($index)"
+                             ng-model="editingUser.first_name"
+                             class="form-control"
+                             type="text">
 
-                        <input id="fn"
-                               ng-show="isEditing($index)"
-                               ng-model="editingUser.first_name"
-                               class="form-control"
-                               type="text">
-
-                        <input id="fn"
-                               ng-show="!isEditing($index)"
-                               ng-model="editingUser.first_name"
-                               class="form-control"
-                               type="text"
-                               disabled>
-                      </div>
+                      <input ng-show="!isEditing($index)"
+                             ng-model="editingUser.first_name"
+                             class="form-control"
+                             type="text"
+                             disabled>
                     </div>
+                  </div>
 
-                    <!-- User's last name -->
-                    <div class="form-group">
-                      <label for="ln"
-                             class="control-label col-sm-3">Apellidos</label>
-                      <div class="col-sm-4">
+                  <!-- User's last name -->
+                  <div class="form-group">
+                    <label class="control-label col-sm-3">Apellidos</label>
+                    <div class="col-sm-4">
 
-                        <input id="ln"
-                               ng-show="isEditing($index)"
-                               ng-model="editingUser.last_name"
-                               class="form-control"
-                               type="text">
+                      <input ng-show="isEditing($index)"
+                             ng-model="editingUser.last_name"
+                             class="form-control"
+                             type="text">
 
-                        <input id="ln"
-                               ng-show="!isEditing($index)"
-                               ng-model="editingUser.last_name"
-                               class="form-control"
-                               type="text"
-                               disabled>
-                      </div>
+                      <input ng-show="!isEditing($index)"
+                             ng-model="editingUser.last_name"
+                             class="form-control"
+                             type="text"
+                             disabled>
                     </div>
                   </div>
 
@@ -133,27 +124,24 @@
 
                   <!-- Number of tweets sent by user -->
                   <div class="form-group">
-                    <label for="tweets"
-                           class="control-label col-sm-3">Tweets enviados</label>
+                    <label class="control-label col-sm-3">Tweets enviados</label>
                     <div class="col-sm-4">
-                      <input id="tweets"
-                             class="form-control"
+                      <input class="form-control"
                              type="text"
-                             value="Aproximadamente un gritón"
+                             ng-value="editingUser.n_tweets"
                              disabled>
                     </div>
                   </div>
 
                   <!-- User's twitter accounts -->
                   <div class="form-group">
-                    <label for="accounts"
-                           class="control-label col-sm-3">Cuentas de twitter</label>
+                    <label class="control-label col-sm-3">Cuentas de twitter autorizadas:</label>
                     <div class="col-sm-4">
-                      <input id="accounts"
-                             class="form-control"
+                      <!-- <input class="form-control"
                              type="text"
-                             value="chorrocientas"
-                             disabled>
+                             ng-value="editingUser.accounts"
+                             disabled> -->
+                       <p>{{ editingUser.accounts }}</p>
                     </div>
                   </div>
 

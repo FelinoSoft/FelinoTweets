@@ -14,6 +14,7 @@ var homeModule = angular.module('homeModule', [
       }
     };
 
+
     $scope.getAccountPanels = function(){
       var accounts;
       $scope.panels = [];
@@ -80,11 +81,21 @@ var homeModule = angular.module('homeModule', [
               panelTweets.push(finalTweet);
             } // End for each tweet
             var panel = {'user':user, 'desc':desc, 'imgLink':imgLink, 'tweets':panelTweets,
-                        'mongoID':mongoID};
+                        'mongoID':mongoID, 'deleting':false};
             $scope.panels.push(panel);
           }); // End getting tweets
         } // End for each twitter account
       });
+    };
+
+    $scope.isDeleting = function(mongoID){
+      var returned;
+      for(var i = 0; i < $scope.panels.length; i++){
+        if($scope.panels[i].mongoID === mongoID){
+          returned = $scope.panels[i].deleting;
+        }
+      }
+      return returned;
     };
 
     $scope.isSameUserAndAuthor = function(user, author){
@@ -110,6 +121,36 @@ var homeModule = angular.module('homeModule', [
 
     $scope.twitterAuth = function(){
       twitter.twitterAuth();
+    };
+
+    $scope.deleteAccount = function(mongoID){
+      // Set deleting to true
+      for(var i = 0; i < $scope.panels.length; i++){
+        if($scope.panels[i].mongoID === mongoID){
+          $scope.panels[i].deleting = true;
+        }
+      }
+
+      var boo = 'far';
+      // Send petition to delete
+      home.removeTwitterAccount(mongoID).then(function(result){
+        var index;
+        for(var i = 0; i < $scope.panels.length; i++){
+          if($scope.panels[i].mongoID === mongoID){
+            index = i;
+          }
+        }
+
+        if(result.data.error){
+          // Error deleting
+          $scope.panels[index].deleting = false;
+        } else{
+          // Deleted successfully
+          if (index > -1) {
+            $scope.panels.splice(index, 1);
+          }
+        }
+      }, boo);
     };
 
     // Call to getAccountPanels
