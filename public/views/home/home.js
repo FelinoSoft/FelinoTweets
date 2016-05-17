@@ -156,20 +156,40 @@ var homeModule = angular.module('homeModule', [
     // Call to getAccountPanels
     $scope.getAccountPanels();
 
-    $scope.createRetweet = function(tweet_id, account_id){
-      twitter.createRetweet(account_id,tweet_id);
+    $scope.createRetweet = function(tweet_id, account_id, tweet){
+      twitter.createRetweet(account_id,tweet_id).then(function(result){
+        if(!result.err){
+          tweet.rted = true;
+          tweet.nRetweets = tweet.nRetweets + 1;
+        }
+      });
     };
 
-    $scope.deleteRetweet = function(tweet_id, account_id){
-      twitter.deleteRetweet(account_id,tweet_id);
+    $scope.deleteRetweet = function(tweet_id, account_id,tweet){
+      twitter.deleteRetweet(account_id,tweet_id).then(function(result){
+        if(!result.err){
+          tweet.rted = false;
+          tweet.nRetweets = tweet.nRetweets - 1;
+        }
+      });
     };
 
-    $scope.createFav = function(tweet_id, account_id){
-      twitter.createFav(account_id,tweet_id);
+    $scope.createFav = function(tweet_id, account_id,tweet){
+      twitter.createFav(account_id,tweet_id).then(function(result){
+        if(!result.err){
+          tweet.liked = true;
+          tweet.nLikes = tweet.nLikes + 1;
+        }
+      });
     };
 
-    $scope.deleteFav = function(tweet_id, account_id){
-      twitter.deleteFav(account_id,tweet_id);
+    $scope.deleteFav = function(tweet_id, account_id,tweet){
+      twitter.deleteFav(account_id,tweet_id).then(function(result){
+        if(!result.err){
+          tweet.liked = false;
+          tweet.nLikes = tweet.nLikes - 1;
+        }
+      });
     };
 
   });

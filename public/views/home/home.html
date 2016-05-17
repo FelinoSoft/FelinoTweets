@@ -84,26 +84,26 @@
                         {{tweet.nRetweets}}
                       </span>
 
-                      <button class="homeGlifaiconsNoRT" ng-click="createRetweet(tweet.tweetID,pan.mongoID)" ng-show="RThasToShow(pan.user, tweet.author, tweet.rted, 1)">
+                      <button class="homeGlifaiconsNoRT" ng-click="createRetweet(tweet.tweetID,pan.mongoID,tweet)" ng-show="RThasToShow(pan.user, tweet.author, tweet.rted, 1)">
                         <span class="glyphicon glyphicon-retweet">
                         </span>
                         {{tweet.nRetweets}}
                       </button>
 
-                      <button class="homeGlifaiconsRT" ng-click="deleteRetweet(tweet.tweetID,pan.mongoID)" ng-show="RThasToShow(pan.user, tweet.author, tweet.rted, 2)">
+                      <button class="homeGlifaiconsRT" ng-click="deleteRetweet(tweet.tweetID,pan.mongoID,tweet)" ng-show="RThasToShow(pan.user, tweet.author, tweet.rted, 2)">
                         <span class="glyphicon glyphicon-retweet">
                         </span>
                         {{tweet.nRetweets}}
                       </button>
 
                       <!-- Fav button -->
-                      <button class="homeGlifaiconsNoFAV" ng-click="createFav(tweet.tweetID, pan.mongoID)" ng-show="!tweet.liked">
+                      <button class="homeGlifaiconsNoFAV" ng-click="createFav(tweet.tweetID, pan.mongoID,tweet)" ng-show="!tweet.liked">
                         <span class="glyphicon glyphicon-heart">
                         </span>
                         {{tweet.nLikes}}
                       </button>
 
-                      <button class="homeGlifaiconsFAV" ng-click="deleteFav(tweet.tweetID, pan.mongoID)" ng-show="tweet.liked">
+                      <button class="homeGlifaiconsFAV" ng-click="deleteFav(tweet.tweetID, pan.mongoID,tweet)" ng-show="tweet.liked">
                         <span class="glyphicon glyphicon-heart">
                         </span>
                         {{tweet.nLikes}}
