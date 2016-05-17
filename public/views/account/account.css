@@ -76,12 +76,21 @@
     outline:none;
 }
 
-.btn-circle {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    padding: 6px 0;
-    font-size: 12px;
-    line-height: 1.42;
-    border-radius: 15px;
+.eliminarColumna{
+    color: white !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.eliminarColumna:hover{
+    color: darkgrey !important;
+}
+
+.menuarriba{
+    color:darkgrey;
+    padding:0px;
+}
+
+.menuarriba:hover{
+    color:dodgerblue;
 }

@@ -35,13 +35,19 @@
         <div class="panel panel-default">
           <div class="panel-body">
 
-            <div class="input-group formTweetExpanded">
-              <textarea ng-trim="false" class="form-control formTweetExpanded" rows="3" placeholder="¿Qué está pasando?" style="resize:none" ng-model="tweet">
+            <div class="input-group" ng-show="!isTweeting()">
+              <span class="input-group-addon imagenTweet" id="sizing-addon2"><img class="imagenTweetImg" src="https://pbs.twimg.com/profile_images/471939443297755136/d99B1Syp.jpeg"/></span>
+              <input ng-focus="setTweeting(true)" type="text" class="form-control formTweet" placeholder="¿Qué está pasando?">
+            </div>
+
+            <div class="input-group formTweetExpanded" ng-show="isTweeting()">
+              <textarea ng-trim="false" class="form-control formTweetExpanded" rows="3" autofocus placeholder="¿Qué está pasando?" style="resize:none" ng-model="tweet">
               </textarea>
             </div>
-            <div class="row caja">
+            <div class="row caja" ng-show="isTweeting()">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 account-programar-tweet">
                 <div class="fechaTiempo">
+                  <span ng-click="setTweeting(false)" class="btn glyphicon glyphicon-menu-up menuarriba"></span>
                   <label>Programar tweet: </label>
                   <input id="input-datetime-local" type="datetime-local" value="">
                   <span class="result"></span>
@@ -62,13 +68,6 @@
                 </div> <!-- Row for both elements -->
               </div> <!-- Col for characters remaining and button -->
             </div> <!-- Row under text for tweet -->
-
-
-            <!--    NO BORRAR
-              <div class="input-group">
-                <span class="input-group-addon imagenTweet" id="sizing-addon2"><img class="imagenTweetImg" src="https://pbs.twimg.com/profile_images/471939443297755136/d99B1Syp.jpeg"/></span>
-                <input type="text" class="form-control formTweet" placeholder="¿Qué está pasando?">
-              </div>-->
           </div>
         </div>
       </div>
@@ -249,11 +248,11 @@
                 <div class="homeMentionClass">
                   <i class="fa fa-hashtag" aria-hidden="true"></i>
                 </div>
-                <div class="col-md-8 col-sm-8 col-xs-7 homeCurrentAccountText">
-                  Jejejeje
+                <div class="col-md-7 col-sm-7 col-xs-8 homeCurrentAccountText">
+                  Jejeje
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-2">
-                  <a href="#" class="btn btn-default btn-circle"><i class="fa fa-user"></i></a>
+                <div class="col-md-3 col-sm-2 col-xs-2">
+                  <button class="btn btn-default eliminarColumna"><span class="glyphicon glyphicon-remove"> </span></button>
                 </div>
               </div>
             </div>

@@ -7,6 +7,8 @@ accountModule.controller('accountController',
     console.log("AccountController inicializado");
     $scope.addingHashtag = false;
     $scope.implemented = false;
+    $scope.tweeting = false;
+
 
     $scope.logOut = function() {
       if(auth.logout){
@@ -48,5 +50,13 @@ accountModule.controller('accountController',
         twitter.saveHashtag($stateParams.account_id, hashtag);
         $scope.addingHashtag = false;
         $scope.newHashtag = "";
+    };
+
+    $scope.isTweeting = function(){
+        return $scope.tweeting;
+    };
+
+    $scope.setTweeting = function(tweeting){
+        $scope.tweeting = tweeting;
     };
 });
