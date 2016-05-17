@@ -29,7 +29,7 @@ module.exports = function(passport) {
 		consumerKey		 : config.consumerKey,
 		consumerSecret	: config.consumerSecret,
 		callbackURL		 : '/twitter/auth/callback',
-		userAuthorizationURL: 'https://api.twitter.com/oauth/authorize?force_login=true',
+		userAuthorizationURL: 'https://api.twitter.com/oauth/authenticate?force_login=true',
 		passReqToCallback : true
 	}, function(req, accessToken, refreshToken, profile, done) {
 		// Busca en la base de datos si el usuario ya se autenticó en otro
