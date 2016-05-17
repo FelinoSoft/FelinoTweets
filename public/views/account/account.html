@@ -16,11 +16,11 @@
         </a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-        <a class="navbar-brand" href="/home">
+        <a class="navbar-brand navbar-buttons" href="/home">
           <span class="glyphicon glyphicon-home"></span>  Home</a>
-        <a class="navbar-brand" href="/homeStats">
+        <a class="navbar-brand navbar-buttons" href="/homeStats">
           <span class="glyphicon glyphicon-stats"></span>  Estadísticas</a>
-        <a class="navbar-brand barraSelected" href="/account">
+        <a class="navbar-brand navbar-buttons barraSelected" href="/account">
           <span class="fa fa-at"></span>  Cuenta</a>
         <form class="navbar-form navbar-right">
           <a href="/" ng-click="logOut()" class="btn btn-danger">Salir</a>
@@ -35,40 +35,39 @@
         <div class="panel panel-default">
           <div class="panel-body">
 
-            <div class="input-group formTweetExpanded">
-              <textarea ng-trim="false" class="form-control formTweetExpanded" rows="3" placeholder="¿Qué está pasando?" style="resize:none" ng-model="tweet">
+            <div class="input-group" ng-show="!isTweeting()">
+              <span class="input-group-addon imagenTweet" id="sizing-addon2"><img class="imagenTweetImg" src="https://pbs.twimg.com/profile_images/471939443297755136/d99B1Syp.jpeg"/></span>
+              <input ng-click="setTweeting(true)" type="text" class="form-control formTweet" placeholder="¿Qué está pasando?">
+            </div>
+
+            <div class="input-group formTweetExpanded" ng-show="isTweeting()">
+              <textarea ng-trim="false" class="form-control formTweetExpanded" rows="3" autofocus placeholder="¿Qué está pasando?" style="resize:none" ng-model="tweet">
               </textarea>
             </div>
-            <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-3 col-xs-1 account-programar-tweet">
+            <div class="row caja" ng-show="isTweeting()">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 account-programar-tweet">
                 <div class="fechaTiempo">
+                  <span ng-click="setTweeting(false)" class="btn glyphicon glyphicon-menu-up menuarriba"></span>
                   <label>Programar tweet: </label>
                   <input id="input-datetime-local" type="datetime-local" value="">
                   <span class="result"></span>
                 </div>
               </div>
-              <div class="col-lg-offset-3 col-lg-3 col-md-offset-2 col-md-3 col-sm-offset-5 col-sm-3 col-xs-offset-5 col-xs-3">
-                <div class="row account-tweet-button-row">
-                  <div class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-2 col-xs-1 caracteresRestantesCol">
-                    <span class="caracteresRestantes">
-                      <p>
+              <div class="col-lg-offset-3 col-lg-3 col-md-offset-2 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12 dentrocaja">
+                <div class="row account-tweet-button-row dentrocaja">
+                  <div class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-2 col-xs-offset-1 col-xs-1 caracteresRestantesCol">
+                    <span>
+                      <p class="caracteresRestantes">
                         {{140 - tweet.length}} &nbsp &nbsp
                       </p>
                     </span>
                   </div>
-                  <div class="col-xs-1 col-md-1 col-sm-1 ">
+                  <div class="col-xs-6 col-md-1 col-sm-1 ">
                     <button ng-disabled="canTweet(140-tweet.length)" ng-click="" class="btn btn-primary botonEnviar"><i class="fa fa-twitter" aria-hidden="true"></i> Twittear</button>
                   </div>
                 </div> <!-- Row for both elements -->
               </div> <!-- Col for characters remaining and button -->
             </div> <!-- Row under text for tweet -->
-
-
-            <!--    NO BORRAR
-              <div class="input-group">
-                <span class="input-group-addon imagenTweet" id="sizing-addon2"><img class="imagenTweetImg" src="https://pbs.twimg.com/profile_images/471939443297755136/d99B1Syp.jpeg"/></span>
-                <input type="text" class="form-control formTweet" placeholder="¿Qué está pasando?">
-              </div>-->
           </div>
         </div>
       </div>
@@ -233,6 +232,105 @@
                       <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
                       <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
                       <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div> <!-- Panel twitter -->
+      </div> <!-- Col -->
+      <div class="col-md-3 col-sm-4 col-xs-12">
+        <div class="panel panel-primary panel-twitter">
+          <div class="panel-heading home-panel-heading">
+            <div class="container homePanelRow">
+              <div class="col-xs-12 homePanelRow">
+                <div class="homeMentionClass">
+                  <i class="fa fa-hashtag" aria-hidden="true"></i>
+                </div>
+                <div class="col-md-7 col-sm-7 col-xs-8 homeCurrentAccountText">
+                  Jejeje
+                </div>
+                <div class="col-md-3 col-sm-2 col-xs-2">
+                  <button class="btn btn-default eliminarColumna"><span class="glyphicon glyphicon-remove"> </span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body home-panel-body">
+            <div class="container homePanelRow">
+              <div class="col-xs-12 homeZeroPadding">
+                <ul class="list-group">
+                  <li class="list-group-item homeZeroPadding">
+                    <div class="homeTwitImgDiv">
+                      <a href="#">
+                        <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
+                      </a>
+                    </div>
+                    <div class="homeTwitUser">
+                      @MiPollaEnAlmibar
+                    </div>
+                    <p class="homeTwitText">
+                      Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                    </p>
+                    <div class="homeTwitButtons">
+                      <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
+                      <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
+                      <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div> <!-- Panel twitter -->
+      </div> <!-- Col -->
+      <div class="col-md-3 col-sm-4 col-xs-12" ng-show="!isAddingHashtag()">
+        <div class="panel panel-default home-panel-add">
+          <div class="homeAddPanelText">
+            <button class="homeAddPanelButton" ng-click="setAddingHashtag(true)">
+              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+              <br/>
+              Add hashtag
+            </button>
+          </div>
+        </div>  <!-- Panel add -->
+      </div> <!-- Col -->
+      <div class="col-md-3 col-sm-4 col-xs-12" ng-show="isAddingHashtag()">
+        <div class="panel panel-primary panel-hashtag">
+          <div class="panel-heading home-panel-heading">
+            <div class="container homePanelRow">
+              <div class="col-xs-12 homePanelRow">
+                <div class="homeMentionClass">
+                  <i class="fa fa-hashtag" aria-hidden="true"></i>
+                </div>
+                <div class="homeCurrentAccountText">
+                  {{newHashtag}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body hashtag-panel-body">
+            <div class="container homePanelRow">
+              <div class="col-xs-12 homeZeroPadding">
+                <ul class="list-group hashtag-list-group">
+                  <li class="list-group-item">
+                    <label>Añadir hashtag:</label>
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">#</span>
+                      <input type="text" class="form-control" placeholder="Hashtag" ng-model="newHashtag"
+                             aria-describedby="basic-addon1" autofocus required>
+                    </div>
+                    <div class="col-md-offset-6 col-sm-offset-6 col-xs-offset-9">
+                      <button class="btn btn-success botonHashtag glyphicon glyphicon-ok"
+                              type="submit"
+                              ng-disabled="validHashtag(newHashtag)"
+                              ng-click="saveHashtag(newHashtag)">
+                      </button>
+                      <button class="btn btn-danger botonHashtag glyphicon glyphicon-remove"
+                              type="submit"
+                              ng-click="setAddingHashtag(false)">
+                      </button>
                     </div>
                   </li>
                 </ul>

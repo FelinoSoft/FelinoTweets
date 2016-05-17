@@ -237,7 +237,7 @@ module.exports = function(app){
           var targetId = req.params.id;
 
           if( (data.admin) || (targetId == userId ) ) {
-            account.find({"user_id": targetId}, function(err,data){
+            account.find({"account_id": targetId}, function(err,data){
               if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
               } else{
@@ -377,6 +377,7 @@ module.exports = function(app){
                           });
 
                           // return the information including token as JSON
+                          res.cookie("user_id",data.id);
                           res.json({
                               error: false,
                               message: 'Enjoy your token! (Register succesfull)',

@@ -172,6 +172,22 @@ angular.module('felinotweetsApp', [
   };
 })
 
+.service('home', function($http, API) {
+  var self = this;
+
+  // obtiene todas las cuentas de twitter
+  self.getTwitterAccounts = function(userID) {
+    return $http.get(API + '/users/' + userID + '/twitter_accounts');
+  };
+
+  // obtiene la timeline de una cuenta de twitter
+  self.getAccountTimeLine = function(accountID, accountName, count, since_id, max_id) {
+    return $http.get(API + '/twitter/tweetline?id=' + accountID + '&account=' +
+                      accountName + '&count=' + count + '&since_id=' + since_id +
+                      '&max_id=' + max_id);
+  };
+})
+
 .service('twitter', function($http, API) {
   var self = this;
 
@@ -183,6 +199,12 @@ angular.module('felinotweetsApp', [
   // autoriza a una nueva cuenta de twitter
   self.twitterAuth = function() {
     return $http.get(API + '/twitter/auth');
+  };
+  
+  self.saveHashtag = function(account_id, hashtag){
+    return $http.post(API + '/twitter_accounts/' + account_id + '/hashtags', {
+      'hashtag' : hashtag
+    });
   };
 })
 
@@ -260,7 +282,7 @@ angular.module('felinotweetsApp', [
         }]
       })
       .state('account', {
-        url: '/account',
+        url: '/account/:account_id',
         templateUrl: '/views/account/account.html',
         controller: 'accountController',
         onEnter: ['$state', 'auth', function($state, auth) {

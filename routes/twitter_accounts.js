@@ -234,8 +234,7 @@ module.exports = function(app){
         var newHashtag = new hashtag();
         var response = {};
 
-        //TODO: leer token para cuenta del usuario
-        newHashtag.user_id = 'temp';
+        newHashtag.user_id = req.cookies.user_id;
         newHashtag.account_id = req.params.id;
         newHashtag.hashtag = req.body.hashtag;
 

@@ -35,8 +35,7 @@
 .caracteresRestantes{
     color: #9d9d9d;
     font-size: large;
-    margin-top: 15px !important;
-    display:inline;
+    margin-top: 10px !important;
 }
 
 .account-tweet-button-row{
@@ -45,4 +44,53 @@
 
 .redText{
   color:red;
+}
+
+.dentrocaja{
+    height: 50px;
+}
+
+.botonHashtag{
+    margin-top: 5px;
+}
+
+.panel-hashtag{
+    margin-top:20px;
+    border:0px;
+}
+
+.hashtag-panel-body{
+    padding:0;
+    overflow-y:auto;
+}
+
+.hashtag-list-group{
+    margin-bottom : 0px;
+}
+
+.homeAddPanelButton:single-button{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    overflow: hidden;
+    outline:none;
+}
+
+.eliminarColumna{
+    color: white !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.eliminarColumna:hover{
+    color: darkgrey !important;
+}
+
+.menuarriba{
+    color:darkgrey;
+    padding:0px;
+}
+
+.menuarriba:hover{
+    color:dodgerblue;
 }

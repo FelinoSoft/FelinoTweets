@@ -29,13 +29,15 @@ module.exports = function(passport) {
 		consumerKey		 : config.consumerKey,
 		consumerSecret	: config.consumerSecret,
 		callbackURL		 : '/twitter/auth/callback',
+		userAuthorizationURL: 'https://api.twitter.com/oauth/authorize?force_login=true',
 		passReqToCallback : true
 	}, function(req, accessToken, refreshToken, profile, done) {
 		// Busca en la base de datos si el usuario ya se autenticó en otro
 		// momento y ya está almacenado en ella
 
 		twitter_account.findOne({'profile_name' : profile._json.screen_name, 'account_id': req.cookies.user_id }, function(err, twitter) {
-
+		console.log(req.cookies.user_id)
+		console.log(req.cookies)
 			if(err) throw(err);
 			// Si existe en la Base de Datos, lo devuelve
 			if(!err && twitter !== null){
