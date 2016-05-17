@@ -59,7 +59,7 @@
           </div>
           <div class="panel-body home-panel-body">
             <div class="container homePanelRow">
-              <div class="col-xs-12 homeZeroPadding" infinite-scroll='loadMore()' infinite-scroll-distance='2'>
+              <div class="col-xs-12 homeZeroPadding">
                 <ul class="list-group">
                   <li class="list-group-item homeZeroPadding" ng-repeat="tweet in pan.tweets">
                     <div class="homeTwitImgDiv">
@@ -115,6 +115,14 @@
                         {{tweet.date}}
                       </a>
                     </div>
+                  </li>
+                  <li>
+                    <button ng-show="pan.hasMore" type="button" ng-click="loadMore(pan.mongoID, -1)" class="btn btn-primary btn-md center-block" ng-disabled="isLoading(pan.mongoID)">
+                      <i class="fa fa-spinner fa-spin fa-fw fa-lg" ng-show="isLoading(pan.mongoID)"></i>
+                      <i class="fa fa-twitter" ng-show="!isLoading(pan.mongoID)"></i>
+                      Load more
+                    </button>
+                    <i class="fa fa-twitter center-block fa-center-icon" ng-show="!pan.hasMore"></i>
                   </li>
                 </ul>
               </div>

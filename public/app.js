@@ -182,6 +182,7 @@ angular.module('felinotweetsApp', [
 
   // obtiene la timeline de una cuenta de twitter
   self.getAccountTimeLine = function(accountID, accountName, count, since_id, max_id) {
+    console.log(max_id);
     return $http.get(API + '/twitter/tweetline?id=' + accountID + '&account=' +
                       accountName + '&count=' + count + '&since_id=' + since_id +
                       '&max_id=' + max_id);

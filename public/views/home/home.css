@@ -259,3 +259,9 @@
 .eliminarCuenta:hover{
   color: red !important;
 }
+
+.fa-center-icon{
+  text-align:center;
+  display:inline-block;
+  width:100%;
+}
