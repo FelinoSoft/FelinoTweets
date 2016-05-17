@@ -155,6 +155,78 @@ module.exports = function(app,passport){
         });
     };
 
+    postRetweet = function(req,res){
+        var response = {};
+        twitter_account.findOne({'_id' : req.body.id, 'account_id' : req.cookies.user_id}, function(err,data){
+            if(!err){
+                twitter.postRetweet(data.token, data.token_secret, req.body.tweet_id, function(err, data){
+                    if(err){
+                        response = {'error' : true, 'message' : 'Error retuiteando'};
+                    } else{
+                        response = {'error' : false, 'message' : data};
+                    }
+                    res.json(response);
+                });
+            } else{
+                response = {'error' : true, 'message' : 'Error accediendo a la BD'};
+            }
+        });
+    };
+
+    deleteRetweet = function(req, res){
+        var response = {};
+        twitter_account.findOne({'_id' : req.body.id, 'account_id' : req.cookies.user_id}, function(err,data){
+            if(!err){
+                twitter.postUnretweet(data.token, data.token_secret, req.body.tweet_id, function(err, data){
+                    if(err){
+                        response = {'error' : true, 'message' : 'Error deshaciendo retweet'};
+                    } else{
+                        response = {'error' : false, 'message' : data};
+                    }
+                    res.json(response);
+                });
+            } else{
+                response = {'error' : true, 'message' : 'Error accediendo a la BD'};
+            }
+        });
+    };
+
+    postFav = function(req, res){
+        var response = {};
+        twitter_account.findOne({'_id' : req.body.id, 'account_id' : req.cookies.user_id}, function(err,data){
+            if(!err){
+                twitter.postCreateFav(data.token, data.token_secret, req.body.tweet_id, function(err, data){
+                    if(err){
+                        response = {'error' : true, 'message' : 'Error faveando'};
+                    } else{
+                        response = {'error' : false, 'message' : data};
+                    }
+                    res.json(response);
+                });
+            } else{
+                response = {'error' : true, 'message' : 'Error accediendo a la BD'};
+            }
+        });
+    };
+
+    deleteFav = function(req, res){
+        var response = {};
+        twitter_account.findOne({'_id' : req.body.id, 'account_id' : req.cookies.user_id}, function(err,data){
+            if(!err){
+                twitter.postDeleteFav(data.token, data.token_secret, req.body.tweet_id, function(err, data){
+                    if(err){
+                        response = {'error' : true, 'message' : 'Error deshaciendo fav'};
+                    } else{
+                        response = {'error' : false, 'message' : data};
+                    }
+                    res.json(response);
+                });
+            } else{
+                response = {'error' : true, 'message' : 'Error accediendo a la BD'};
+            }
+        });
+    };
+
     app.get('/twitter/auth', passport.authenticate('twitter',
         { failureRedirect: '/' }));
     app.get('/twitter/auth/callback', passport.authenticate('twitter',
@@ -167,4 +239,8 @@ module.exports = function(app,passport){
     app.get('/twitter/md', getMDs);
     app.post('/twitter/tweet', postTweet);
     app.post('/twitter/md', postMD);
+    app.post('/twitter/retweet', postRetweet);
+    app.post('/twitter/unretweet', deleteRetweet);
+    app.post('/twitter/fav', postFav);
+    app.post('/twitter/unfav', deleteFav);
 };

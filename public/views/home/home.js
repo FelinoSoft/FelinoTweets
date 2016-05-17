@@ -41,6 +41,7 @@ var homeModule = angular.module('homeModule', [
               var imgLinkT;
               var nRetweets;
               var nLikes;
+              var tweetID;
               var tweetLink;
               var date;
               if(tweets[j].retweeted){
@@ -52,6 +53,7 @@ var homeModule = angular.module('homeModule', [
                 nLikes = tweets[j].retweeted_status.favorite_count;
                 tweetLink = "http://twitter.com/" + tweets[j].retweeted_status.user.screen_name +
                                                         "/status/" + tweets[j].retweeted_status.id_str;
+                tweetID = tweets[j].retweeted_status.id_str;
                 date = new Date(tweets[j].retweeted_status.created_at);
                 date = $filter('date')(date, 'dd MMM yyyy');
               } else{
@@ -63,17 +65,17 @@ var homeModule = angular.module('homeModule', [
                 nLikes = tweets[j].favorite_count;
                 tweetLink = "http://twitter.com/" + tweets[j].user.screen_name +
                                                         "/status/" + tweets[j].id_str;
+                tweetID = tweets[j].id_str;
                 date = new Date(tweets[j].created_at);
                 date = $filter('date')(date, 'dd MMM yyyy');
               }
-              /*text = $scope.parseText(text);*/
               var rted = tweets[j].retweeted;
               var liked = tweets[j].favorited;
 
               var finalTweet = {'author':author, 'name':name, 'text':text, 'imgLink':imgLinkT,
                                 'nRetweets':nRetweets, 'nLikes':nLikes, 'rted':rted,
                                 'liked':liked, 'date':date,
-                                'tweetLink':tweetLink
+                                'tweetLink':tweetLink, 'tweetID' : tweetID
                               };
               panelTweets.push(finalTweet);
             } // End for each tweet
@@ -113,8 +115,20 @@ var homeModule = angular.module('homeModule', [
     // Call to getAccountPanels
     $scope.getAccountPanels();
 
-    $scope.parseText = function(text){
+    $scope.createRetweet = function(tweet_id, account_id){
+      twitter.createRetweet(account_id,tweet_id);
+    };
 
+    $scope.deleteRetweet = function(tweet_id, account_id){
+      twitter.deleteRetweet(account_id,tweet_id);
+    };
+
+    $scope.createFav = function(tweet_id, account_id){
+      twitter.createFav(account_id,tweet_id);
+    };
+
+    $scope.deleteFav = function(tweet_id, account_id){
+      twitter.deleteFav(account_id,tweet_id);
     };
 
   });
