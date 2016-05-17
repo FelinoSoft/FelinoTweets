@@ -84,6 +84,16 @@
   overflow-y:auto;
 }
 
+.homeTwitName{
+  color:black;
+}
+
+.homeTwitName a{
+  color:black !important;
+  font-weight: bold;
+  font-size: small;
+}
+
 .homeTwitUser{
   color:gray;
   text-align:left;
@@ -93,7 +103,7 @@
 .homeTwitText{
   color:black;
   text-align:left;
-  font-size:small;
+  font-size: small;
   margin-left:5px;
   margin-bottom:0px;
 }
@@ -165,6 +175,7 @@
 }
 
 .homeTwitButtons{
+  font-size: small;
   color:black;
   text-align:center;
 }
@@ -236,4 +247,15 @@
   margin-right: 8px;
   margin-left: 5px;
   margin-top:0px;
+}
+
+.eliminarCuenta{
+  color: darkgrey !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 3px !important;
+}
+
+.eliminarCuenta:hover{
+  color: red !important;
 }
