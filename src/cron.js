@@ -14,8 +14,7 @@ function initJob(twitter) {
             tweet.find(function (err, data) {
                 if (!err) {
                     data.forEach(function (e) {
-                        if (Math.round(e.date / minutes) == currentDate ||
-                            Math.round(e.date / minutes) < currentDate) {
+                        if (Math.round(e.date / minutes) <= currentDate){
                             account.findById(e.account_id, function (err, res) {
                                 if (!err) {
                                     twitter.postTweet(e.user_id, res.token, res.token_secret, e.text, function (err, result) {
