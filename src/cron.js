@@ -16,9 +16,9 @@ function initJob(twitter) {
                     data.forEach(function (e) {
                         if (Math.round(e.date / minutes) == currentDate ||
                             Math.round(e.date / minutes) < currentDate) {
-                            account.findOne({ 'account_id' : e.account_id}, function (err, res) {
+                            account.findById(e.account_id, function (err, res) {
                                 if (!err) {
-                                    twitter.postTweet(res.token, res.token_secret, e.text, function (err, result) {
+                                    twitter.postTweet(e.user_id, res.token, res.token_secret, e.text, function (err, result) {
                                         if(!err) {
                                             tweet.remove({'_id': e._id}, function (err, res) {
                                             });
@@ -27,7 +27,6 @@ function initJob(twitter) {
                                 }
                             });
                         } else{
-                            console.log('no es el momento');
                         }
                     });
                 }

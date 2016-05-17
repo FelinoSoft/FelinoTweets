@@ -41,7 +41,7 @@
             </div>
 
             <div class="input-group formTweetExpanded" ng-show="isTweeting()">
-              <textarea ng-trim="false" class="form-control formTweetExpanded" rows="3" autofocus placeholder="¿Qué está pasando?" style="resize:none" ng-model="tweet">
+              <textarea ng-trim="false" class="form-control formTweetExpanded" rows="3" autofocus placeholder="¿Qué está pasando?" style="resize:none" ng-model="tweet.text">
               </textarea>
             </div>
             <div class="row caja" ng-show="isTweeting()">
@@ -49,7 +49,7 @@
                 <div class="fechaTiempo">
                   <span ng-click="setTweeting(false)" class="btn glyphicon glyphicon-menu-up menuarriba"></span>
                   <label>Programar tweet: </label>
-                  <input id="input-datetime-local" type="datetime-local" value="">
+                  <input id="input-datetime-local" ng-model="tweet.date" type="datetime-local" value="">
                   <span class="result"></span>
                 </div>
               </div>
@@ -58,12 +58,12 @@
                   <div class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-2 col-xs-offset-1 col-xs-1 caracteresRestantesCol">
                     <span>
                       <p class="caracteresRestantes">
-                        {{140 - tweet.length}} &nbsp &nbsp
+                        {{140 - tweet.text.length}} &nbsp &nbsp
                       </p>
                     </span>
                   </div>
                   <div class="col-xs-6 col-md-1 col-sm-1 ">
-                    <button ng-disabled="canTweet(140-tweet.length)" ng-click="" class="btn btn-primary botonEnviar"><i class="fa fa-twitter" aria-hidden="true"></i> Twittear</button>
+                    <button ng-disabled="cantTweet(140-tweet.text.length, tweet.date)" ng-click="postTweet()" class="btn btn-primary botonEnviar"><i class="fa fa-twitter" aria-hidden="true"></i> Twittear</button>
                   </div>
                 </div> <!-- Row for both elements -->
               </div> <!-- Col for characters remaining and button -->

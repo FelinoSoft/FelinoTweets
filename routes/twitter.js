@@ -123,7 +123,7 @@ module.exports = function(app,passport){
         var response = {};
         twitter_account.findOne({'_id' : req.body.id, 'account_id' : req.cookies.user_id}, function(err,data){
             if(!err){
-                twitter.postTweet(data.token, data.token_secret, req.body.tweet, function(err, data){
+                twitter.postTweet(req.cookies.user_id, data.token, data.token_secret, req.body.tweet, function(err, data){
                         if(err){
                             response = {'error' : true, 'message' : 'Error enviando el tweet'};
                         } else{

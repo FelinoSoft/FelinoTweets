@@ -145,8 +145,7 @@ module.exports = function(app){
         var newTweet = new tweet();
         var response = {};
 
-        //TODO: leer token para cuenta del usuario
-        newTweet.user_id = 'temp';
+        newTweet.user_id = req.cookies.user_id;
         newTweet.account_id = req.params.id;
         newTweet.date = req.body.date;
         newTweet.text = req.body.text;

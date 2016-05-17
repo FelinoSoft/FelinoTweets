@@ -241,6 +241,26 @@ angular.module('felinotweetsApp', [
     });
   };
 
+  self.postTweet = function(account_id, text){
+    return $http.post(API + '/twitter/tweet', {
+      'id' : account_id,
+      'tweet' : text
+    });
+  }
+
+  self.postTweet = function(account_id, text){
+    return $http.post(API + '/twitter/tweet', {
+      'id' : account_id,
+      'tweet' : text
+    });
+  }
+
+  self.postScheduledTweet = function(account_id, text, date){
+    return $http.post(API + '/twitter_accounts/' + account_id + '/scheduled_tweets', {
+      'date' : date,
+      'text' : text
+    });
+  }
 })
 
 .service('stats', function($http, API) {

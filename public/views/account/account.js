@@ -23,8 +23,8 @@ accountModule.controller('accountController',
       }
     };
 
-    $scope.canTweet = function(length){
-      return length < 0;
+    $scope.cantTweet = function(length, date){
+      return length < 0 || length == 140 || (date!==undefined && new Date(date).getTime() < Date.now());
     };
 
     $scope.isAddingHashtag = function(){
@@ -59,4 +59,22 @@ accountModule.controller('accountController',
     $scope.setTweeting = function(tweeting){
         $scope.tweeting = tweeting;
     };
+
+    $scope.postTweet = function(){
+        if($scope.tweet.date === undefined){
+            twitter.postTweet($stateParams.account_id, $scope.tweet.text).then(function(result){
+                if(!result.error){
+                    $scope.tweeting = false;
+                }
+            });
+        } else{
+            twitter.postScheduledTweet($stateParams.account_id, $scope.tweet.text,
+                new Date($scope.tweet.date).getTime()).then(function(result){
+                if(!result.error){
+                    $scope.tweeting = false;
+                }
+            });
+        }
+        $scope.tweet = {}
+    }
 });
