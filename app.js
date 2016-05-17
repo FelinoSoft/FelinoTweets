@@ -32,6 +32,7 @@ app.use(passport.session());
 app.set('superSecret', config.secret); // secret variable
 
 // includes different routes
+require('./routes/stats')(app);
 require('./routes/twitter')(app,passport);
 require('./routes/users')(app);
 require('./routes/twitter_accounts')(app);

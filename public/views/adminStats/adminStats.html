@@ -34,35 +34,81 @@
             <div class="panel-heading">
                 <form class="form-inline">
                     <div class="form-group cabecera">
-                        <p class="titulo"><b>ESTADÍSTICAS</b></p>
+                        <p class="titulo">
+                          <b>ESTADÍSTICAS</b>
+                          <span class="col-md-offset-6 col-sm-offset-4 col-xs-offset-2">
+                            <b>Usuarios activos</b> (en la última semana):
+                            <span class="badge">{{ activeUsers }}</span>
+                          </span>
+                        </p>
                     </div><!-- /input-group -->
                 </form>
             </div>
             <div class="panel-body">
 
-                <!-- Shows each stat of the array -->
-                <div ng-repeat="stat in stats"
-                     class="col-md-6">
+                <!-- Register stat -->
+                <div class="col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <form class="form-inline">
                                 <div class="form-group cabecera">
-                                    <p class="titulo"><b>Estadística {{$index + 1}}</b></p>
+                                  <p class="titulo"><b>{{ statTitle[0] }}</b></p>
                                 </div><!-- /input-group -->
                             </form>
                         </div>
 
                         <!-- Contains the representation of each stat -->
                         <div class="panel-body">
+                          <canvas id="chart-0"
+                                  width="400"
+                                  height="400">
+                                  {{ showChart(0) }}
+                          </canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of stats -->
 
-                          <!-- Chart's charts -->
-                          <div>
-                            <canvas ng-attr-id="{{ 'chart-' + $index }}"
-                                    width="400"
-                                    height="400">
-                                    {{ showChart($index) }}
-                            </canvas>
-                          </div>
+                <!-- Access stat -->
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <form class="form-inline">
+                                <div class="form-group cabecera">
+                                  <p class="titulo"><b>{{ statTitle[1] }}</b></p>
+                                </div><!-- /input-group -->
+                            </form>
+                        </div>
+
+                        <!-- Contains the representation of each stat -->
+                        <div class="panel-body">
+                          <canvas id="chart-1"
+                                  width="400"
+                                  height="400">
+                                  {{ showChart(1) }}
+                          </canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ranking stat -->
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <form class="form-inline">
+                                <div class="form-group cabecera">
+                                  <p class="titulo"><b>{{ statTitle[2] }}</b></p>
+                                </div><!-- /input-group -->
+                            </form>
+                        </div>
+
+                        <!-- Contains the representation of each stat -->
+                        <div class="panel-body">
+                          <canvas id="chart-2"
+                                  width="400"
+                                  height="400">
+                                  {{ showChart(2) }}
+                          </canvas>
                         </div>
                     </div>
                 </div>

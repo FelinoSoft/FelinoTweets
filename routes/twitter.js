@@ -156,7 +156,7 @@ module.exports = function(app,passport){
     };
 
     app.get('/twitter/auth', passport.authenticate('twitter',
-        { userAuthorizationURL: 'https://api.twitter.com/oauth/authorize?force_login=true', failureRedirect: '/' }));
+        { failureRedirect: '/' }));
     app.get('/twitter/auth/callback', passport.authenticate('twitter',
         { successRedirect: '/', failureRedirect: '/' }));
     app.get('/twitter/tweet_account', getTweetAccount);
