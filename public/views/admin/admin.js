@@ -16,7 +16,7 @@ loginModule.controller('adminController',
       if (result.data.error) {
 
         // login error, resets only the password field
-        $scope.messageError = "Error: no se ha podido recuperar a los usuarios."
+        $scope.messageError = "Error: no se ha podido recuperar a los usuarios.";
         $scope.notError = false;
       }
       else {

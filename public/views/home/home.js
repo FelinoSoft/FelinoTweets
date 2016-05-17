@@ -1,12 +1,11 @@
-var accountModule = angular.module('homeModule', [
-  'felinotweetsApp'
+var homeModule = angular.module('homeModule', [
+  'felinotweetsApp'/*,
+  'infinite-scroll'*/
 ]);
 
-  accountModule.controller('homeController',
-    function($scope,auth,twitter){
+  homeModule.controller('homeController',
+    function($http,$scope,$filter,auth,twitter,home){
     console.log("homeController inicializado");
-
-    $scope.implemented = false;
 
     $scope.logOut = function() {
       if(auth.logout){
@@ -14,69 +13,72 @@ var accountModule = angular.module('homeModule', [
       }
     };
 
-    $scope.getAccountData = function(kind) {
-      if(kind == "ElPutoAmo"){
-        // Get data of timeline
-        if(!$scope.implemented){
-          // Mock data dpm
-          var tweet1 = {"author":"Lolazo","text":"Me pica el huevo izquierdo",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":false, "liked":false, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          var tweet2 = {"author":"Lolazo","text":"Me pica el huevo derecho",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":true, "liked":true, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          return {"user":kind, "desc":"AAAAAAAAAAAAAA AAA A  A AA A A AAAAAAA AAAAAAAAAAAAA  AA  A AAAAAAAAAAAAAAAAAAAA","imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg","tweets":[tweet1,tweet2]};
-        }
-      } else if(kind == "SrFelino"){
-        // Get data of own tweets
-        if(!$scope.implemented){
-          // Mock data dpm
-          var tweet3 = {"author":"Lolazo","text":"Mae mia si me pica",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":false, "liked":false, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          var tweet4 = {"author":"Lolazo","text":"Me voy a rascar pero ya",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":true, "liked":true, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          return {"user":kind, "desc":"Bla ble bli blo blu","imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg","tweets":[tweet3,tweet4]};
-        }
-      } else if(kind == "LaMarquesa"){
-          // Get data of programmed tweets
-          if(!$scope.implemented){
-            // Mock data dpm
-            var tweet5 = {"author":"ElPutoAmo","text":"Ojo que me he rascado!",
-              "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-              "nRetweets":"214", "nLikes":"12", "rted":false, "liked":false, "day":"7",
-              "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-            };
-            var tweet6 = {"author":"LaMarquesa","text":"Es coña",
-              "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-              "nRetweets":"214", "nLikes":"12", "rted":false, "liked":true, "day":"7",
-              "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-            };
-            return {"user":kind, "desc":"Ojala fuera como Jaime","imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg","tweets":[tweet5,tweet6]};
-          }
-      }
-    };
-
-    $scope.getAccountPanels = function(accounts){
-      if(!$scope.implemented){
-        // Mock data
-        accounts = ["ElPutoAmo", "SrFelino", "LaMarquesa"];
-      }
-
+    $scope.getAccountPanels = function(){
+      var accounts;
       $scope.panels = [];
+      home.getTwitterAccounts(auth.currentUser()).then(function(result){
+        var twAccs = result.data.message;
+        console.log(twAccs);
+        var Acc;
+        for (i = 0; i < twAccs.length; i++) {
+          home.getAccountTimeLine(twAccs[i]._id, twAccs[i].profile_name, 20, -1, -1).then(function(result){
+            var tweets = JSON.parse(result.data.message);
+            var panelTweets = [];
+            var user = tweets[0].user.screen_name;
+            var desc = tweets[0].user.description;
+            var imgLink = tweets[0].user.profile_image_url;
+            var maxID;
+            console.log(tweets);
+            for(j = 0; j < tweets.length; j++){
+              if(j == tweets.length - 1){
+                maxID = tweets[j].id;
+              }
+              var author;
+              var text;
+              var imgLinkT;
+              var nRetweets;
+              var nLikes;
+              var tweetLink;
+              var date;
+              var day;
+              var month;
+              var year;
+              if(tweets[j].retweeted){
+                author = tweets[j].retweeted_status.user.screen_name;
+                text = tweets[j].retweeted_status.text;
+                imgLinkT = tweets[j].retweeted_status.user.profile_image_url;
+                nRetweets = tweets[j].retweeted_status.retweet_count;
+                nLikes = tweets[j].retweeted_status.favorite_count;
+                tweetLink = "http://twitter.com/" + tweets[j].retweeted_status.user.screen_name +
+                                                        "/status/" + tweets[j].retweeted_status.id_str;
+                date = new Date(tweets[j].retweeted_status.created_at);
+                date = $filter('date')(date, 'dd MMM yyyy');
+              } else{
+                author = tweets[j].user.screen_name;
+                text = tweets[j].text;
+                imgLinkT = tweets[j].user.profile_image_url;
+                nRetweets = tweets[j].retweet_count;
+                nLikes = tweets[j].favorite_count;
+                tweetLink = "http://twitter.com/" + tweets[j].user.screen_name +
+                                                        "/status/" + tweets[j].id_str;
+                date = new Date(tweets[j].created_at);
+                date = $filter('date')(date, 'dd MMM yyyy');
+              }
+              var rted = tweets[j].retweeted;
+              var liked = tweets[j].favorited;
 
-      for (i = 0; i < accounts.length; i++) {
-        $scope.panels[i] = $scope.getAccountData(accounts[i]);
-      }
+              var finalTweet = {'author':author, 'text':text, 'imgLink':imgLinkT,
+                                'nRetweets':nRetweets, 'nLikes':nLikes, 'rted':rted,
+                                'liked':liked, 'date':date,
+                                'tweetLink':tweetLink
+                              };
+              panelTweets.push(finalTweet);
+            } // End for each tweet
+            var panel = {'user':user, 'desc':desc, 'imgLink':imgLink, 'tweets':panelTweets};
+            $scope.panels.push(panel);
+          }); // End getting tweets
+        } // End for each twitter account
+      });
     };
 
     $scope.isSameUserAndAuthor = function(user, author){
@@ -100,86 +102,11 @@ var accountModule = angular.module('homeModule', [
       }
     };
 
-    $scope.getAccountPanels("lol");
-
     $scope.twitterAuth = function(){
-      console.log("He entrado en twitterAuth. Esternocleidomastoideo");
       twitter.twitterAuth();
     };
 
-    /*
-    $scope.getAllDefaultPanels = function(){
-      $scope.panels[0] = getPanel("Home");
-      $scope.panels[1] = getPanel("Mis tweets");
-      $scope.panels[2] = getPanel("Programados");
-      $scope.panels[3] = getPanel("Menciones");
-    };
+    // Call to getAccountPanels
+    $scope.getAccountPanels();
 
-    $scope.getPanel = function(kind) {
-      if(kind == "Home"){
-        // Get data of timeline
-        if(!implemented){
-          // Mock data dpm
-          var tweet1 = {"author":"Lolazo","text":"Me pica el huevo izquierdo",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":false, "liked":false, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          var tweet2 = {"author":"Lolazo","text":"Me pica el huevo derecho",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":true, "liked":true, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          return {"kind":kind, "tweets":[tweet1,tweet2]};
-        }
-      } else if(kind == "Mis tweets"){
-        // Get data of own tweets
-        if(!implemented){
-          // Mock data dpm
-          var tweet3 = {"author":"Lolazo","text":"Mae mia si me pica",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":false, "liked":false, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          var tweet4 = {"author":"Lolazo","text":"Me voy a rascar pero ya",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":true, "liked":true, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          return {"kind":kind, "tweets":[tweet3,tweet4]};
-        }
-      } else if(kind == "Programados"){
-          // Get data of programmed tweets
-          if(!implemented){
-            // Mock data dpm
-            var tweet5 = {"author":"Lolazo","text":"Ojo que me he rascado!",
-              "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-              "nRetweets":"214", "nLikes":"12", "rted":false, "liked":false, "day":"7",
-              "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-            };
-            var tweet6 = {"author":"Lolazo","text":"Es coña",
-              "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-              "nRetweets":"214", "nLikes":"12", "rted":true, "liked":true, "day":"7",
-              "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-            };
-            return {"kind":kind, "tweets":[tweet5,tweet6]};
-          }
-      } else if(kind == "Menciones") {
-        // Get data of programmed tweets
-        if(!implemented){
-          // Mock data dpm
-          var tweet7 = {"author":"Lolazo","text":"@Lolazo Uff que bien se siente",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":false, "liked":false, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          var tweet8 = {"author":"Lolazo","text":"@Lolazo Que me da algo lel",
-            "imgLink":"https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg",
-            "nRetweets":"214", "nLikes":"12", "rted":true, "liked":true, "day":"7",
-            "month":"Feb", "year":"1994", "tweetLink":"http://www.google.es"
-          };
-          return {"kind":kind, "tweets":[tweet7,tweet8]};
-        }
-      }
-    };*/
   });

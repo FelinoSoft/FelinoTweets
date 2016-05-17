@@ -13,7 +13,7 @@
 
 .home-panel-heading{
   padding:0px;
-  height:100%;
+  max-height:100px;
 }
 
 .homeMainView{
@@ -75,17 +75,13 @@
 .panel-twitter{
   margin-top:20px;
   border:0px;
-  min-height:550px;
+  height:550px;
 }
 
 .home-panel-body{
-  height:400px !important;
+  max-height:450px !important;
   padding:0;
   overflow-y:auto;
-}
-
-.home-panel-heading{
-  min-height:100%;
 }
 
 .homeTwitUser{

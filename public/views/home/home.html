@@ -16,9 +16,9 @@
         </a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-        <a class="navbar-brand barraSelected" href="/home">
+        <a class="navbar-brand navbar-buttons barraSelected" href="/home">
           <span class="glyphicon glyphicon-home"></span>  Home</a>
-        <a class="navbar-brand" href="/homeStats">
+        <a class="navbar-brand navbar-buttons" href="/homeStats">
           <span class="glyphicon glyphicon-stats"></span>  Estadísticas</a>
         <form class="navbar-form navbar-right">
           <a href="/" ng-click="logOut()" class="btn btn-danger">Salir</a>
@@ -41,7 +41,9 @@
                     </a>
                   </div>
                   <div class="cuentaText">
-                    @{{ pan.user }}
+                    <a href="/account">
+                      @{{ pan.user }}
+                    </a>
                   </div>
                   <p class="descriptionText">
                     {{ pan.desc }}
@@ -51,7 +53,7 @@
           </div>
           <div class="panel-body home-panel-body">
             <div class="container homePanelRow">
-              <div class="col-xs-12 homeZeroPadding">
+              <div class="col-xs-12 homeZeroPadding" infinite-scroll='loadMore()' infinite-scroll-distance='2'>
                 <ul class="list-group">
                   <li class="list-group-item homeZeroPadding" ng-repeat="tweet in pan.tweets">
                     <div class="homeTwitImgDiv">
@@ -98,10 +100,10 @@
                         {{tweet.nLikes}}
                       </a>
                       <!-- Tweet Info. Always shows up -->
-                      <a class="homeGlifaiconsINFO" href={{tweet.tweetLink}}>
+                      <a class="homeGlifaiconsINFO" href={{tweet.tweetLink}} target="_blank">
                         <span class="glyphicon glyphicon-time homeGlifaiconsINFO">
                         </span>
-                        {{tweet.day}} {{tweet.month}} {{tweet.year}}
+                        {{tweet.date}}
                       </a>
                     </div>
                   </li>
