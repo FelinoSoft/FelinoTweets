@@ -200,12 +200,32 @@ angular.module('felinotweetsApp', [
   self.twitterAuth = function() {
     return $http.get(API + '/twitter/auth');
   };
-  
+
   self.saveHashtag = function(account_id, hashtag){
     return $http.post(API + '/twitter_accounts/' + account_id + '/hashtags', {
       'hashtag' : hashtag
     });
   };
+})
+
+.service('stats', function($http, API) {
+  var self = this;
+
+  // obtiene todos los usuarios registrados en los ultimos dias
+  self.getRegistersByDate = function(days) {
+    return $http.get(API + '/stats/registers/' + days);
+  };
+
+  // obtiene todos los accessos al sistema de los ultimos dias
+  self.getAccessByDate = function(days) {
+    return $http.get(API + '/stats/access/' + days);
+  };
+
+  // obtiene los usuarios ordenados por numero de tweets
+  self.getRankingUsers = function() {
+    return $http.get(API + '/stats/ranking/');
+  };
+
 })
 
 .config([

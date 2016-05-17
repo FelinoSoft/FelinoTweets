@@ -31,7 +31,9 @@ module.exports = function(app,passport){
                     if(err){
                         response = {'error' : true, 'message' : 'Error obteniendo el TL'};
                     } else{
-                        response = {'error' : false, 'message' : data};
+                        var parsed = JSON.parse(data);
+                        parsed.push(req.query.id);
+                        response = {'error' : false, 'message' : parsed};
                     }
                     res.json(response);
                 });

@@ -19,10 +19,11 @@ var homeModule = angular.module('homeModule', [
       home.getTwitterAccounts(auth.currentUser()).then(function(result){
         var twAccs = result.data.message;
         console.log(twAccs);
-        var Acc;
         for (i = 0; i < twAccs.length; i++) {
           home.getAccountTimeLine(twAccs[i]._id, twAccs[i].profile_name, 20, -1, -1).then(function(result){
-            var tweets = JSON.parse(result.data.message);
+            console.log(result);
+            var mongoID = result.data.message.pop();
+            var tweets = result.data.message;
             var panelTweets = [];
             var user = tweets[0].user.screen_name;
             var desc = tweets[0].user.description;
@@ -74,7 +75,8 @@ var homeModule = angular.module('homeModule', [
                               };
               panelTweets.push(finalTweet);
             } // End for each tweet
-            var panel = {'user':user, 'desc':desc, 'imgLink':imgLink, 'tweets':panelTweets};
+            var panel = {'user':user, 'desc':desc, 'imgLink':imgLink, 'tweets':panelTweets,
+                        'mongoID':mongoID};
             $scope.panels.push(panel);
           }); // End getting tweets
         } // End for each twitter account
