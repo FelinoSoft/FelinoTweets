@@ -34,16 +34,18 @@
         <div class="panel panel-default panel-twitter">
           <div class="panel-heading home-panel-heading">
             <div class="container homePanelRow">
-                <div class="col-xs-12 homePanelRow">
+                <div class="col-md-12 col-sm-12 col-xs-12 homePanelRow">
                   <div class="homeImgDiv">
                     <a href="/account/{{pan.mongoID}}">
                       <img src={{pan.imgLink}} class="imgPanel img-responsive img-circle" alt="Profile pic">
                     </a>
                   </div>
-                  <div class="col-md-offset-3 col-md-7 cuentaText">
-                    <a href="/account/{{pan.mongoID}}">
-                      @{{ pan.user }}
-                    </a>
+                  <div class="col-md-offset-3 col-md-7 col-sm-offset-2 col-sm-5 col-xs-offset-3 col-xs-7 nombreUsuario">
+                    <div class="cuentaText">
+                      <a href="/account/{{pan.mongoID}}">
+                        @{{ pan.user }}
+                      </a>
+                    </div>
                   </div>
                   <div class="col-md-2 col-sm-2 col-xs-2">
                     <i class="fa fa-spinner fa-spin fa-fw fa-lg" ng-show="isDeleting(pan.mongoID)"></i>
@@ -61,8 +63,8 @@
             <div class="container homePanelRow">
               <div class="col-xs-12 homeZeroPadding">
                 <ul class="list-group">
-                  <li>
-                    <button ng-show="pan.hasNewTweets" type="button" ng-click="showNewTweets(pan.mongoID)" class="btn btn-primary btn-md center-block">
+                  <li class="placeForButton" ng-show="pan.hasNewTweets">
+                    <button ng-show="pan.hasNewTweets" type="button" ng-click="showNewTweets(pan.mongoID)" class="btn btn-primary btn-md center-block botonNuevosTweets">
                       <i class="fa fa-twitter" ng-show="pan.hasNewTweets"></i>
                       {{pan.newTweetsList.length}} new tweets
                     </button>
