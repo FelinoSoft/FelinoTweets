@@ -74,11 +74,6 @@ homeStatsModule.controller('homeStatsController',
             });
           });
 
-          // filters an array to obtain unique values
-          // $scope.labels = $scope.labels.reverse().filter(function (e, i, arr) {
-          // return arr.indexOf(e, i+1) === -1;
-          // }).reverse();
-
           // obtains registered users stats
           $scope.stats[0] =
           {
@@ -257,11 +252,53 @@ homeStatsModule.controller('homeStatsController',
       });
     }
 
+    $scope.getMeanRT = function(){
+      $scope.accounts = [];
+      $scope.labels = [];
+      $scope.panels = [];
+      home.getTwitterAccounts(auth.currentUser()).then(function(result){
+        var twAccs = result.data.message;
+        console.log(twAccs);
+        for (i = 0; i < twAccs.length; i++) {
+          home.getAccountTimeLine(twAccs[i]._id, twAccs[i].profile_name, 20, -1, -1).then(function(result){
+            var mongoID = result.data.message.pop();
+            var tweets = result.data.message;
+            var panelTweets = [];
+            var maxID;
+            console.log(tweets);
+            for(j = 0; j < tweets.length; j++){
+              if(j == tweets.length - 1){
+                maxID = tweets[j].id;
+              }
+              var nRetweets;
+              var nLikes;
+              var date;
+              if(!tweets[j].retweeted){
+                nRetweets = tweets[j].retweet_count;
+                nLikes = tweets[j].favorite_count;
+                date = new Date(tweets[j].created_at);
+                date = $filter('date')(date, 'H');
+              }
+              var finalTweet = {
+                'nRetweets':nRetweets,
+                'nLikes':nLikes,
+                'date':date
+              };
+              panelTweets.push(finalTweet);
+            } // End for each tweet
+            var panel = {
+              'user':user,
+              'tweets':panelTweets,
+              'mongoID':mongoID
+            };
+            $scope.panels.push(panel);
+          }); // End getting tweets
+        } // End for each twitter account
+      });
+    };
+
     $scope.showChart = function(index) {
       if ($scope.stats) {
-
-        console.log("CHARTS");
-
         var ctx = document.getElementById('chart-' + index);
         var myChart = new Chart(ctx, {
           type: $scope.chartType[index],

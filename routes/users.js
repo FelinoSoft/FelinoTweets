@@ -5,12 +5,12 @@
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
+var request = require('request');
 
 var user = require('../models/user.js');
 var account = require('../models/twitter_account.js');
 
 module.exports = function(app){
-
 
     /* GET /users */
     findAllUsers = function(req,res){
@@ -208,7 +208,18 @@ module.exports = function(app){
                       response = {"error" : true, "message" : "Error deleting data"};
                       res.json(response);
                   } else{
-                      findAllUsers(req,res);
+
+                    // saves delete stat
+                    request({
+                      uri: "http://127.0.0.1:8888/stats/registrations",
+                      method: "POST",
+                      form: {
+                        type: "baja"
+                      }
+                    });
+
+                    // returns all other users left
+                    findAllUsers(req,res);
                   }
                 });
               }
@@ -284,6 +295,16 @@ module.exports = function(app){
                 } else{
 
                   // last_access_date update succesfull
+
+                  // saves login stat
+                  request({
+                    uri: "http://127.0.0.1:8888/stats/registrations",
+                    method: "POST",
+                    form: {
+                      type: "acceso"
+                    }
+                  });
+
                   // generates a JSON Web Token (JWT)
                   var userInfo = {
                     "user_id" : data.id,
@@ -368,6 +389,16 @@ module.exports = function(app){
                       } else {
 
                           // register succesfull
+
+                          // saves register stat
+                          request({
+                            uri: "http://127.0.0.1:8888/stats/registrations",
+                            method: "POST",
+                            form: {
+                              type: "alta"
+                            }
+                          });
+
                           // generates a JSON Web Token (JWT)
                           var userInfo = {
                               "user_id" : data.id,

@@ -261,7 +261,7 @@ angular.module('felinotweetsApp', [
       'text' : text
     });
   };
-  
+
   self.getScheduledTweets = function(account_id){
     return $http.get(API + '/twitter_accounts/' + account_id + '/scheduled_tweets');
   };
@@ -276,17 +276,22 @@ angular.module('felinotweetsApp', [
 
   // obtiene todos los usuarios registrados en los ultimos dias
   self.getRegistersByDate = function(days) {
-    return $http.get(API + '/stats/registers/' + days);
+    return $http.get(API + '/stats/registrations/' + days);
   };
 
   // obtiene todos los accessos al sistema de los ultimos dias
-  self.getAccessByDate = function(days) {
-    return $http.get(API + '/stats/access/' + days);
+  self.getAccessByDate = function(type, days) {
+    return $http.get(API + '/stats/registrations/' + type + '/' + days);
   };
 
   // obtiene los usuarios ordenados por numero de tweets
-  self.getRankingUsers = function() {
-    return $http.get(API + '/stats/ranking/');
+  self.getRankingUsers = function(top) {
+    return $http.get(API + '/stats/ranking/' + top);
+  };
+
+  // obtiene los tweets ordenados por numero de interacciones
+  self.getTweetsMostInteracted = function(id) {
+    return $http.get(API + '/stats/interactions/' + id);
   };
 
 })
