@@ -12,6 +12,7 @@ loginModule.controller('adminStatsController',
     $scope.selected = -1;
 
     // user info
+    $scope.activUsersDays = 7;
     $scope.stats = {};
 
     // chart's info
@@ -34,7 +35,7 @@ loginModule.controller('adminStatsController',
                         'Estadísticas de accesos (últimos ' + $scope.daysAccess + ' días)',
                         'Estadísticas de tweets',
                         'Mapa de tweets'];
-    $scope.chartType = ['line', 'line', 'pie', 'line'];
+    $scope.chartType = ['line', 'line', 'bar', 'line'];
 
     // chart #1 (last registered users)
     $scope.getRegisterInfo = function() {
@@ -105,7 +106,6 @@ loginModule.controller('adminStatsController',
 
           // usuarios obtenidos con exito
           $scope.lastAccess = result.data.message;
-          $scope.activeUsers = $scope.lastAccess.length;
 
           // generates the data for past days
           angular.forEach($scope.lastAccess, function(value, key) {
@@ -180,7 +180,7 @@ loginModule.controller('adminStatsController',
           $scope.opt[2] = {
             scales: {
                 yAxes: [{
-                    display: false,
+                    display: true,
                     ticks: {
                         beginAtZero:true
                     }
@@ -190,6 +190,21 @@ loginModule.controller('adminStatsController',
                 }]
             }
           }
+        }
+      });
+    }
+
+    $scope.getActiveUsers = function() {
+      stats.getActiveUsers($scope.activUsersDays).then(function(result) {
+        if (result.data.error) {
+
+          // login error, resets only the password field
+          $scope.messageError =
+                  "Error: no se ha podido recuperar a los usuarios activos."
+          $scope.notError = false;
+        }
+        else {
+          $scope.activeUsers = result.data.message;
         }
       });
     }
@@ -218,4 +233,5 @@ loginModule.controller('adminStatsController',
     $scope.getRegisterInfo();
     $scope.getAccessInfo();
     $scope.getRankingInfo();
+    $scope.getActiveUsers();
 });

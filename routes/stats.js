@@ -242,6 +242,43 @@ module.exports = function(app){
     // });
   };
 
+  /* GET /stats/activeUsers/:days */
+  findActiveUsers = function(req,res){
+    var response = {};
+
+    // checkUser(req, res, function(err, data) {
+
+      // if (err) {
+      //   response = {"error" : true, "message" : "Error fetching data"};
+      //   res.json(response);
+      // } else {
+
+        // if (data.admin) {
+
+          // creates the date to search for
+          var days = req.params.days;
+          var date = new Date();
+          date.setDate(date.getDate() - days);
+
+          user.find({last_access_date: {$gt: date}}, function(err,data){
+            if(err) {
+              response = {"error" : true, "message" : "Error fetching data"};
+            } else{
+
+
+              response = {"error" : false, "message" : data.length};
+            }
+            res.json(response);
+          });
+        // }
+        // else {
+        //   response = {"error" : true, "message" : "Admin permissions required."};
+        //   res.json(response);
+        // }
+      // }
+    // });
+  };
+
   /* checks if the user is admin or not */
   checkUser = function(req, res, callback) {
 
@@ -279,6 +316,7 @@ module.exports = function(app){
   app.get('/stats/registrations/:type/:days', findRegistrationsFiltered);
   app.post('/stats/registrations', createRegistration);
   app.get('/stats/ranking/:limit', findRankingUsers);
+  app.get('/stats/activeUsers/:days', findActiveUsers);
 
   // '/stats' methods for users
   app.get('/stats/interactions/:id', findTweetsMostInteracted);

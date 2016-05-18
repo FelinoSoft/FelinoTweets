@@ -293,6 +293,11 @@ angular.module('felinotweetsApp', [
     return $http.get(API + '/stats/ranking/' + top);
   };
 
+  // obtiene los usuarios que han accedido a la app en los últimos days
+  self.getActiveUsers = function(days) {
+    return $http.get(API + '/stats/activeUsers/' + days);
+  };
+
   // obtiene los tweets ordenados por numero de interacciones
   self.getTweetsMostInteracted = function(id) {
     return $http.get(API + '/stats/interactions/' + id);
