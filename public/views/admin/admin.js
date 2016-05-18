@@ -109,10 +109,6 @@ loginModule.controller('adminController',
       });
     };
 
-    $scope.getAccounts = function(id) {
-
-    }
-
     // cancels user update
     $scope.cancelUpdate = function(id) {
 
@@ -153,7 +149,6 @@ loginModule.controller('adminController',
       if (!$scope.isSelected(index)) {
         $scope.selected = index;
         $scope.editingUser = editingUser;
-        console.log($scope.editingUser.accounts);
       }
       else {
         $scope.selected = -1;

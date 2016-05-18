@@ -250,21 +250,29 @@ angular.module('felinotweetsApp', [
       'id' : account_id,
       'tweet' : text
     });
-  }
+  };
 
   self.postTweet = function(account_id, text){
     return $http.post(API + '/twitter/tweet', {
       'id' : account_id,
       'tweet' : text
     });
-  }
+  };
 
   self.postScheduledTweet = function(account_id, text, date){
     return $http.post(API + '/twitter_accounts/' + account_id + '/scheduled_tweets', {
       'date' : date,
       'text' : text
     });
-  }
+  };
+
+  self.getScheduledTweets = function(account_id){
+    return $http.get(API + '/twitter_accounts/' + account_id + '/scheduled_tweets');
+  };
+
+  self.deleteScheduledTweet = function(account_id, id){
+    return $http.delete(API + '/twitter_accounts/' + account_id + '/scheduled_tweets/' + id);
+  };
 })
 
 .service('stats', function($http, API) {
@@ -272,17 +280,22 @@ angular.module('felinotweetsApp', [
 
   // obtiene todos los usuarios registrados en los ultimos dias
   self.getRegistersByDate = function(days) {
-    return $http.get(API + '/stats/registers/' + days);
+    return $http.get(API + '/stats/registrations/' + days);
   };
 
   // obtiene todos los accessos al sistema de los ultimos dias
-  self.getAccessByDate = function(days) {
-    return $http.get(API + '/stats/access/' + days);
+  self.getAccessByDate = function(type, days) {
+    return $http.get(API + '/stats/registrations/' + type + '/' + days);
   };
 
   // obtiene los usuarios ordenados por numero de tweets
-  self.getRankingUsers = function() {
-    return $http.get(API + '/stats/ranking/');
+  self.getRankingUsers = function(top) {
+    return $http.get(API + '/stats/ranking/' + top);
+  };
+
+  // obtiene los tweets ordenados por numero de interacciones
+  self.getTweetsMostInteracted = function(id) {
+    return $http.get(API + '/stats/interactions/' + id);
   };
 
 })

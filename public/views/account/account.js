@@ -8,7 +8,16 @@ accountModule.controller('accountController',
     $scope.addingHashtag = false;
     $scope.implemented = false;
     $scope.tweeting = false;
+    $scope.sendingTweet = false;
+    $scope.scheduledTweets = {};
 
+    twitter.getScheduledTweets($stateParams.account_id).then(function(result){
+        if(!result.error){
+            $scope.scheduledTweets = result.data.message;
+        } else{
+            console.log(result.error);
+        }
+    });
 
     $scope.logOut = function() {
       if(auth.logout){
@@ -63,18 +72,34 @@ accountModule.controller('accountController',
     $scope.postTweet = function(){
         if($scope.tweet.date === undefined){
             twitter.postTweet($stateParams.account_id, $scope.tweet.text).then(function(result){
-                if(!result.error){
+                if(!result.data.error){
                     $scope.tweeting = false;
+                    $scope.sendingTweet = false;
                 }
             });
         } else{
             twitter.postScheduledTweet($stateParams.account_id, $scope.tweet.text,
                 new Date($scope.tweet.date).getTime()).then(function(result){
-                if(!result.error){
+                if(!result.data.error){
                     $scope.tweeting = false;
+                    $scope.sendingTweet = false;
+                    $scope.scheduledTweets = result.data.message;
                 }
             });
         }
-        $scope.tweet = {}
-    }
+        $scope.tweet = {};
+        $scope.sendingTweet = true;
+    };
+
+    $scope.isSendingTweet = function(){
+        return $scope.sendingTweet;
+    };
+
+    $scope.deleteScheduledTweet = function(idTweet){
+        twitter.deleteScheduledTweet($stateParams.account_id, idTweet).then(function(result){
+            if(!result.data.error){
+               $scope.scheduledTweets = result.data.message;
+           }
+        });
+    };
 });

@@ -55,7 +55,7 @@
               </div>
               <div class="col-lg-offset-3 col-lg-3 col-md-offset-2 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12 dentrocaja">
                 <div class="row account-tweet-button-row dentrocaja">
-                  <div class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-2 col-xs-offset-1 col-xs-1 caracteresRestantesCol">
+                  <div ng-show="!isSendingTweet()" class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-2 col-xs-offset-1 col-xs-1 caracteresRestantesCol">
                     <span>
                       <p class="caracteresRestantes">
                         {{140 - tweet.text.length}} &nbsp &nbsp
@@ -63,7 +63,15 @@
                     </span>
                   </div>
                   <div class="col-xs-6 col-md-1 col-sm-1 ">
-                    <button ng-disabled="cantTweet(140-tweet.text.length, tweet.date)" ng-click="postTweet()" class="btn btn-primary botonEnviar"><i class="fa fa-twitter" aria-hidden="true"></i> Twittear</button>
+                    <button ng-show="!isSendingTweet()" ng-disabled="cantTweet(140-tweet.text.length, tweet.date)"
+                            ng-click="postTweet()" class="btn btn-primary botonEnviar"><i class="fa fa-twitter"
+                                                                                          aria-hidden="true"></i>
+                      Twittear
+                    </button>
+                    <button ng-show="isSendingTweet()"
+                            class="btn btn-primary botonEnviar"><i class="fa fa-spinner fa-spin fa-fw fa-lg" ></i>
+                      Enviando
+                    </button>
                   </div>
                 </div> <!-- Row for both elements -->
               </div> <!-- Col for characters remaining and button -->
@@ -71,6 +79,7 @@
           </div>
         </div>
       </div>
+
 
       <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="panel panel-primary panel-twitter">
@@ -114,6 +123,8 @@
           </div>
         </div> <!-- Panel twitter -->
       </div> <!-- Col -->
+
+
       <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="panel panel-primary panel-twitter">
           <div class="panel-heading home-panel-heading">
@@ -156,6 +167,52 @@
           </div>
         </div> <!-- Panel twitter -->
       </div> <!-- Col -->
+
+
+      <div class="col-md-3 col-sm-4 col-xs-12">
+        <div class="panel panel-primary panel-twitter">
+          <div class="panel-heading home-panel-heading">
+            <div class="container homePanelRow">
+              <div class="col-xs-12 homePanelRow">
+                <div class="homeMentionClass">
+                  <i class="fa fa-comment" aria-hidden="true"></i>
+                </div>
+                <div class="homeCurrentAccountText">
+                  Menciones
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body home-panel-body">
+            <div class="container homePanelRow">
+              <div class="col-xs-12 homeZeroPadding">
+                <ul class="list-group">
+                  <li class="list-group-item homeZeroPadding">
+                    <div class="homeTwitImgDiv">
+                      <a href="#">
+                        <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
+                      </a>
+                    </div>
+                    <div class="homeTwitUser">
+                      @MiPollaEnAlmibar
+                    </div>
+                    <p class="homeTwitText">
+                      Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                    </p>
+                    <div class="homeTwitButtons">
+                      <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
+                      <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
+                      <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div> <!-- Panel twitter -->
+      </div> <!-- Col -->
+
+
       <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="panel panel-primary panel-twitter">
           <div class="panel-heading home-panel-heading">
@@ -174,22 +231,15 @@
             <div class="container homePanelRow">
               <div class="col-xs-12 homeZeroPadding">
                 <ul class="list-group">
-                  <li class="list-group-item homeZeroPadding">
-                    <div class="homeTwitImgDiv">
-                      <a href="#">
-                        <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
-                      </a>
-                    </div>
-                    <div class="homeTwitUser">
-                      @MiPollaEnAlmibar
-                    </div>
+                  <li class="list-group-item homeZeroPadding" ng-repeat="sch_tweet in scheduledTweets" linkify="twitter">
                     <p class="homeTwitText">
-                      Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                      <b>Tweet:</b> {{sch_tweet.text}}
+                    </p>
+                    <p class="homeTwitText">
+                      <b>Fecha:</b> {{sch_tweet.date}}
                     </p>
                     <div class="homeTwitButtons">
-                      <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
-                      <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
-                      <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                      <button ng-click="deleteScheduledTweet(sch_tweet._id)" class="homeGlifaiconsNoFAV" ><span class="glyphicon glyphicon-remove"></span> Eliminar</button>
                     </div>
                   </li>
                 </ul>
@@ -198,48 +248,8 @@
           </div>
         </div> <!-- Panel twitter -->
       </div> <!-- Col -->
-      <div class="col-md-3 col-sm-4 col-xs-12">
-        <div class="panel panel-primary panel-twitter">
-          <div class="panel-heading home-panel-heading">
-            <div class="container homePanelRow">
-                <div class="col-xs-12 homePanelRow">
-                  <div class="homeMentionClass">
-                    <i class="fa fa-comment" aria-hidden="true"></i>
-                  </div>
-                  <div class="homeCurrentAccountText">
-                    Menciones
-                  </div>
-                </div>
-            </div>
-          </div>
-          <div class="panel-body home-panel-body">
-            <div class="container homePanelRow">
-              <div class="col-xs-12 homeZeroPadding">
-                <ul class="list-group">
-                  <li class="list-group-item homeZeroPadding">
-                    <div class="homeTwitImgDiv">
-                      <a href="#">
-                        <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
-                      </a>
-                    </div>
-                    <div class="homeTwitUser">
-                      @MiPollaEnAlmibar
-                    </div>
-                    <p class="homeTwitText">
-                      Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
-                    </p>
-                    <div class="homeTwitButtons">
-                      <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
-                      <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
-                      <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div> <!-- Panel twitter -->
-      </div> <!-- Col -->
+
+
       <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="panel panel-primary panel-twitter">
           <div class="panel-heading home-panel-heading">
@@ -291,7 +301,7 @@
             <button class="homeAddPanelButton" ng-click="setAddingHashtag(true)">
               <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
               <br/>
-              Add hashtag
+              Añadir Hashtag
             </button>
           </div>
         </div>  <!-- Panel add -->

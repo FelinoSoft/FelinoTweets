@@ -15,16 +15,16 @@ loginModule.controller('adminStatsController',
     $scope.stats = {};
 
     // chart's info
-    $scope.tabsRegistered = ['Todos', '30 días', '15 días', '7 días'];
     $scope.daysRegistered = 15;
     $scope.labelsRegistered = [];
-    $scope.dataRegistered = [];
+    $scope.dataAltas = [];
+    $scope.dataBajas = [];
 
-    $scope.tabsAccess = ['Todos', '30 días', '15 días', '7 días'];
     $scope.daysAccess = 7;
     $scope.labelsAccess = [];
     $scope.dataAccess = [];
 
+    $scope.topUsers = 5;
     $scope.labelsRanking = [];
     $scope.dataRanking = [];
 
@@ -48,38 +48,14 @@ loginModule.controller('adminStatsController',
         else {
 
           // usuarios obtenidos con exito
-          $scope.lastUsersRegistered = result.data.message;
+          $scope.registerStats = result.data.message;
 
-          // initializes data array
-          for (var i = 0; i < $scope.daysRegistered; i++) {
-            $scope.dataRegistered[i] = 0;
-          }
-
-          // generates the labels for past days
-          for (var i = 0; i < $scope.daysRegistered; i++) {
-            var d = new Date();
-            var formatedDate = $filter('date')
-              (d.setDate(d.getDate() - $scope.daysRegistered + i + 1), "MM-dd");
-            $scope.labelsRegistered.push(formatedDate);
-          }
-
-          // generates the data for past days
-          angular.forEach($scope.lastUsersRegistered, function(value, key) {
-            var formatedDate = $filter('date')
-              (value.registration_date, "MM-dd");
-
-            // compares formatedDate with all past days
-            angular.forEach($scope.labelsRegistered, function(labelValue, labelKey) {
-              if (formatedDate == labelValue) {
-                $scope.dataRegistered[labelKey] = $scope.dataRegistered[labelKey] + 1;
-              }
-            });
+          // obtains the data and labels
+          angular.forEach($scope.registerStats, function(value, key) {
+            $scope.labelsRegistered.push(value.date);
+            $scope.dataAltas.push(value.altas);
+            $scope.dataBajas.push(value.bajas);
           });
-
-          // filters an array to obtain unique values
-          // $scope.labels = $scope.labels.reverse().filter(function (e, i, arr) {
-          // return arr.indexOf(e, i+1) === -1;
-          // }).reverse();
 
           // obtains registered users stats
           $scope.stats[0] =
@@ -90,13 +66,13 @@ loginModule.controller('adminStatsController',
                   label: 'Altas',
                   borderColor:'rgba(94,169,221,0.9)',
                   backgroundColor:'rgba(94,169,221,0.6)',
-                  data: $scope.dataRegistered
+                  data: $scope.dataAltas
                 },
                 {
                   label: 'Bajas',
                   borderColor:'rgba(255,0,0,0.9)',
                   backgroundColor:'rgba(255,0,0,0.6)',
-                  data: $scope.dataRegistered
+                  data: $scope.dataBajas
                 }
               ]
           };
@@ -118,7 +94,7 @@ loginModule.controller('adminStatsController',
 
     // chart #2 (last access)
     $scope.getAccessInfo = function() {
-      stats.getAccessByDate($scope.daysAccess).then(function(result) {
+      stats.getAccessByDate('acceso', $scope.daysAccess).then(function(result) {
         if (result.data.error) {
 
           // login error, resets only the password field
@@ -129,32 +105,12 @@ loginModule.controller('adminStatsController',
 
           // usuarios obtenidos con exito
           $scope.lastAccess = result.data.message;
-
-          // initializes data array
-          for (var i = 0; i < $scope.daysAccess; i++) {
-            $scope.dataAccess[i] = 0;
-          }
-
-          // generates the labels for past days
-          for (var i = 0; i < $scope.daysAccess; i++) {
-            var d = new Date();
-            var formatedDate = $filter('date')
-              (d.setDate(d.getDate() - $scope.daysAccess + i + 1), "MM-dd");
-            $scope.labelsAccess.push(formatedDate);
-          }
+          $scope.activeUsers = $scope.lastAccess.length;
 
           // generates the data for past days
           angular.forEach($scope.lastAccess, function(value, key) {
-            var formatedDate = $filter('date')
-              (value.last_access_date, "MM-dd");
-
-            // compares formatedDate with all past days
-            angular.forEach($scope.labelsAccess, function(labelValue, labelKey) {
-              if (formatedDate == labelValue) {
-                $scope.dataAccess[labelKey] = $scope.dataAccess[labelKey] + 1;
-              }
-            });
-            $scope.activeUsers = $scope.lastAccess.length;
+            $scope.labelsAccess.push(value.date);
+            $scope.dataAccess.push(value.events);
           });
 
           // obtains access users stats
@@ -185,7 +141,7 @@ loginModule.controller('adminStatsController',
 
     // chart #3 (top 5 users with more tweets)
     $scope.getRankingInfo = function() {
-      stats.getRankingUsers().then(function(result) {
+      stats.getRankingUsers($scope.topUsers).then(function(result) {
         if (result.data.error) {
 
           // login error, resets only the password field
@@ -196,31 +152,10 @@ loginModule.controller('adminStatsController',
 
           // usuarios obtenidos con exito
           $scope.rankingUsers = result.data.message;
-          var numUsers = $scope.rankingUsers.length;
-
-          console.log($scope.rankingUsers);
-          console.log(numUsers);
-
-          // initializes data array
-          for (var i = 0; i < numUsers; i++) {
-            $scope.dataRanking[i] = 0;
-          }
 
           angular.forEach($scope.rankingUsers, function(value, key) {
-
-            console.log(value);
-            console.log(key);
-
-            if (key < 5) {
-
-              // sets the labels
-              var labelUser = value.email;
-              $scope.labelsRanking[key] = labelUser;
-
-              // sets the data (n_tweets)
-              var nTweets = value.n_tweets;
-              $scope.dataRanking[key] = nTweets;
-            }
+            $scope.labelsRanking.push(value.email);
+            $scope.dataRanking.push(value.n_tweets);
           });
 
           // obtains access users stats
@@ -263,7 +198,7 @@ loginModule.controller('adminStatsController',
       if ($scope.stats) {
 
         console.log("CHARTS");
-        
+
         var ctx = document.getElementById('chart-' + index);
         var myChart = new Chart(ctx, {
           type: $scope.chartType[index],
