@@ -24,6 +24,8 @@ module.exports = function(app,passport){
 
     getTimeline = function(req, res){
         var response = {};
+        console.log(req.query.id);
+        console.log(req.cookies.user_id);
         twitter_account.findOne({'_id' : req.query.id, 'account_id' : req.cookies.user_id}, function(err,data){
             if(!err){
                 twitter.getTL(data.token, data.token_secret, req.query.account, req.query.count,

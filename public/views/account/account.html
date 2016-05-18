@@ -232,11 +232,11 @@
             <div class="container homePanelRow">
               <div class="col-xs-12 homeZeroPadding">
                 <ul class="list-group">
-                  <li class="list-group-item homeZeroPadding" ng-repeat="sch_tweet in scheduledTweets" linkify="twitter">
-                    <p class="homeTwitText">
+                  <li class="list-group-item homeZeroPadding" ng-repeat="sch_tweet in scheduledTweets">
+                    <p class="homeTwitText" linkify="twitter">
                       <b>Tweet:</b> {{sch_tweet.text}}
                     </p>
-                    <p class="homeTwitText">
+                    <p class="homeTwitText" >
                       <b>Fecha:</b> {{sch_tweet.date}}
                     </p>
                     <div class="homeTwitButtons">

@@ -1,5 +1,6 @@
 var accountModule = angular.module('accountModule', [
-  'felinotweetsApp'
+  'felinotweetsApp',
+  'linkify'
 ]);
 
 accountModule.controller('accountController',
