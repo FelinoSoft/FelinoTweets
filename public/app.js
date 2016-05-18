@@ -180,9 +180,13 @@ angular.module('felinotweetsApp', [
     return $http.get(API + '/users/' + userID + '/twitter_accounts');
   };
 
+  // obtiene todas las cuentas de twitter
+  self.getTwitterAccountByID = function(mongoID) {
+    return $http.get(API + '/twitter_accounts/' + mongoID);
+  };
+
   // obtiene la timeline de una cuenta de twitter
   self.getAccountTimeLine = function(accountID, accountName, count, since_id, max_id) {
-    console.log(max_id);
     return $http.get(API + '/twitter/tweetline?id=' + accountID + '&account=' +
                       accountName + '&count=' + count + '&since_id=' + since_id +
                       '&max_id=' + max_id);
