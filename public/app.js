@@ -2,6 +2,7 @@ angular.module('felinotweetsApp', [
   'ui.router',
   'mainModule',
   'homeModule',
+  'homeStatsModule',
   'loginModule',
   'registerModule',
   'accountModule',
@@ -319,8 +320,8 @@ angular.module('felinotweetsApp', [
   };
 
   // obtiene los tweets ordenados por numero de interacciones
-  self.getTweetsMostInteracted = function(id) {
-    return $http.get(API + '/stats/interactions/' + id);
+  self.getMentionsByHour = function(id) {
+    return $http.get(API + '/stats/mentions/' + id);
   };
 
 })

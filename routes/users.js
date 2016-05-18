@@ -10,20 +10,23 @@ var request = require('request');
 var user = require('../models/user.js');
 var account = require('../models/twitter_account.js');
 
+// cambiar para subir a heroku
+var API = "http://127.0.0.1:8888";
+
 module.exports = function(app){
 
     /* GET /users */
     findAllUsers = function(req,res){
       var response = {};
 
-      checkUser(req, res, function(err, data) {
-
-        if (err) {
-          response = {"error" : true, "message" : "Error fetching data"};
-          res.json(response);
-        } else {
-
-          if (data.admin) {
+      // checkUser(req, res, function(err, data) {
+      //
+      //   if (err) {
+      //     response = {"error" : true, "message" : "Error fetching data"};
+      //     res.json(response);
+      //   } else {
+      //
+      //     if (data.admin) {
             user.find(function(err,data){
               if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
@@ -32,13 +35,13 @@ module.exports = function(app){
               }
               res.json(response);
             });
-          }
-          else {
-            response = {"error" : true, "message" : "Admin permissions required."};
-            res.json(response);
-          }
-        }
-      });
+      //     }
+      //     else {
+      //       response = {"error" : true, "message" : "Admin permissions required."};
+      //       res.json(response);
+      //     }
+      //   }
+      // });
     };
 
     /* GET /users/:id */
@@ -221,7 +224,7 @@ module.exports = function(app){
 
                     // saves delete stat
                     request({
-                      uri: "http://127.0.0.1:8888/stats/registrations",
+                      uri: API + "/stats/registrations",
                       method: "POST",
                       form: {
                         type: "baja"
@@ -252,31 +255,32 @@ module.exports = function(app){
     findTwitterAccounts = function(req, res) {
       var response = {};
 
-      checkUser(req, res, function(err, data) {
-        if (err) {
-          response = {"error" : true, "message" : "Error fetching data"};
-          res.json(response);
-        } else {
-
-          var userId = data.user_id;
+      // checkUser(req, res, function(err, data) {
+      //   if (err) {
+      //     response = {"error" : true, "message" : "Error fetching data"};
+      //     res.json(response);
+      //   } else {
+      //
+      //     var userId = data.user_id;
           var targetId = req.params.id;
-
-          if( (data.admin) || (targetId == userId ) ) {
+      //
+      //     if( (data.admin) || (targetId == userId ) ) {
             account.find({"account_id": targetId}, function(err,data){
               if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
               } else{
                 response = {"error" : false, "message" : data};
               }
+              // console.log(response.message[0].account_id);
               res.json(response);
             });
-          }
-          else {
-            response = {"error" : true, "message" : "Admin permissions required."};
-            res.json(response);
-          }
-        }
-      });
+        //   }
+        //   else {
+        //     response = {"error" : true, "message" : "Admin permissions required."};
+        //     res.json(response);
+        //   }
+        // }
+      // });
     }
 
     login = function(req, res) {
@@ -312,7 +316,7 @@ module.exports = function(app){
 
                   // saves login stat
                   request({
-                    uri: "http://127.0.0.1:8888/stats/registrations",
+                    uri: API + "/stats/registrations",
                     method: "POST",
                     form: {
                       type: "acceso"
@@ -406,7 +410,7 @@ module.exports = function(app){
 
                           // saves register stat
                           request({
-                            uri: "http://127.0.0.1:8888/stats/registrations",
+                            uri: API + "/stats/registrations",
                             method: "POST",
                             form: {
                               type: "alta"
