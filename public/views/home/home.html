@@ -126,7 +126,7 @@
                     </div>
                   </li>
                   <li>
-                    <button ng-show="pan.hasMore" type="button" ng-click="loadMore(pan.mongoID, -1)" class="btn btn-primary btn-md center-block" ng-disabled="isLoading(pan.mongoID)">
+                    <button ng-show="pan.hasMore" type="button" ng-click="loadMore(pan.mongoID)" class="btn btn-primary btn-md center-block" ng-disabled="isLoading(pan.mongoID)">
                       <i class="fa fa-spinner fa-spin fa-fw fa-lg" ng-show="isLoading(pan.mongoID)"></i>
                       <i class="fa fa-twitter" ng-show="!isLoading(pan.mongoID)"></i>
                       Load more

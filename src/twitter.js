@@ -35,7 +35,6 @@ function getTL(userToken, userSecret, account, count, since_id, max_id, callback
     if(max_id != -1){
         part = part + "&max_id=" +  max_id;
     }
-
     oa.get(
         "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + encodeURIComponent(account) +
         "&count=" + count + part,

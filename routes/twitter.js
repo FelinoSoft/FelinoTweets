@@ -24,21 +24,22 @@ module.exports = function(app,passport){
 
     getTimeline = function(req, res){
         var response = {};
-        console.log(req.query.id);
-        console.log(req.cookies.user_id);
         twitter_account.findOne({'_id' : req.query.id, 'account_id' : req.cookies.user_id}, function(err,data){
             if(!err){
+              if(data !== undefined){
                 twitter.getTL(data.token, data.token_secret, req.query.account, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
                     if(err){
                         response = {'error' : true, 'message' : 'Error obteniendo el TL'};
                     } else{
                         var parsed = JSON.parse(data);
-                        parsed.push(req.query.id);
                         response = {'error' : false, 'message' : parsed};
                     }
                     res.json(response);
                 });
+              } else{
+                response = {'error' : true, 'message' : 'Error obteniendo el TL'};
+              }
             } else{
                 response = {'error' : true, 'message' : 'Error accediendo a la BD'};
             }
