@@ -148,7 +148,7 @@ angular.module('felinotweetsApp', [
   // obtiene todos los usuarios
   self.deleteUser = function(id) {
     console.log("Intentando borrar usuario " + id);
-    return $http.delete(API + '/users/' + id)
+    return $http.delete(API + '/users/' + id);
   };
 
   // update method

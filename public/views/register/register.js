@@ -27,7 +27,6 @@ loginModule.controller('registerController',
           $scope.first_name = "";
           $scope.last_name = "";
           $scope.pass = result.data.password;
-          console.log('palabra clave que pueda entender que sepa que no  va a ser object');
           ngDialog.open(
               {template : '/views/register/popup.html',
                className : 'ngdialog-theme-default',

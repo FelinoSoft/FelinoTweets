@@ -3,7 +3,7 @@ var profileModule = angular.module('profileModule', [
 ]);
 
 profileModule.controller('profileController',
-    function($scope,$state,$filter,user,auth,twitter) {
+    function($scope,$state,$filter,$location,user,auth,twitter) {
         console.log("profileController inicializado");
 
         // user feedback
@@ -23,7 +23,6 @@ profileModule.controller('profileController',
                 else {
 
                     // usuarios obtenidos con exito
-                    console.log(result.data.message);
                     $scope.thisUser = result.data.message;
 
                     // saves twitter_accounts
@@ -90,17 +89,16 @@ profileModule.controller('profileController',
                 if (result.data.error) {
 
                     // login error, resets only the password field
-                    $scope.messageError = "Error: usuario no borrado."
+                    $scope.messageError = "Error: usuario no borrado.";
                     $scope.notError = false;
                 }
                 else {
-
                     $scope.success = true;
                     $scope.messageSuccess = "Usuario eliminado con éxito.";
                     $scope.thisUser = result.data.message;
                     // user deleted successfully
                     $scope.logOut();
-                    $location.url('/');
+                    $location.path('/');
                 }
             });
         };
