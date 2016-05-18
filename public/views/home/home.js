@@ -8,7 +8,7 @@ var homeModule = angular.module('homeModule', [
     console.log("homeController inicializado");
 
     $scope.GLOBAL_LOAD_TWEETS = 20;
-    $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT = 10;
+    $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT = 120;
 
     $scope.logOut = function() {
       if(auth.logout){
@@ -306,75 +306,78 @@ var homeModule = angular.module('homeModule', [
         var mongoID;
         if(tweets.length > 0){
           mongoID = tweets.pop();
-        }
-        var index;
-        var max_id_temp;
+          if(tweets.length > 0){
+            tweets.pop();
+            var index;
+            var max_id_temp;
 
-        // Search our index
-        for(var i = 0; i < $scope.panels.length; i++){
-          if($scope.panels[i].mongoID === mongoID){
-            index = i;
-          }
-        }
-        $scope.panels[index].newTweetsList = [];
+            // Search our index
+            for(var i = 0; i < $scope.panels.length; i++){
+              if($scope.panels[i].mongoID === mongoID){
+                index = i;
+              }
+            }
+            $scope.panels[index].newTweetsList = [];
 
-        // For each tweet
-        for(j = 0; j < tweets.length; j++){
-          if(j == tweets.length - 1){
-            max_id_temp = tweets[j].id;
-          }
-          /* PROCESSING TWEET */
-          var author;
-          var name;
-          var text;
-          var imgLinkT;
-          var nRetweets;
-          var nLikes;
-          var tweetLink;
-          var date;
-          if(tweets[j].retweeted){
-            author = tweets[j].retweeted_status.user.screen_name;
-            name = tweets[j].retweeted_status.user.name;
-            text = tweets[j].retweeted_status.text;
-            imgLinkT = tweets[j].retweeted_status.user.profile_image_url;
-            nRetweets = tweets[j].retweeted_status.retweet_count;
-            nLikes = tweets[j].retweeted_status.favorite_count;
-            tweetLink = "http://twitter.com/" + tweets[j].retweeted_status.user.screen_name +
-                                                    "/status/" + tweets[j].retweeted_status.id_str;
-            date = new Date(tweets[j].retweeted_status.created_at);
-            date = $filter('date')(date, 'dd MMM yyyy');
-          } else{
-            author = tweets[j].user.screen_name;
-            name = tweets[j].user.name;
-            text = tweets[j].text;
-            imgLinkT = tweets[j].user.profile_image_url;
-            nRetweets = tweets[j].retweet_count;
-            nLikes = tweets[j].favorite_count;
-            tweetLink = "http://twitter.com/" + tweets[j].user.screen_name +
-                                                    "/status/" + tweets[j].id_str;
-            date = new Date(tweets[j].created_at);
-            date = $filter('date')(date, 'dd MMM yyyy');
-          }
-          var rted = tweets[j].retweeted;
-          var liked = tweets[j].favorited;
-          /* END OF PROCESSING TWEET */
+            // For each tweet
+            for(j = 0; j < tweets.length; j++){
+              if(j == tweets.length - 1){
+                max_id_temp = tweets[j].id;
+              }
+              /* PROCESSING TWEET */
+              var author;
+              var name;
+              var text;
+              var imgLinkT;
+              var nRetweets;
+              var nLikes;
+              var tweetLink;
+              var date;
+              if(tweets[j].retweeted){
+                author = tweets[j].retweeted_status.user.screen_name;
+                name = tweets[j].retweeted_status.user.name;
+                text = tweets[j].retweeted_status.text;
+                imgLinkT = tweets[j].retweeted_status.user.profile_image_url;
+                nRetweets = tweets[j].retweeted_status.retweet_count;
+                nLikes = tweets[j].retweeted_status.favorite_count;
+                tweetLink = "http://twitter.com/" + tweets[j].retweeted_status.user.screen_name +
+                                                        "/status/" + tweets[j].retweeted_status.id_str;
+                date = new Date(tweets[j].retweeted_status.created_at);
+                date = $filter('date')(date, 'dd MMM yyyy');
+              } else{
+                author = tweets[j].user.screen_name;
+                name = tweets[j].user.name;
+                text = tweets[j].text;
+                imgLinkT = tweets[j].user.profile_image_url;
+                nRetweets = tweets[j].retweet_count;
+                nLikes = tweets[j].favorite_count;
+                tweetLink = "http://twitter.com/" + tweets[j].user.screen_name +
+                                                        "/status/" + tweets[j].id_str;
+                date = new Date(tweets[j].created_at);
+                date = $filter('date')(date, 'dd MMM yyyy');
+              }
+              var rted = tweets[j].retweeted;
+              var liked = tweets[j].favorited;
+              /* END OF PROCESSING TWEET */
 
-          var finalTweet = {'author':author, 'name':name, 'text':text, 'imgLink':imgLinkT,
-                            'nRetweets':nRetweets, 'nLikes':nLikes, 'rted':rted,
-                            'liked':liked, 'date':date,
-                            'tweetLink':tweetLink
-                          };
-          $scope.panels[index].newTweetsList.push(finalTweet);
-        } // End for each tweet
+              var finalTweet = {'author':author, 'name':name, 'text':text, 'imgLink':imgLinkT,
+                                'nRetweets':nRetweets, 'nLikes':nLikes, 'rted':rted,
+                                'liked':liked, 'date':date,
+                                'tweetLink':tweetLink
+                              };
+              $scope.panels[index].newTweetsList.push(finalTweet);
+            } // End for each tweet
 
-        if(tweets.length < $scope.GLOBAL_LOAD_TWEETS){
-          // There are no more tweets to load. No new call required
-        } else{
-          // There may be new tweets to load
-          home.getAccountTimeLine(mongoID, $scope.panels[index].user, $scope.GLOBAL_LOAD_TWEETS + 1, $scope.panels[index].since_id, max_id_temp).then(processResult);
-        }
-        $scope.panels[index].hasNewTweets = $scope.panels[index].newTweetsList.length > 0;
-      } // End of process Result
+            if(tweets.length < $scope.GLOBAL_LOAD_TWEETS){
+              // There are no more tweets to load. No new call required
+            } else{
+              // There may be new tweets to load
+              home.getAccountTimeLine(mongoID, $scope.panels[index].user, $scope.GLOBAL_LOAD_TWEETS + 1, $scope.panels[index].since_id, max_id_temp).then(processResult);
+            }
+            $scope.panels[index].hasNewTweets = $scope.panels[index].newTweetsList.length > 0;
+          } // End of if there are tweets
+        } // End of if there is mongo ID
+      } // End of function
 
       // For each panel search new tweets
       for(var i = 0; i < $scope.panels.length; i++){
