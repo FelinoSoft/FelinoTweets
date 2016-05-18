@@ -116,9 +116,6 @@ module.exports = function(app){
                 if(req.body.email !== undefined){
                     data.email = req.body.email;
                 }
-                if(req.body.password !== undefined){
-                    data.password = req.body.password;
-                }
                 if(req.body.first_name !== undefined){
                     data.first_name = req.body.first_name;
                 }
@@ -131,15 +128,28 @@ module.exports = function(app){
                 if(req.body.hashtags !== undefined){
                     data.hashtags = req.body.hashtags;
                 }
-
-                data.save(function(err){
-                  if(err){
-                      response = {"error" : true, "message" : "Error updating data"};
-                      res.json(response);
-                  } else{
-                    findAllUsers(req,res);
-                  }
-                });
+                if(req.body.password !== undefined){
+                    bcrypt.hash(req.body.password, 10, function (err, hash) {
+                        data.password = hash;
+                        data.save(function(err){
+                            if(err){
+                                response = {"error" : true, "message" : "Error updating data"};
+                                res.json(response);
+                            } else{
+                                findAllUsers(req,res);
+                            }
+                        });
+                    });
+                } else{
+                    data.save(function(err){
+                        if(err){
+                            response = {"error" : true, "message" : "Error updating data"};
+                            res.json(response);
+                        } else{
+                            findAllUsers(req,res);
+                        }
+                    });
+                }
             });
           }
           else {
@@ -405,7 +415,7 @@ module.exports = function(app){
                               "admin" : data.admin
                           };
                           var token = jwt.sign(userInfo, app.get('superSecret'), {
-                              expiresIn: 60 // expires in 1 hour (3600 secs)
+                              expiresIn: 3600 // expires in 1 hour (3600 secs)
                           });
 
                           // return the information including token as JSON

@@ -26,7 +26,7 @@ module.exports = function(app,passport){
         var response = {};
         twitter_account.findOne({'_id' : req.query.id, 'account_id' : req.cookies.user_id}, function(err,data){
             if(!err){
-              if(data !== undefined){
+              if(data !== null){
                 twitter.getTL(data.token, data.token_secret, req.query.account, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
                     if(err){

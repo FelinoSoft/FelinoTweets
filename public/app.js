@@ -6,7 +6,8 @@ angular.module('felinotweetsApp', [
   'registerModule',
   'accountModule',
   'adminModule',
-  'adminStatsModule'
+  'adminStatsModule',
+  'profileModule'
 ])
 
 .constant('API', 'http://127.0.0.1:8888')
@@ -140,6 +141,10 @@ angular.module('felinotweetsApp', [
     return $http.get(API + '/users')
   };
 
+  self.getUser = function(id) {
+    return $http.get(API + '/users/' + id);
+  };
+
   // obtiene todos los usuarios
   self.deleteUser = function(id) {
     console.log("Intentando borrar usuario " + id);
@@ -152,7 +157,22 @@ angular.module('felinotweetsApp', [
       first_name: first_name,
       last_name: last_name,
     })
-  }
+  };
+
+  self.updateMyself = function(id, first_name, last_name, password) {
+    if(password !== undefined){
+      return $http.put(API + '/users/' + id, {
+        first_name: first_name,
+        last_name: last_name,
+        password: password
+      });
+    } else{
+      return $http.put(API + '/users/' + id, {
+        first_name: first_name,
+        last_name: last_name,
+      });
+    }
+  };
 
   // register method
   self.register = function(email, first_name, last_name) {
@@ -408,6 +428,19 @@ angular.module('felinotweetsApp', [
           }
           else if(!auth.isAdmin()) {
             $state.go('home');
+          }
+        }]
+      })
+      .state('profileModule',{
+        url: '/profile',
+        templateUrl: '/views/profile/profile.html',
+        controller: 'profileController',
+        onEnter: ['$state', 'auth', function($state, auth) {
+          if(!auth.isAuthed()) {
+            $state.go('login');
+          }
+          else if(auth.isAdmin()) {
+            $state.go('admin');
           }
         }]
       });
