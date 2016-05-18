@@ -28,22 +28,25 @@ module.exports = function(app){
     //
     //     if (data.admin) {
           var limit = req.params.limit;
-          user.find({}, null, {sort: {n_tweets: -1}, limit: limit}, function(err,data){
+          user.find({}, null, {sort: {n_tweets: -1}, limit: limit}, function(err,resData){
             if(err) {
               response = {"error" : true, "message" : "Error fetching data"};
             } else{
-              var result = [];
 
-              for (var i in data) {
-                var email = data[i].email;
-                var n_tweets = data[i].n_tweets;
-                var e = {
-                  'email': email,
-                  'n_tweets': n_tweets
-                };
-                result.push(e);
+              var labels = [];
+              var data = [];
+              for (var i in resData) {
+                var email = resData[i].email;
+                var n_tweets = resData[i].n_tweets;
+
+                if (n_tweets == null) {
+                  n_tweets = 0;
+                }
+
+                labels.push(email);
+                data.push(n_tweets);
               }
-
+              var result = {labels, data};
               response = {"error" : false, "message" : result};
             }
             res.json(response);
@@ -97,39 +100,46 @@ module.exports = function(app){
           var date = new Date();
           date.setDate(date.getDate() - days);
 
-          registrations.find({date: {$gt: date}}, function(err,data){
+          registrations.find({date: {$gt: date}}, function(err,resData){
             if(err) {
               response = {"error" : true, "message" : "Error fetching data"};
             } else{
 
               // initializes result set
-              var result = [];
+              var altas = [];
+              var bajas = [];
+              var accesos = [];
+              var labels = [];
+
               for (var i = days; i >= 0; i--) {
                 var newDate = moment().subtract(i, 'days').format('MM-DD');
                 var numEvents = 0;
-                var e = {
-                  'date': newDate,
-                  'altas': numEvents,
-                  'bajas': numEvents,
-                  'accesos': numEvents
-                }
-                result.push(e);
+                labels.push(newDate);
+                altas.push(numEvents);
+                bajas.push(numEvents);
+                accesos.push(numEvents);
               }
+              var data = {
+                'altas': altas,
+                'bajas': bajas,
+                'accesos': accesos
+              };
+              var result = {labels, data};
 
               // checks for date matches to add number of events
-              for (var i in data) {
-                var dateReg = moment(data[i].date).format('MM-DD');
-                for (var j in result) {
+              for (var i in resData) {
+                var dateReg = moment(resData[i].date).format('MM-DD');
+                for (var j in labels) {
 
-                  if (result[j].date == dateReg) {
-                    if (data[i].type == 'alta') {
-                      result[j].altas = result[j].altas + 1;
+                  if (labels[j] == dateReg) {
+                    if (resData[i].type == 'alta') {
+                      result.data.altas[j] = result.data.altas[j] + 1;
                     }
-                    if (data[i].type == 'baja') {
-                      result[j].bajas = result[j].bajas + 1;
+                    if (resData[i].type == 'baja') {
+                      result.data.bajas[j] = result.data.bajas[j] + 1;
                     }
-                    if (data[i].type == 'acceso') {
-                      result[j].accesos = result[j].accesos + 1;
+                    if (resData[i].type == 'acceso') {
+                      result.data.accesos[j] = result.data.accesos[j] + 1;
                     }
                   }
                 }
@@ -166,30 +176,31 @@ module.exports = function(app){
           var date = new Date();
           date.setDate(date.getDate() - days);
 
-          registrations.find({type: typeR, date: {$gt: date}}, function(err,data){
+          registrations.find({type: typeR, date: {$gt: date}}, function(err,resData){
             if(err) {
               response = {"error" : true, "message" : "Error fetching data"};
             } else{
 
               // initializes result set
-              var result = [];
+              var labels = [];
+              var events = [];
               for (var i = days; i >= 0; i--) {
                 var newDate = moment().subtract(i, 'days').format('MM-DD');
-                var numEvents = 0;
-                var e = {
-                  'date': newDate,
-                  'events': numEvents
-                }
-                result.push(e);
+                labels.push(newDate);
+                events.push(0);
               }
+              var data = {
+                'events': events
+              };
+              var result = {labels, data};
 
               // checks for date matches to add number of events
-              for (var i in data) {
-                var dateReg = moment(data[i].date).format('MM-DD');
-                for (var j in result) {
+              for (var i in resData) {
+                var dateReg = moment(resData[i].date).format('MM-DD');
+                for (var j in labels) {
 
-                  if (result[j].date == dateReg) {
-                      result[j].events = result[j].events + 1;
+                  if (labels[j] == dateReg) {
+                      result.data.events[j] = result.data.events[j] + 1;
                   }
                 }
               }

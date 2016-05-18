@@ -49,14 +49,11 @@ loginModule.controller('adminStatsController',
         else {
 
           // usuarios obtenidos con exito
-          $scope.registerStats = result.data.message;
+          var stats = result.data.message;
 
-          // obtains the data and labels
-          angular.forEach($scope.registerStats, function(value, key) {
-            $scope.labelsRegistered.push(value.date);
-            $scope.dataAltas.push(value.altas);
-            $scope.dataBajas.push(value.bajas);
-          });
+          $scope.labelsRegistered = stats.labels;
+          $scope.dataAltas = stats.data.altas;
+          $scope.dataBajas = stats.data.bajas;
 
           // obtains registered users stats
           $scope.stats[0] =
@@ -105,13 +102,9 @@ loginModule.controller('adminStatsController',
         else {
 
           // usuarios obtenidos con exito
-          $scope.lastAccess = result.data.message;
-
-          // generates the data for past days
-          angular.forEach($scope.lastAccess, function(value, key) {
-            $scope.labelsAccess.push(value.date);
-            $scope.dataAccess.push(value.events);
-          });
+          var stats = result.data.message;
+          $scope.labelsAccess = stats.labels;
+          $scope.dataAccess = stats.data.events;
 
           // obtains access users stats
           $scope.stats[1] =
@@ -151,12 +144,10 @@ loginModule.controller('adminStatsController',
         else {
 
           // usuarios obtenidos con exito
-          $scope.rankingUsers = result.data.message;
+          var ranking = result.data.message;
 
-          angular.forEach($scope.rankingUsers, function(value, key) {
-            $scope.labelsRanking.push(value.email);
-            $scope.dataRanking.push(value.n_tweets);
-          });
+          $scope.labelsRanking = ranking.labels;
+          $scope.dataRanking = ranking.data;
 
           // obtains access users stats
           $scope.stats[2] =

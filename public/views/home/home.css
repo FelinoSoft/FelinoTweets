@@ -57,9 +57,17 @@
   overflow:hidden;
   text-overflow:ellipsis;
   padding-left:0;
-  text-align:left;
-  margin-left:0;
+  text-align: left;
+  margin-left:0 !important;
   margin-right:0 !important;
+  padding-right: 0px;
+}
+
+.nombreUsuario{
+  margin-left: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 50%;
 }
 
 .descriptionText{
@@ -280,4 +288,12 @@
   text-align:center;
   display:inline-block;
   width:100%;
+}
+
+.placeForButton{
+  height: 40px;
+}
+
+.botonNuevosTweets{
+  margin-top: -18px;
 }
