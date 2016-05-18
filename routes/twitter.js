@@ -6,7 +6,10 @@ module.exports = function(app,passport){
 
     getTweetAccount = function(req, res){
         var response = {};
-        twitter_account.findOne({'_id' : req.query.id, 'account_id' : req.cookies.user_id}, function(err,data){
+
+        var user_id = req.cookies.user_id || req.query.user_id;
+
+        twitter_account.findOne({'_id' : req.query.id, 'account_id' : user_id}, function(err,data){
             if(!err){
                 twitter.getTweetAccount(data.token, data.token_secret, req.query.account, function(err, data){
                     if(err){
@@ -24,7 +27,10 @@ module.exports = function(app,passport){
 
     getTimeline = function(req, res){
         var response = {};
-        twitter_account.findOne({'_id' : req.query.id, 'account_id' : req.cookies.user_id}, function(err,data){
+
+        var user_id = req.cookies.user_id || req.query.user_id;
+
+        twitter_account.findOne({'_id' : req.query.id, 'account_id' : user_id}, function(err,data){
             if(!err){
               if(data !== null){
                 twitter.getTL(data.token, data.token_secret, req.query.account, req.query.count,
@@ -48,7 +54,10 @@ module.exports = function(app,passport){
 
     getHome = function(req, res){
         var response = {};
-        twitter_account.findOne({'_id' : req.query.id, 'account_id' : req.cookies.user_id}, function(err,data){
+
+        var user_id = req.cookies.user_id || req.query.user_id;
+
+        twitter_account.findOne({'_id' : req.query.id, 'account_id' : user_id}, function(err,data){
             if(!err){
                 twitter.getHome(data.token, data.token_secret, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
@@ -67,7 +76,10 @@ module.exports = function(app,passport){
 
     getMentions = function(req, res){
         var response = {};
-        twitter_account.findOne({'_id' : req.query.id, 'account_id' : req.cookies.user_id}, function(err,data){
+
+        var user_id = req.cookies.user_id || req.query.user_id;
+
+        twitter_account.findOne({'_id' : req.query.id, 'account_id' : user_id}, function(err,data){
             if(!err){
                 twitter.getMentions(data.token, data.token_secret, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
@@ -86,7 +98,10 @@ module.exports = function(app,passport){
 
     searchHashtag = function(req, res){
         var response = {};
-        twitter_account.findOne({'_id' : req.query.id, 'account_id' : req.cookies.user_id}, function(err,data){
+
+        var user_id = req.cookies.user_id || req.query.user_id;
+
+        twitter_account.findOne({'_id' : req.query.id, 'account_id' : user_id}, function(err,data){
             if(!err){
                 twitter.searchHashtag(data.token, data.token_secret, req.query.hashtag, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
@@ -105,6 +120,7 @@ module.exports = function(app,passport){
 
     getMDs = function(req, res){
         var response = {};
+
         twitter_account.findOne({'_id' : req.query.id, 'account_id' : req.cookies.user_id}, function(err,data){
             if(!err){
                 twitter.getMDs(data.token, data.token_secret, req.query.count,
@@ -124,6 +140,7 @@ module.exports = function(app,passport){
 
     postTweet = function(req, res){
         var response = {};
+
         twitter_account.findOne({'_id' : req.body.id, 'account_id' : req.cookies.user_id}, function(err,data){
             if(!err){
                 twitter.postTweet(req.cookies.user_id, data.token, data.token_secret, req.body.tweet, function(err, data){
