@@ -1,10 +1,11 @@
 var accountModule = angular.module('accountModule', [
   'felinotweetsApp',
-  'linkify'
+  'linkify',
+  'ngDialog'
 ]);
 
 accountModule.controller('accountController',
-  function($scope,$http,$location,$filter,$stateParams,$timeout,auth,twitter,home,account){
+  function($scope,$http,$location,$filter,$stateParams,$timeout,auth,twitter,home,account,ngDialog){
     console.log("AccountController inicializado");
     $scope.userInfo = {};
     $scope.addingHashtag = false;
@@ -259,10 +260,12 @@ accountModule.controller('accountController',
                 if(!result.data.error){
                     $scope.tweeting = false;
                     $scope.sendingTweet = false;
+                    $scope.contarCaracteres();
                 } else{
                     $scope.tweeting = false;
                     $scope.sendingTweet = false;
                     $scope.errorTweeting = true;
+                    $scope.contarCaracteres();
                 }
             });
         } else{
@@ -649,8 +652,55 @@ accountModule.controller('accountController',
       // TODO
     };
 
-    // Calls to functions when arriving
+      $scope.replyDialog = function(tweetID, author, nombre){
+
+          $scope.tweetID = tweetID;
+          $scope.account_id = $stateParams.account_id;
+          $scope.user_name = '@' + author + ' ';
+          $scope.nombre = nombre;
+          ngDialog.open(
+              {template : '/views/account/reply.html',
+                  className : 'ngdialog-theme-default',
+                  controller: 'ReplyCtrl',
+                  scope: $scope,
+                  closeByNavigation : true,
+                  closeByDocument: true,
+                  closeByEscape: true,
+                  showClose: true,
+                  preCloseCallback: function() {
+                      $scope.tweet = {};
+                  }
+              }
+          );
+      };
+
+      // Calls to functions when arriving
     $scope.getUserInfo();
+
     $scope.setCheckingTimeout();
+
+});
+
+accountModule.controller('ReplyCtrl', function ($scope, twitter) {
+
+    $scope.tweet.text = $scope.user_name;
+
+    $scope.reply = function(){
+        twitter.postTweet($scope.account_id, $scope.tweet.text, $scope.tweetID).then(function(result){
+            if(!result.data.error){
+                $scope.tweeting = false;
+                $scope.sendingTweet = false;
+                $scope.closeThisDialog(false);
+            } else{
+                $scope.tweeting = false;
+                $scope.sendingTweet = false;
+                $scope.errorTweeting = true;
+                $scope.closeThisDialog(true);
+            }
+        });
+        $scope.tweet = {};
+        $scope.contarCaracteres();
+        $scope.sendingTweet = true;
+    };
 
 });

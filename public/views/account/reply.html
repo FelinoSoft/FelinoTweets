@@ -1,0 +1,35 @@
+<div class="reply-box">
+
+    <b>Responder a {{nombre}}</b>
+    <div class="input-group formTweetExpanded">
+              <textarea ng-change="contarCaracteres()" ng-trim="false"
+                        class="form-control formTweetExpanded" rows="3"
+                        autofocus placeholder="¿Qué está pasando?"
+                        style="resize:none" ng-model="tweet.text">
+              </textarea>
+    </div>
+    <div class="row caja">
+        <div class="col-lg-offset-3 col-lg-3 col-md-offset-2 col-md-4 col-sm-offset-2 col-sm-4 col-xs-12 dentrocaja">
+            <div class="row account-tweet-button-row dentrocaja">
+                <div ng-show="!isSendingTweet()" class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-2 col-xs-offset-1 col-xs-1 caracteresRestantesCol">
+                        <span>
+                          <p class="caracteresRestantes">
+                           {{caracteres}} &nbsp &nbsp
+                          </p>
+                        </span>
+                </div>
+                <div class="col-xs-6 col-md-1 col-sm-1 ">
+                    <button ng-show="!isSendingTweet()" ng-disabled="cantTweet()"
+                            ng-click="reply()" class="btn btn-primary botonEnviar"><i class="fa fa-twitter"
+                                                                                          aria-hidden="true"></i>
+                        Twittear
+                    </button>
+                    <button ng-show="isSendingTweet()"
+                            class="btn btn-primary botonEnviar"><i class="fa fa-spinner fa-spin fa-fw fa-lg" ></i>
+                        Enviando
+                    </button>
+                </div>
+            </div> <!-- Row for both elements -->
+        </div> <!-- Col for characters remaining and button -->
+    </div> <!-- Row under text for tweet -->
+</div>

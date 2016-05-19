@@ -145,6 +145,7 @@ module.exports = function(app,passport){
 
         var text = req.body.tweet;
         var user_id = req.cookies.user_id;
+        var id_reply = req.body.id_reply;
 
         twitter_account.findOne({'_id' : req.body.id, 'account_id' : user_id}, function(err,data){
             if(!err){
@@ -155,7 +156,7 @@ module.exports = function(app,passport){
                         response = {'error' : false, 'message' : data};
                     }
                     res.json(response);
-                });
+                }, id_reply);
             } else{
                 response = {'error' : true, 'message' : 'Error accediendo a la BD'};
             }

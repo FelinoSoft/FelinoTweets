@@ -289,18 +289,20 @@ angular.module('felinotweetsApp', [
     });
   };
 
-  self.postTweet = function(account_id, text){
-    return $http.post(API + '/twitter/tweet', {
-      'id' : account_id,
-      'tweet' : text
-    });
-  };
-
-  self.postTweet = function(account_id, text){
-    return $http.post(API + '/twitter/tweet', {
-      'id' : account_id,
-      'tweet' : text
-    });
+  self.postTweet = function(account_id, text, id_reply){
+    if(id_reply !== undefined){
+      return $http.post(API + '/twitter/tweet', {
+        'id' : account_id,
+        'tweet' : text,
+        'id_reply': id_reply
+      });
+    } else{
+      return $http.post(API + '/twitter/tweet', {
+        'id' : account_id,
+        'tweet' : text
+      });
+    }
+    
   };
 
   self.postScheduledTweet = function(account_id, text, date){

@@ -38,7 +38,7 @@
 
             <div class="input-group" ng-show="!isTweeting()">
               <span class="input-group-addon imagenTweet" id="sizing-addon2"><img class="imagenTweetImg" src={{userInfo.imgLink}}/></span>
-              <input ng-click="setTweeting(true)" type="text" class="form-control formTweet" placeholder="¿Qué está pasando?">
+              <input ng-click="setTweeting(true)" type="text" class="form-control formTweet" value="¿Qué está pasando?">
             </div>
 
             <div class="input-group formTweetExpanded" ng-show="isTweeting()">
@@ -123,6 +123,12 @@
                     </p>
                     <!-- RT button -->
                     <div class="homeTwitButtons">
+
+                      <!--Reply button-->
+                        <button class="homeGlifaiconsRes" ng-click="replyDialog(tweet.tweetID, tweet.author, tweet.name)">
+                          <i class="fa fa-reply homeGlifaiconsRES" aria-hidden="true"></i>
+                        </button>
+
                       <span class="homeGlifaiconsRTNolink" ng-show="isSameUserAndAuthor(userInfo.accountName,tweet.author)">
                         <span class="glyphicon glyphicon-retweet homeGlifaiconsRTNoLink">
                         </span>

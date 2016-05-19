@@ -200,6 +200,22 @@
   padding-bottom:5px;
 }
 
+.homeGlifaiconsRes{
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
+}
+
+.homeGlifaiconsRes:hover{
+  color:#333333;
+  vertical-align:middle;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
+}
+
 .homeTwitButtons{
   font-size: small;
   color:black;
