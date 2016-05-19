@@ -154,65 +154,6 @@ accountModule.controller('accountController',
         });
       }
 
-      function getHashtagsPanels(accountID, accountName){
-        // Auxiliary function
-        function getHashtagPanel(hashtag, accountID, accountName){
-          account.getHashtagTweets(hashtag, accountID, accountName,
-                  $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
-            var tweets = result.data.message.statuses;
-            var panelTweets = [];
-            var max_id = -1;
-            var since_id = -1;
-            var panel;
-            if(!result.data.error){
-              if(tweets.length !== 0){
-                for(j = 0; j < tweets.length; j++){
-                  if(j === 0){
-                    since_id = tweets[j].id;
-                  }
-                  if(j === tweets.length - 1){
-                    max_id = tweets[j].id;
-                  }
-                  var processedTweet = $scope.processTweet(tweets[j]);
-                  panelTweets.push(processedTweet);
-                } // End for each tweet
-                panel = {
-                  'tweets':panelTweets, 'hashtag':hashtag,
-                  'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-                  'loading':false,'hasMore':true,
-                  'hasNewTweets':false, 'newTweetsList':[]
-                };
-              } else {
-                panel = {
-                  'tweets':panelTweets, 'hashtag':hashtag,
-                  'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-                  'loading':false,'hasMore':false,
-                  'hasNewTweets':false, 'newTweetsList':[]
-                };
-              }
-              $scope.userInfo.hashtagsPanel.push(panel);
-              if($scope.userInfo.hashtagsPanel.length == $scope.hashtagsLength){
-                $scope.hashtagsStarted = true;
-              }
-            } else{
-              console.log("Error on hashtag");
-              console.log(result.data.message);
-            }
-          });
-        }
-
-        $scope.userInfo.hashtagsPanel = [];
-        account.getHashtags(accountID).then(function(result){
-          var arrayHashtags = result.data.message;
-          $scope.hashtagsLength = arrayHashtags.length;
-          if(!result.data.error){
-            for(var i = 0; i < arrayHashtags.length; i++){
-              getHashtagPanel(arrayHashtags[i].hashtag, accountID, accountName);
-            }
-          }
-        });
-      }
-
       $scope.userInfo.mongoID = $stateParams.account_id;
       home.getTwitterAccountByID($scope.userInfo.mongoID).then(function(result){
         if(!result.data.error){
@@ -225,11 +166,70 @@ accountModule.controller('accountController',
           getHomePanel($scope.userInfo.accountID, $scope.userInfo.accountName);
           getTLPanel($scope.userInfo.accountID, $scope.userInfo.accountName);
           getMentionsPanel($scope.userInfo.accountID, $scope.userInfo.accountName);
-          getHashtagsPanels($scope.userInfo.accountID, $scope.userInfo.accountName);
+          $scope.getHashtagsPanels($scope.userInfo.accountID, $scope.userInfo.accountName);
 
         }
       });
     };
+
+    $scope.getHashtagsPanels = function(accountID, accountName){
+      // Auxiliary function
+      function getHashtagPanel(hashtag, accountID, accountName){
+        account.getHashtagTweets(hashtag, accountID, accountName,
+                $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
+          var tweets = result.data.message.statuses;
+          var panelTweets = [];
+          var max_id = -1;
+          var since_id = -1;
+          var panel;
+          if(!result.data.error){
+            if(tweets.length !== 0){
+              for(j = 0; j < tweets.length; j++){
+                if(j === 0){
+                  since_id = tweets[j].id;
+                }
+                if(j === tweets.length - 1){
+                  max_id = tweets[j].id;
+                }
+                var processedTweet = $scope.processTweet(tweets[j]);
+                panelTweets.push(processedTweet);
+              } // End for each tweet
+              panel = {
+                'tweets':panelTweets, 'hashtag':hashtag,
+                'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                'loading':false,'hasMore':true,
+                'hasNewTweets':false, 'newTweetsList':[]
+              };
+            } else {
+              panel = {
+                'tweets':panelTweets, 'hashtag':hashtag,
+                'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                'loading':false,'hasMore':false,
+                'hasNewTweets':false, 'newTweetsList':[]
+              };
+            }
+            $scope.userInfo.hashtagsPanel.push(panel);
+            if($scope.userInfo.hashtagsPanel.length == $scope.hashtagsLength){
+              $scope.hashtagsStarted = true;
+            }
+          } else{
+            console.log("Error on hashtag");
+            console.log(result.data.message);
+          }
+        });
+      }
+
+      $scope.userInfo.hashtagsPanel = [];
+      account.getHashtags(accountID).then(function(result){
+        var arrayHashtags = result.data.message;
+        $scope.hashtagsLength = arrayHashtags.length;
+        if(!result.data.error){
+          for(var i = 0; i < arrayHashtags.length; i++){
+            getHashtagPanel(arrayHashtags[i].hashtag, accountID, accountName);
+          }
+        }
+      });
+    }
 
     twitter.getScheduledTweets($stateParams.account_id).then(function(result){
         if(!result.error){
@@ -271,9 +271,16 @@ accountModule.controller('accountController',
     };
 
     $scope.saveHashtag = function(hashtag){
-        twitter.saveHashtag($stateParams.account_id, hashtag);
-        $scope.addingHashtag = false;
-        $scope.newHashtag = "";
+        twitter.saveHashtag($stateParams.account_id, hashtag).then(function(result){
+          if(!result.data.err){
+            $scope.getHashtagsPanels($scope.userInfo.accountID, $scope.userInfo.accountName);
+          } else{
+            // Nothing
+          }
+          $scope.addingHashtag = false;
+          $scope.newHashtag = "";
+        });
+
     };
 
     $scope.isTweeting = function(){
