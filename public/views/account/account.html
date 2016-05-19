@@ -404,7 +404,7 @@
       </div> <!-- Col -->
 
 
-      <div class="col-md-3 col-sm-4 col-xs-12">
+      <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="pan in userInfo.hashtagsPanel">
         <div class="panel panel-primary panel-twitter">
           <div class="panel-heading home-panel-heading">
             <div class="container homePanelRow">
@@ -413,7 +413,7 @@
                   <i class="fa fa-hashtag" aria-hidden="true"></i>
                 </div>
                 <div class="col-md-7 col-sm-7 col-xs-8 homeCurrentAccountText">
-                  Jejeje
+                  {{pan.hashtag}}
                 </div>
                 <div class="col-md-3 col-sm-2 col-xs-2">
                   <button class="btn btn-default eliminarColumna"><span class="glyphicon glyphicon-remove"> </span></button>
@@ -425,23 +425,74 @@
             <div class="container homePanelRow">
               <div class="col-xs-12 homeZeroPadding">
                 <ul class="list-group">
-                  <li class="list-group-item homeZeroPadding">
+                  <li class="placeForButton" ng-show="pan.hasNewTweets">
+                    <button ng-show="pan.hasNewTweets" type="button" ng-click="showNewTweets('hashtag',pan.hashtag)" class="btn btn-primary btn-md center-block botonNuevosTweets">
+                      <i class="fa fa-twitter" ng-show="pan.hasNewTweets"></i>
+                      {{pan.newTweetsList.length}} new tweets
+                    </button>
+                  </li>
+                  <li class="list-group-item homeZeroPadding" ng-repeat="tweet in pan.tweets">
                     <div class="homeTwitImgDiv">
-                      <a href="#">
-                        <img src="https://pbs.twimg.com/profile_images/721419863609208832/3aBTZgMZ_400x400.jpg" class="imgPanel img-responsive" alt="Cinque Terre">
+                      <a href="https://twitter.com/{{tweet.author}}">
+                        <img src={{tweet.imgLink}} class="imgPanel img-responsive" alt="Cinque Terre">
                       </a>
                     </div>
-                    <div class="homeTwitUser">
-                      @MiPollaEnAlmibar
+                    <div class="homeTwitUser" linkify="twitter">
+                      <span class="homeTwitName">
+                          <a href="https://twitter.com/{{tweet.author}}">{{tweet.name}}</a>
+                      </span>
+                        @{{tweet.author}}
                     </div>
-                    <p class="homeTwitText">
-                      Lorem ipsumfjaj djdj dj djdjjjjs sjjsjjs s sjsjjsj sj jsj jsjjsjsjs sjsj sjsjs sjs js sjs sjs sjsjs jsjs sjs sjs fdssadf dfs dfs fsd sdf sdd
+                    <p class="homeTwitText" linkify="twitter">
+                      {{tweet.text}}
                     </p>
+                    <!-- RT button -->
                     <div class="homeTwitButtons">
-                      <a class="homeGlifaiconsRT" href="#"><span class="glyphicon glyphicon-retweet homeGlifaiconsRT"></span> 0 </a>
-                      <a class="homeGlifaiconsFAV" href="#"><span class="glyphicon glyphicon-heart homeGlifaiconsFAV"></span> 0 </a>
-                      <a class="homeGlifaiconsINFO" href="#"><span class="glyphicon glyphicon-time homeGlifaiconsINFO"></span> 30 Feb 2019 </a>
+                      <span class="homeGlifaiconsRTNolink" ng-show="isSameUserAndAuthor(userInfo.accountName,tweet.author)">
+                        <span class="glyphicon glyphicon-retweet homeGlifaiconsRTNoLink">
+                        </span>
+                        {{tweet.nRetweets}}
+                      </span>
+
+                      <button class="homeGlifaiconsNoRT" ng-click="createRetweet(tweet.tweetID,userInfo.accountID,tweet)" ng-show="RThasToShow(userInfo.accountName, tweet.author, tweet.rted, 1)">
+                        <span class="glyphicon glyphicon-retweet">
+                        </span>
+                        {{tweet.nRetweets}}
+                      </button>
+
+                      <button class="homeGlifaiconsRT" ng-click="deleteRetweet(tweet.tweetID,userInfo.accountID,tweet)" ng-show="RThasToShow(userInfo.accountName, tweet.author, tweet.rted, 2)">
+                        <span class="glyphicon glyphicon-retweet">
+                        </span>
+                        {{tweet.nRetweets}}
+                      </button>
+
+                      <!-- Fav button -->
+                      <button class="homeGlifaiconsNoFAV" ng-click="createFav(tweet.tweetID, userInfo.accountID,tweet)" ng-show="!tweet.liked">
+                        <span class="glyphicon glyphicon-heart">
+                        </span>
+                        {{tweet.nLikes}}
+                      </button>
+
+                      <button class="homeGlifaiconsFAV" ng-click="deleteFav(tweet.tweetID, userInfo.accountID,tweet)" ng-show="tweet.liked">
+                        <span class="glyphicon glyphicon-heart">
+                        </span>
+                        {{tweet.nLikes}}
+                      </button>
+                      <!-- Tweet Info. Always shows up -->
+                      <a class="homeGlifaiconsINFO" href={{tweet.tweetLink}} target="_blank">
+                        <span class="glyphicon glyphicon-time homeGlifaiconsINFO">
+                        </span>
+                        {{tweet.date}}
+                      </a>
                     </div>
+                  </li>
+                  <li>
+                    <button ng-show="pan.hasMore" type="button" ng-click="loadMore('hashtag',pan.hashtag)" class="btn btn-primary btn-md center-block" ng-disabled="isLoading('hashtag',{{pan.hashtag}})">
+                      <i class="fa fa-spinner fa-spin fa-fw fa-lg" ng-show="isLoading('hashtag',pan.hashtag)"></i>
+                      <i class="fa fa-twitter" ng-show="!isLoading(pan.mongoID)"></i>
+                      Load more
+                    </button>
+                    <i class="fa fa-twitter center-block fa-center-icon" ng-show="!pan.hasMore"></i>
                   </li>
                 </ul>
               </div>
@@ -449,6 +500,7 @@
           </div>
         </div> <!-- Panel twitter -->
       </div> <!-- Col -->
+      
       <div class="col-md-3 col-sm-4 col-xs-12" ng-show="!isAddingHashtag()">
         <div class="panel panel-default home-panel-add">
           <div class="homeAddPanelText">

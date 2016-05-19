@@ -15,6 +15,7 @@ accountModule.controller('accountController',
     $scope.homeStarted = false;
     $scope.TLStarted = false;
     $scope.mentionsStarted = false;
+    $scope.hashtagsStarted = false;
     $scope.errorTweeting = false;
     $scope.tweet = {};
 
@@ -26,42 +27,44 @@ accountModule.controller('accountController',
       // Auxiliary functions
       function getHomePanel(accountID, accountName){
         account.getTweetsPanel('home', accountID, accountName, $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
-          console.log(result);
           var tweets = result.data.message;
           var panelTweets = [];
           var max_id = -1;
           var since_id = -1;
           var panel;
-          if(tweets.length !== 0){
-            for(j = 0; j < tweets.length; j++){
-              if(j === 0){
-                since_id = tweets[j].id;
-              }
-              if(j === tweets.length - 1){
-                max_id = tweets[j].id;
-              }
-              var processedTweet = $scope.processTweet(tweets[j]);
-              panelTweets.push(processedTweet);
-            } // End for each tweet
-            console.log(panelTweets.length);
-            var hasMoreToLoad = panelTweets.length >= $scope.GLOBAL_LOAD_TWEETS;
-            panel = {
-              'tweets':panelTweets,
-              'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-              'loading':false,'hasMore':hasMoreToLoad,
-              'hasNewTweets':false, 'newTweetsList':[]
-            };
+          if(!result.data.error){
+            if(tweets.length !== 0){
+              for(j = 0; j < tweets.length; j++){
+                if(j === 0){
+                  since_id = tweets[j].id;
+                }
+                if(j === tweets.length - 1){
+                  max_id = tweets[j].id;
+                }
+                console.log(tweets[j]);
+                var processedTweet = $scope.processTweet(tweets[j]);
+                panelTweets.push(processedTweet);
+              } // End for each tweet
+              panel = {
+                'tweets':panelTweets,
+                'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                'loading':false,'hasMore':true,
+                'hasNewTweets':false, 'newTweetsList':[]
+              };
+            } else {
+              panel = {
+                'tweets':panelTweets,
+                'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                'loading':false,'hasMore':false,
+                'hasNewTweets':false, 'newTweetsList':[]
+              };
+            }
             $scope.userInfo.homePanel = panel;
-          } else {
-            panel = {
-              'tweets':panelTweets,
-              'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-              'loading':false,'hasMore':false,
-              'hasNewTweets':false, 'newTweetsList':[]
-            };
-            $scope.userInfo.homePanel = panel;
+            $scope.homeStarted = true;
+          } else{
+            console.log("Home Error");
+            console.log(result.data.message);
           }
-          $scope.homeStarted = true;
         });
       }
 
@@ -72,33 +75,34 @@ accountModule.controller('accountController',
           var max_id = -1;
           var since_id = -1;
           var panel;
-          if(tweets.length !== 0){
-            for(j = 0; j < tweets.length; j++){
-              if(j === 0){
-                since_id = tweets[j].id;
-              }
-              if(j === tweets.length - 1){
-                max_id = tweets[j].id;
-              }
-              var processedTweet = $scope.processTweet(tweets[j]);
-              panelTweets.push(processedTweet);
-            } // End for each tweet
-            var hasMoreToLoad = panelTweets.length == $scope.GLOBAL_LOAD_TWEETS;
-            panel = {
-              'tweets':panelTweets,
-              'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-              'loading':false,'hasMore':hasMoreToLoad,
-              'hasNewTweets':false, 'newTweetsList':[]
-            };
-            $scope.userInfo.TLPanel = panel;
-          } else {
-            panel = {
-              'tweets':panelTweets,
-              'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-              'loading':false,'hasMore':false,
-              'hasNewTweets':false, 'newTweetsList':[]
-            };
-            $scope.userInfo.TLPanel = panel;
+          if(!result.data.error){
+            if(tweets.length !== 0){
+              for(j = 0; j < tweets.length; j++){
+                if(j === 0){
+                  since_id = tweets[j].id;
+                }
+                if(j === tweets.length - 1){
+                  max_id = tweets[j].id;
+                }
+                var processedTweet = $scope.processTweet(tweets[j]);
+                panelTweets.push(processedTweet);
+              } // End for each tweet
+              panel = {
+                'tweets':panelTweets,
+                'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                'loading':false,'hasMore':true,
+                'hasNewTweets':false, 'newTweetsList':[]
+              };
+              $scope.userInfo.TLPanel = panel;
+            } else {
+              panel = {
+                'tweets':panelTweets,
+                'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                'loading':false,'hasMore':false,
+                'hasNewTweets':false, 'newTweetsList':[]
+              };
+              $scope.userInfo.TLPanel = panel;
+            }
           }
           $scope.TLStarted = true;
         });
@@ -111,32 +115,33 @@ accountModule.controller('accountController',
           var max_id = -1;
           var since_id = -1;
           var panel;
-          if(tweets.length !== 0){
-            for(j = 0; j < tweets.length; j++){
-              if(j === 0){
-                since_id = tweets[j].id;
-              }
-              if(j === tweets.length - 1){
-                max_id = tweets[j].id;
-              }
-              var processedTweet = $scope.processMention(tweets[j]);
-              panelTweets.push(processedTweet);
-            } // End for each tweet
-            var hasMoreToLoad = panelTweets.length == $scope.GLOBAL_LOAD_TWEETS;
-            panel = {
-              'tweets':panelTweets,
-              'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-              'loading':false,'hasMore':hasMoreToLoad,
-              'hasNewTweets':false, 'newTweetsList':[]
-            };
-            $scope.userInfo.mentionsPanel = panel;
-          } else {
-            panel = {
-              'tweets':panelTweets,
-              'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-              'loading':false,'hasMore':false,
-              'hasNewTweets':false, 'newTweetsList':[]
-            };
+          if(!result.data.error){
+            if(tweets.length !== 0){
+              for(j = 0; j < tweets.length; j++){
+                if(j === 0){
+                  since_id = tweets[j].id;
+                }
+                if(j === tweets.length - 1){
+                  max_id = tweets[j].id;
+                }
+                var processedTweet = $scope.processMention(tweets[j]);
+                panelTweets.push(processedTweet);
+              } // End for each tweet
+              panel = {
+                'tweets':panelTweets,
+                'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                'loading':false,'hasMore':true,
+                'hasNewTweets':false, 'newTweetsList':[]
+              };
+              $scope.userInfo.mentionsPanel = panel;
+            } else {
+              panel = {
+                'tweets':panelTweets,
+                'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                'loading':false,'hasMore':false,
+                'hasNewTweets':false, 'newTweetsList':[]
+              };
+            }
             $scope.userInfo.mentionsPanel = panel;
           }
           $scope.mentionsStarted = true;
@@ -144,54 +149,62 @@ accountModule.controller('accountController',
       }
 
       function getHashtagsPanels(accountID, accountName){
-
         // Auxiliary function
-        
+        function getHashtagPanel(hashtag, accountID, accountName){
+          account.getHashtagTweets(hashtag, accountID, accountName, $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
+            console.log(result);
+            var tweets = result.data.message.statuses;
+            var panelTweets = [];
+            var max_id = -1;
+            var since_id = -1;
+            var panel;
+            if(!result.data.error){
+              if(tweets.length !== 0){
+                for(j = 0; j < tweets.length; j++){
+                  if(j === 0){
+                    since_id = tweets[j].id;
+                  }
+                  if(j === tweets.length - 1){
+                    max_id = tweets[j].id;
+                  }
+                  var processedTweet = $scope.processTweet(tweets[j]);
+                  panelTweets.push(processedTweet);
+                } // End for each tweet
+                panel = {
+                  'tweets':panelTweets, 'hashtag':hashtag,
+                  'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                  'loading':false,'hasMore':true,
+                  'hasNewTweets':false, 'newTweetsList':[]
+                };
+              } else {
+                panel = {
+                  'tweets':panelTweets, 'hashtag':hashtag,
+                  'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
+                  'loading':false,'hasMore':false,
+                  'hasNewTweets':false, 'newTweetsList':[]
+                };
+              }
+              $scope.userInfo.hashtagsPanel.push(panel);
+              if($scope.userInfo.hashtagsPanel.length == $scope.hashtagsLength){
+                $scope.hashtagsStarted = true;
+              }
+            } else{
+              console.log("Error on hashtag");
+              console.log(result.data.message);
+            }
+          });
+        }
 
         $scope.userInfo.hashtagsPanel = [];
         account.getHashtags(accountID).then(function(result){
-          console.log(result);
           var arrayHashtags = result.data.message;
+          $scope.hashtagsLength = arrayHashtags.length;
           if(!result.data.error){
-
+            for(var i = 0; i < arrayHashtags.length; i++){
+              getHashtagPanel(arrayHashtags[i].hashtag, accountID, accountName);
+            }
           }
         });
-        /*
-        account.getTweetsPanel('mentions', accountID, accountName, $scope.GLOBAL_LOAD_TWEETS, -1, -1).then(function(result){
-          var tweets = result.data.message;
-          var panelTweets = [];
-          var max_id = -1;
-          var since_id = -1;
-          var panel;
-          if(tweets.length !== 0){
-            for(j = 0; j < tweets.length; j++){
-              if(j === 0){
-                since_id = tweets[j].id;
-              }
-              if(j === tweets.length - 1){
-                max_id = tweets[j].id;
-              }
-              var processedTweet = $scope.processTweet(tweets[j]);
-              panelTweets.push(processedTweet);
-            } // End for each tweet
-            var hasMoreToLoad = panelTweets.length == $scope.GLOBAL_LOAD_TWEETS;
-            panel = {
-              'tweets':panelTweets,
-              'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-              'loading':false,'hasMore':hasMoreToLoad,
-              'hasNewTweets':false, 'newTweetsList':[]
-            };
-            $scope.mentionsPanel = panel;
-          } else {
-            panel = {
-              'tweets':panelTweets,
-              'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-              'loading':false,'hasMore':false,
-              'hasNewTweets':false, 'newTweetsList':[]
-            };
-            $scope.mentionsPanel = panel;
-          }
-        });*/
       }
 
       $scope.userInfo.mongoID = $stateParams.account_id;
@@ -226,10 +239,10 @@ accountModule.controller('accountController',
       }
     };
 
-      $scope.cantTweet = function() {
-          return $scope.caracteres < 0 || $scope.caracteres == 140 || ($scope.tweet.date !== undefined &&
-              new Date($scope.tweet.date).getTime() < Date.now());
-      };
+    $scope.cantTweet = function() {
+        return $scope.caracteres < 0 || $scope.caracteres == 140 || ($scope.tweet.date !== undefined &&
+            new Date($scope.tweet.date).getTime() < Date.now());
+    };
 
     $scope.isAddingHashtag = function(){
         return $scope.addingHashtag;
@@ -315,7 +328,7 @@ accountModule.controller('accountController',
 
         var texto = $scope.tweet.text.length;
 
-        while(match != null){
+        while(match !== null){
             texto = texto - match[0].length;
             match = urlRegex.exec($scope.tweet.text);
             count++;
@@ -342,10 +355,16 @@ accountModule.controller('accountController',
         $scope.userInfo.mentionsPanel.newTweetsList = [];
         $scope.userInfo.mentionsPanel.hasNewTweets = false;
       } else if(kind == 'hashtag'){
-        $scope.userInfo.homePanel.tweets =
-            $scope.userInfo.homePanel.newTweetsList.concat($scope.userInfo.homePanel.tweets);
-        $scope.userInfo.homePanel.newTweetsList = [];
-        $scope.userInfo.homePanel.hasNewTweets = false;
+        var index;
+        for(var i = 0; i < $scope.userInfo.hashtagsPanel.length; i++){
+          if($scope.userInfo.hashtagsPanel[i].hashtag == hashtagName){
+            index = i;
+          }
+        }
+        $scope.userInfo.hashtagsPanel[index].tweets =
+            $scope.userInfo.hashtagsPanel[index].newTweetsList.concat($scope.userInfo.hashtagsPanel[index].tweets);
+        $scope.userInfo.hashtagsPanel[index].newTweetsList = [];
+        $scope.userInfo.hashtagsPanel[index].hasNewTweets = false;
       }
     };
 
@@ -395,6 +414,20 @@ accountModule.controller('accountController',
         return $scope.userInfo.TLPanel.loading;
       } else if(kind == 'mentions' && $scope.mentionsStarted){
         return $scope.userInfo.mentionsPanel.loading;
+      } else if(kind == 'hashtag' && $scope.hashtagsStarted){
+        var index;
+        for(var i = 0; i < $scope.userInfo.hashtagsPanel.length; i++){
+          if($scope.userInfo.hashtagsPanel[i].hashtag == hashtag){
+            index = i;
+          }
+        }
+        if(index >= 0){
+          return $scope.userInfo.hashtagsPanel[index].loading;
+        } else{
+          return false;
+        }
+      } else{
+        return false;
       }
     };
 
@@ -408,9 +441,18 @@ accountModule.controller('accountController',
           max_id = $scope.userInfo.TLPanel.max_id;
         } else if(kind == 'mentions'){
           max_id = $scope.userInfo.mentionsPanel.max_id;
+        } else if(kind == 'hashtag'){
+          var index;
+          for(var i = 0; i < $scope.userInfo.hashtagsPanel.length; i++){
+            if($scope.userInfo.hashtagsPanel[i].hashtag == hashtag){
+              index = i;
+            }
+          }
+          max_id = $scope.userInfo.hashtagsPanel[index].max_id;
         }
-        account.getTweetsPanel(kind, $scope.userInfo.accountID, $scope.userInfo.accountName,
-          $scope.GLOBAL_LOAD_TWEETS + 1, -1, max_id).then(function(result){
+
+        // Auxiliary function
+        function processResult(result){
           var tweets = result.data.message;
           var minusJ = 0;
           if(kind == 'mentions'){
@@ -436,22 +478,47 @@ accountModule.controller('accountController',
               }
               processedTweet = $scope.processTweet(tweets[j]);
               $scope.userInfo.mentionsPanel.tweets.push(processedTweet);
+            } else if(kind == 'hashtag'){
+              var index;
+              for(var i = 0; i < $scope.userInfo.hashtagsPanel.length; i++){
+                if($scope.userInfo.hashtagsPanel[i].hashtag == hashtag){
+                  index = i;
+                }
+              }
+              if(j == tweets.length - 1){
+                $scope.userInfo.hashtagsPanel[index].max_id = tweets[j].id;
+              }
+              processedTweet = $scope.processTweet(tweets[j]);
+              $scope.userInfo.hashtagsPanel[index].tweets.push(processedTweet);
             }
           } // End for each tweet
           if(kind == 'home'){
-            $scope.userInfo.homePanel.hasMore =
-                            (tweets.length >= $scope.GLOBAL_LOAD_TWEETS);
+            $scope.userInfo.homePanel.hasMore = (tweets.length !== 0);
             $scope.userInfo.homePanel.loading = false;
           } else if(kind == 'timeline'){
-            $scope.userInfo.TLPanel.hasMore =
-                            (tweets.length >= $scope.GLOBAL_LOAD_TWEETS);
+            $scope.userInfo.TLPanel.hasMore = (tweets.length !== 0);
             $scope.userInfo.TLPanel.loading = false;
           } else if(kind == 'mentions'){
-            $scope.userInfo.mentionsPanel.hasMore =
-                            (tweets.length >= $scope.GLOBAL_LOAD_TWEETS);
+            $scope.userInfo.mentionsPanel.hasMore = (tweets.length !== 0);
             $scope.userInfo.mentionsPanel.loading = false;
+          } else if(kind == 'hashtag'){
+            var Kindex;
+            for(var k = 0; k < $scope.userInfo.hashtagsPanel.length; k++){
+              if($scope.userInfo.hashtagsPanel[k].hashtag == hashtag){
+                Kindex = k;
+              }
+            }
+            $scope.userInfo.hashtagsPanel[Kindex].hasMore = (tweets.length !== 0);
+            $scope.userInfo.hashtagsPanel[Kindex].loading = false;
           }
-        });
+        }
+
+        if(kind != 'hashtag'){
+          account.getTweetsPanel(kind, $scope.userInfo.accountID, $scope.userInfo.accountName,
+            $scope.GLOBAL_LOAD_TWEETS + 1, -1, max_id).then(processResult);
+        } else{
+          account.getHashtagTweets(hashtag, $scope.userInfo.accountID, $scope.userInfo.accountName, $scope.GLOBAL_LOAD_TWEETS + 1, -1, max_id).then(processResult);
+        }
       }
 
       if(kind == 'home'){
@@ -460,6 +527,14 @@ accountModule.controller('accountController',
         $scope.userInfo.TLPanel.loading = true;
       } else if(kind == 'mentions'){
         $scope.userInfo.mentionsPanel.loading = true;
+      } else if(kind == 'hashtag'){
+        var index;
+        for(var i = 0; i < $scope.userInfo.hashtagsPanel.length; i++){
+          if($scope.userInfo.hashtagsPanel[i].hashtag == hashtag){
+            index = i;
+          }
+        }
+        $scope.userInfo.hashtagsPanel[index].loading = true;
       }
 
       getMoreTweets(kind, hashtag);
@@ -585,97 +660,151 @@ accountModule.controller('accountController',
           since_id = $scope.userInfo.TLPanel.since_id;
         } else if(kind == 'mentions'){
           since_id = $scope.userInfo.mentionsPanel.since_id;
+        } else if(kind == 'hashtag'){
+          var index;
+          for(var i = 0; i < $scope.userInfo.hashtagsPanel.length; i++){
+            if($scope.userInfo.hashtagsPanel[i].hashtag == hashtag){
+              index = i;
+            }
+          }
+          since_id = $scope.userInfo.hashtagsPanel[index].since_id;
         }
-        account.getTweetsPanel(kind, $scope.userInfo.accountID, $scope.userInfo.accountName,
-          $scope.GLOBAL_LOAD_TWEETS + 1, since_id, max_id_temp).then(function(result){
+
+        // Auxiliary function inside auxiliary function
+        function processResult(result){
           var tweets = result.data.message;
-          if(tweets.length > 0){
-            var arrayTemp = [];
-            var originalSinceID;
-            var processedTweet;
-            if(kind == 'home'){
-              originalSinceID = $scope.userInfo.homePanel.since_id;
-              // For each tweet
-              for(j = 0; j < tweets.length; j++){
-                if(j === 0){
-                  $scope.userInfo.homePanel.since_id = tweets[j].id;
+          if(!result.data.error){
+            if(tweets.length > 0){
+              var arrayTemp = [];
+              var originalSinceID;
+              var processedTweet;
+              if(kind == 'home'){
+                originalSinceID = $scope.userInfo.homePanel.since_id;
+                // For each tweet
+                for(j = 0; j < tweets.length; j++){
+                  if(j === 0){
+                    $scope.userInfo.homePanel.since_id = tweets[j].id;
+                  }
+                  if(j == tweets.length - 1){
+                    max_id_temp = tweets[j].id;
+                  }
+                  /* PROCESSING TWEET */
+                  if(tweets[j].id != originalSinceID){
+                    processedTweet = $scope.processTweet(tweets[j]);
+                    arrayTemp.push(processedTweet);
+                  }
                 }
-                if(j == tweets.length - 1){
-                  max_id_temp = tweets[j].id;
+
+                $scope.userInfo.homePanel.newTweetsList =
+                              arrayTemp.concat($scope.userInfo.homePanel.newTweetsList);
+              } else if (kind == 'timeline'){
+                originalSinceID = $scope.userInfo.TLPanel.since_id;
+                // For each tweet
+                for(j = 0; j < tweets.length; j++){
+                  if(j === 0){
+                    $scope.userInfo.TLPanel.since_id = tweets[j].id;
+                  }
+                  if(j == tweets.length - 1){
+                    max_id_temp = tweets[j].id;
+                  }
+                  /* PROCESSING TWEET */
+                  if(tweets[j].id != originalSinceID){
+                    processedTweet = $scope.processTweet(tweets[j]);
+                    arrayTemp.push(processedTweet);
+                  }
                 }
-                /* PROCESSING TWEET */
-                if(tweets[j].id != originalSinceID){
-                  processedTweet = $scope.processTweet(tweets[j]);
-                  arrayTemp.push(processedTweet);
+
+                $scope.userInfo.TLPanel.newTweetsList =
+                              arrayTemp.concat($scope.userInfo.TLPanel.newTweetsList);
+              } else if (kind == 'mentions'){
+                originalSinceID = $scope.userInfo.mentionsPanel.since_id;
+                // For each tweet
+                for(j = 0; j < tweets.length; j++){
+                  if(j === 0){
+                    $scope.userInfo.mentionsPanel.since_id = tweets[j].id;
+                  }
+                  if(j == tweets.length - 1){
+                    max_id_temp = tweets[j].id;
+                  }
+                  /* PROCESSING TWEET */
+                  if(tweets[j].id != originalSinceID){
+                    processedTweet = $scope.processTweet(tweets[j]);
+                    arrayTemp.push(processedTweet);
+                  }
                 }
+
+                $scope.userInfo.mentionsPanel.newTweetsList =
+                              arrayTemp.concat($scope.userInfo.mentionsPanel.newTweetsList);
+              } else if (kind == 'hashtag'){
+                var index;
+                for(var i = 0; i < $scope.userInfo.hashtagsPanel.length; i++){
+                  if($scope.userInfo.hashtagsPanel[i].hashtag == hashtag){
+                    index = i;
+                  }
+                }
+                originalSinceID = $scope.userInfo.hashtagsPanel[index].since_id;
+                // For each tweet]
+                for(j = 0; j < tweets.length; j++){
+                  if(j === 0){
+                    $scope.userInfo.hashtagsPanel[index].since_id = tweets[j].id;
+                  }
+                  if(j == tweets.length - 1){
+                    max_id_temp = tweets[j].id;
+                  }
+                  /* PROCESSING TWEET */
+                  if(tweets[j].id != originalSinceID){
+                    processedTweet = $scope.processTweet(tweets[j]);
+                    arrayTemp.push(processedTweet);
+                  }
+                }
+
+                $scope.userInfo.hashtagsPanel.newTweetsList =
+                              arrayTemp.concat($scope.userInfo.hashtagsPanel.newTweetsList);
               }
 
-              $scope.userInfo.homePanel.newTweetsList =
-                            arrayTemp.concat($scope.userInfo.homePanel.newTweetsList);
-            } else if (kind == 'timeline'){
-              originalSinceID = $scope.userInfo.TLPanel.since_id;
-              // For each tweet
-              for(j = 0; j < tweets.length; j++){
-                if(j === 0){
-                  $scope.userInfo.TLPanel.since_id = tweets[j].id;
-                }
-                if(j == tweets.length - 1){
-                  max_id_temp = tweets[j].id;
-                }
-                /* PROCESSING TWEET */
-                if(tweets[j].id != originalSinceID){
-                  processedTweet = $scope.processTweet(tweets[j]);
-                  arrayTemp.push(processedTweet);
-                }
+              if(tweets.length < $scope.GLOBAL_LOAD_TWEETS){
+                // There are no more tweets to load. No new call required
+              } else{
+                // There may be new tweets to load
+                getNewTweets(kind, hashtag, max_id_temp);
               }
-
-              $scope.userInfo.TLPanel.newTweetsList =
-                            arrayTemp.concat($scope.userInfo.TLPanel.newTweetsList);
-            } else if (kind == 'mentions'){
-              originalSinceID = $scope.userInfo.mentionsPanel.since_id;
-              // For each tweet
-              for(j = 0; j < tweets.length; j++){
-                if(j === 0){
-                  $scope.userInfo.mentionsPanel.since_id = tweets[j].id;
+              if(kind == 'home'){
+                $scope.userInfo.homePanel.hasNewTweets =
+                                $scope.userInfo.homePanel.newTweetsList.length > 0;
+              } else if(kind == 'timeline'){
+                $scope.userInfo.TLPanel.hasNewTweets =
+                                $scope.userInfo.TLPanel.newTweetsList.length > 0;
+              } else if(kind == 'mentions'){
+                $scope.userInfo.mentionsPanel.hasNewTweets =
+                                $scope.userInfo.mentionsPanel.newTweetsList.length > 0;
+              } else if(kind == 'hashtag'){
+                var mIndex;
+                for(var m = 0; m < $scope.userInfo.hashtagsPanel.length; m++){
+                  if($scope.userInfo.hashtagsPanel[m].hashtag == hashtag){
+                    mIndex = m;
+                  }
                 }
-                if(j == tweets.length - 1){
-                  max_id_temp = tweets[j].id;
-                }
-                /* PROCESSING TWEET */
-                if(tweets[j].id != originalSinceID){
-                  processedTweet = $scope.processTweet(tweets[j]);
-                  arrayTemp.push(processedTweet);
-                }
+                $scope.userInfo.hashtagsPanel[mIndex].hasNewTweets =
+                                $scope.userInfo.hashtagsPanel[mIndex].newTweetsList.length > 0;
               }
+            } // End of if there are tweets
+          }
+        } // End of auxiliary function
 
-              $scope.userInfo.mentionsPanel.newTweetsList =
-                            arrayTemp.concat($scope.userInfo.mentionsPanel.newTweetsList);
-            }
-
-            if(tweets.length < $scope.GLOBAL_LOAD_TWEETS){
-              // There are no more tweets to load. No new call required
-            } else{
-              // There may be new tweets to load
-              getNewTweets(kind, hashtag, max_id_temp);
-            }
-            if(kind == 'home'){
-              $scope.userInfo.homePanel.hasNewTweets =
-                              $scope.userInfo.homePanel.newTweetsList.length > 0;
-            } else if(kind == 'timeline'){
-              $scope.userInfo.TLPanel.hasNewTweets =
-                              $scope.userInfo.TLPanel.newTweetsList.length > 0;
-            } else if(kind == 'mentions'){
-              $scope.userInfo.mentionsPanel.hasNewTweets =
-                              $scope.userInfo.mentionsPanel.newTweetsList.length > 0;
-            }
-          } // End of if there are tweets
-        });
-      }
+        if(kind != 'hashtag'){
+          account.getTweetsPanel(kind, $scope.userInfo.accountID, $scope.userInfo.accountName,
+            $scope.GLOBAL_LOAD_TWEETS + 1, since_id, max_id_temp).then(processResult);
+        } else{
+          account.getHashtagTweets(hashtag, $scope.userInfo.accountID, $scope.userInfo.accountName, $scope.GLOBAL_LOAD_TWEETS, since_id, max_id_temp).then(processResult);
+        }
+      } // End of get new tweets function
 
       getNewTweets('home','none', -1);
       getNewTweets('timeline','none',-1);
       getNewTweets('mentions', 'none', -1);
-      // TODO
+      for(var k = 0; k < $scope.userInfo.hashtagsPanel.length;k++){
+        getNewTweets('hashtag', $scope.userInfo.hashtagsPanel[k].hashtag,-1);
+      }
     };
 
     // Calls to functions when arriving
