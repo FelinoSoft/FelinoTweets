@@ -107,7 +107,7 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 		\item type : String,
 		\item date : Date
 		\end{itemize}
-	 
+	\newpage
 	\item \textbf{scheduled\_tweets}: contiene toda la información necesaria para representar un \textit{tweet}.
 	
 		\begin{itemize}
@@ -253,7 +253,7 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 		\item \textbf{GET /twitter\_accounts/:id/hashtags:} Devuelve una lista con todos los hashtags guardados para una cuenta de twitter referenciada por id. El único parámetro que admite es el id de la base de datos de la cuenta de twitter almacenada.
 		
 		\item \textbf{GET /twitter\_accounts/:id/hashtags/:hashtag\_id:} Devuelve toda la información asociada a un hashtag guardado (referenciado por hashtag\_id) de la cuenta de twitter referenciada por id. Los parámetros que admite son el id de la cuenta de twitter almacenada en la base de datos y el id del hashtag concreto del cual se quiere la información.
-		
+		\newpage
 		\item \textbf{POST /twitter\_accounts/:id/hashtags:} Permite añadir un nuevo hashtag a la cuenta de twitter referenciada por id. Aparte del parámetro id pasado en la request, admite como parámetros en el body los datos del nuevo hashtag: el id del usuario que postea el tweet y el hashtag en sí.
 		
 		\item \textbf{PUT /twitter\_accounts/:id/hashtags/:hashtag\_id:} Permite actualizar la información de un hashtag guardado asociado a la cuenta de twitter referenciada por id. Aparte del parámetro id pasado en la request, admite como parámetros en el body los datos del nuevo hashtag: el id del usuario que postea el tweet y el hashtag en sí.
@@ -262,6 +262,7 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 		
 		\item \textbf{DELETE /twitter\_accounts/:id/hashtags/:hashtag\_id:} Elimina un hashtag guardado (referenciado por hashtag\_id) de la cuenta de twitter referenciada por id. Los parámetros que admite son el id de la cuenta de twitter almacenada en la base de datos y el id del hashtag concreto del cual se quiere la información.
 	\end{itemize}
+	\newpage
 \section{Analíticas}
 
 	\paragraph{} Se ha desarrollado un servicio de analíticas que ofrece datos acerca del comportamiento del conjunto de usuarios de la aplicación para un usuario de tipo administrador. Por otro lado, el mismo servicio ofrece estadísticas acerca de las cuentas de \textit{Twitter} asociadas con un usuario.
