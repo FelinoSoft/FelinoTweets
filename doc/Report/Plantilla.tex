@@ -187,19 +187,22 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 	\end{itemize}
 	
 	\subsection{API del componente Stats}
+	
+	\paragraph{} Todos los endpoints descritos a continuación devuelve un \textit{JSON} con los parametros necesarios para representar dicha información en gráficas con \textit{Chart.js}:
+	
 	\begin{itemize}
-		\item \textbf{GET /stats/registrations/:days:} 
-		\item \textbf{GET /stats/registrations/:type/:days:} 
-		\item \textbf{POST /stats/registrations/:} 
-		\item \textbf{GET /stats/ranking/tweets/:limit:} 
-		\item \textbf{GET /stats/ranking/accounts/:limit:} 
-		\item \textbf{GET /stats/activeUsers/:days:} 
-		\item \textbf{GET /stats/mentions/:id:} 
-		\item \textbf{GET /stats/multimedia/:id:}
-		\item \textbf{GET /stats/hashtags/:id:} 
-		\item \textbf{GET /stats/retweets/:id:}
-		\item \textbf{GET /stats/tweets/:id:}
-		\item \textbf{GET /stats/ranking/mentions/:limit/:id:}  
+		\item \textbf{GET /stats/registrations/:days:} Devuelve todos los eventos de registro (alta, baja, acceso) producidas en el sistema en los últimos \textit{days} días.
+		\item \textbf{GET /stats/registrations/:type/:days:} Devuelve los eventos de tipo \textit{type} registrado en el sistema en los últimos \textit{days} días.
+		\item \textbf{POST /stats/registrations/:} Crea un evento de registro de tipo especificado en el \textit{body} en la fecha actual.
+		\item \textbf{GET /stats/ranking/tweets/:limit:} Devuelve los \textit{limit} primeros usuarios ordenados por mayor número de tweets entre todas sus cuentas de twitter asociadas.
+		\item \textbf{GET /stats/ranking/accounts/:limit:} Devuelve los \textit{limit} primeros usuarios ordenados por mayor número de cuentas de twitter asociadas.
+		\item \textbf{GET /stats/activeUsers/:days:} Devuelve el número de usuarios que han accedido en los últimos \textit{days} días al sistema.
+		\item \textbf{GET /stats/mentions/:id:} Devuelve la cantidad de tweets con menciones al usuario \textit{id} filtrados por franja horaria.
+		\item \textbf{GET /stats/multimedia/:id:} Devuelve el porcentaje de tweets con contenido \textit{multimedia} del usuario \textit{id} filtrados por franja horaria.
+		\item \textbf{GET /stats/hashtags/:id:} Devuelve el porcentaje de tweets con \textit{hashtags} del usuario \textit{id} filtrados por franja horaria.
+		\item \textbf{GET /stats/retweets/:id:} Devuelve la cantidad de \textit{retweets} a \textit{tweets} del usuario enviados en determinada franja horaria.
+		\item \textbf{GET /stats/tweets/:id:} Devuelve la cantidad de tweets enviados por el usuario filtrados por franja horaria.
+		\item \textbf{GET /stats/ranking/mentions/:limit/:id:} Devuelve un ranking de cuentas de un usuario \textit{id} ordenadas por número total de menciones y hasta un cantidad máxima de cuentas de \textit{limit}.
 	\end{itemize}
 	\subsection{API del componente URLs}
 	\begin{itemize}
