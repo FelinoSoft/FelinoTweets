@@ -18,10 +18,10 @@ homeStatsModule.controller('homeStatsController',
     // chart's info
     $scope.opt = [];
     $scope.statTitle = ['Menciones por franja horaria',
-                        'Tweets con hashtags por franja horaria',
+                        'Tweets escritos por usuario por franja horaria',
                         'Tweets con contenido multimedia por franja horaria',
                         'Tweets con más retweets por franja horaria',
-                        'Tweets escritos por usuario por franja horaria'];
+                        'Tweets con hashtags por franja horaria'];
     $scope.chartType = ['line', 'line', 'line', 'line','line'];
 
     // chart #1 (last registered users)
@@ -30,7 +30,7 @@ homeStatsModule.controller('homeStatsController',
         if (result.data.error) {
 
           // login error, resets only the password field
-          $scope.messageError = "Error: no se ha podido recuperar a los usuarios."
+          $scope.messageError = "Error: no se ha podido recuperar a los usuarios.";
           $scope.notError = false;
         }
         else {
@@ -77,11 +77,11 @@ homeStatsModule.controller('homeStatsController',
                 }
               }]
             }
-          }
+          };
           $scope.dataLoaded[0] = true;
         }
       });
-    }
+    };
 
     // chart #2 (hashtags per hour)
     $scope.getHashtagsByHour = function() {
@@ -89,7 +89,7 @@ homeStatsModule.controller('homeStatsController',
         if (result.data.error) {
 
           // login error, resets only the password field
-          $scope.messageError = "Error: no se ha podido recuperar a los usuarios."
+          $scope.messageError = "Error: no se ha podido recuperar a los usuarios.";
           $scope.notError = false;
         }
         else {
@@ -123,13 +123,13 @@ homeStatsModule.controller('homeStatsController',
             datasets.push(dataset);
           }
 
-          $scope.stats[1] =
+          $scope.stats[4] =
           {
             labels: stats.labels,
             datasets: datasets
           };
           // sets the options
-          $scope.opt[1] = {
+          $scope.opt[4] = {
             scales: {
               yAxes: [{
                 ticks: {
@@ -137,11 +137,11 @@ homeStatsModule.controller('homeStatsController',
                 }
               }]
             }
-          }
-          $scope.dataLoaded[1] = true;
+          };
+          $scope.dataLoaded[4] = true;
         }
       });
-    }
+    };
 
     // chart #3 (multimedia per hour)
     $scope.getMultimediaByHour = function() {
@@ -149,7 +149,7 @@ homeStatsModule.controller('homeStatsController',
         if (result.data.error) {
 
           // login error, resets only the password field
-          $scope.messageError = "Error: no se ha podido recuperar a los usuarios."
+          $scope.messageError = "Error: no se ha podido recuperar a los usuarios.";
           $scope.notError = false;
         }
         else {
@@ -197,11 +197,11 @@ homeStatsModule.controller('homeStatsController',
                 }
               }]
             }
-          }
+          };
           $scope.dataLoaded[2] = true;
         }
       });
-    }
+    };
 
     // chart #4 (retweets per hour)
     $scope.getRetweetsByHour = function() {
@@ -209,7 +209,7 @@ homeStatsModule.controller('homeStatsController',
         if (result.data.error) {
 
           // login error, resets only the password field
-          $scope.messageError = "Error: no se ha podido recuperar a los usuarios."
+          $scope.messageError = "Error: no se ha podido recuperar a los usuarios.";
           $scope.notError = false;
         }
         else {
@@ -258,11 +258,11 @@ homeStatsModule.controller('homeStatsController',
                 }
               }]
             }
-          }
+          };
           $scope.dataLoaded[3] = true;
         }
       });
-    }
+    };
 
     // chart #5 (tweets per hour)
     $scope.getTweetsByHour = function() {
@@ -270,7 +270,7 @@ homeStatsModule.controller('homeStatsController',
         if (result.data.error) {
 
           // login error, resets only the password field
-          $scope.messageError = "Error: no se ha podido recuperar a los usuarios."
+          $scope.messageError = "Error: no se ha podido recuperar a los usuarios.";
           $scope.notError = false;
         }
         else {
@@ -305,13 +305,13 @@ homeStatsModule.controller('homeStatsController',
             datasets.push(dataset);
           }
 
-          $scope.stats[4] =
+          $scope.stats[1] =
           {
             labels: stats.labels,
             datasets: datasets
           };
           // sets the options
-          $scope.opt[4] = {
+          $scope.opt[1] = {
             scales: {
               yAxes: [{
                 ticks: {
@@ -319,11 +319,11 @@ homeStatsModule.controller('homeStatsController',
                 }
               }]
             }
-          }
-          $scope.dataLoaded[4] = true;
+          };
+          $scope.dataLoaded[1] = true;
         }
       });
-    }
+    };
 
     $scope.getActiveUsers = function() {
       stats.getActiveUsers($scope.activUsersDays).then(function(result) {
@@ -331,14 +331,14 @@ homeStatsModule.controller('homeStatsController',
 
           // login error, resets only the password field
           $scope.messageError =
-                  "Error: no se ha podido recuperar a los usuarios activos."
+                  "Error: no se ha podido recuperar a los usuarios activos.";
           $scope.notError = false;
         }
         else {
           $scope.activeUsers = result.data.message;
         }
       });
-    }
+    };
 
     $scope.showChart = function(index) {
       if ($scope.stats) {
@@ -349,7 +349,7 @@ homeStatsModule.controller('homeStatsController',
           options: $scope.opt[index]
         });
       }
-    }
+    };
 
     $scope.logOut = function() {
       if(auth.logout){
