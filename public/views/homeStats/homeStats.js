@@ -11,26 +11,12 @@ homeStatsModule.controller('homeStatsController',
     $scope.success = false;
     $scope.selected = -1;
 
-    // user info
-    $scope.activUsersDays = 7;
+    // stats info
     $scope.stats = {};
+    $scope.dataLoaded = [false,false,false,false];
 
     // chart's info
-    $scope.daysRegistered = 15;
-    $scope.labelsRegistered = [];
-    $scope.dataAltas = [];
-    $scope.dataBajas = [];
-
-    $scope.daysAccess = 7;
-    $scope.labelsAccess = [];
-    $scope.dataAccess = [];
-
-    $scope.topUsers = 5;
-    $scope.labelsRanking = [];
-    $scope.dataRanking = [];
-
     $scope.opt = [];
-
     $scope.statTitle = ['Menciones por franja horaria',
                         'Tweets con hashtags por franja horaria',
                         'Tweets con contenido multimedia por franja horaria',
@@ -91,6 +77,7 @@ homeStatsModule.controller('homeStatsController',
               }]
             }
           }
+          $scope.dataLoaded[0] = true;
         }
       });
     }
@@ -150,6 +137,7 @@ homeStatsModule.controller('homeStatsController',
               }]
             }
           }
+          $scope.dataLoaded[1] = true;
         }
       });
     }
@@ -209,6 +197,7 @@ homeStatsModule.controller('homeStatsController',
               }]
             }
           }
+          $scope.dataLoaded[2] = true;
         }
       });
     }
@@ -271,6 +260,7 @@ homeStatsModule.controller('homeStatsController',
               }]
             }
           }
+          $scope.dataLoaded[3] = true;
         }
       });
     }
@@ -291,6 +281,8 @@ homeStatsModule.controller('homeStatsController',
     }
 
     $scope.showChart = function(index) {
+      console.log("STATS");
+      console.log($scope.stats);
       if ($scope.stats) {
         var ctx = document.getElementById('chart-' + index);
         var myChart = new Chart(ctx, {

@@ -334,7 +334,12 @@ angular.module('felinotweetsApp', [
 
   // obtiene los usuarios ordenados por numero de tweets
   self.getRankingUsers = function(top) {
-    return $http.get(API + '/stats/ranking/' + top);
+    return $http.get(API + '/stats/ranking/tweets/' + top);
+  };
+
+  // obtiene los usuarios ordenados por numero de cuentas
+  self.getRankingAccounts = function(top) {
+    return $http.get(API + '/stats/ranking/accounts/' + top);
   };
 
   // obtiene los usuarios que han accedido a la app en los últimos days

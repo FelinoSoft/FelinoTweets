@@ -46,73 +46,29 @@
             </div>
             <div class="panel-body">
 
-                <!-- Register stat -->
-                <div class="col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <form class="form-inline">
-                                <div class="form-group cabecera">
-                                  <p class="titulo"><b>{{ statTitle[0] }}</b></p>
-                                </div><!-- /input-group -->
-                            </form>
-                        </div>
+              <!-- Register stat -->
+              <div ng-repeat="stat in stats" class="col-md-6">
+                  <div class="panel panel-primary">
+                      <div class="panel-heading">
+                          <form class="form-inline">
+                              <div class="form-group cabecera">
+                                <p class="titulo"><b>{{ statTitle[$index] }}</b></p>
+                              </div><!-- /input-group -->
+                          </form>
+                      </div>
 
-                        <!-- Contains the representation of each stat -->
-                        <div class="panel-body">
-                          <canvas id="chart-0"
-                                  width="400"
-                                  height="400">
-                                  {{ showChart(0) }}
-                          </canvas>
-                        </div>
-                    </div>
-                </div>
-                <!-- End of stats -->
+                      <!-- Contains the representation of each stat -->
+                      <div class="panel-body">
 
-                <!-- Access stat -->
-                <div class="col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <form class="form-inline">
-                                <div class="form-group cabecera">
-                                  <p class="titulo"><b>{{ statTitle[1] }}</b></p>
-                                </div><!-- /input-group -->
-                            </form>
-                        </div>
-
-                        <!-- Contains the representation of each stat -->
-                        <div class="panel-body">
-                          <canvas id="chart-1"
-                                  width="400"
-                                  height="400">
-                                  {{ showChart(1) }}
-                          </canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ranking stat -->
-                <div class="col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <form class="form-inline">
-                                <div class="form-group cabecera">
-                                  <p class="titulo"><b>{{ statTitle[2] }}</b></p>
-                                </div><!-- /input-group -->
-                            </form>
-                        </div>
-
-                        <!-- Contains the representation of each stat -->
-                        <div class="panel-body">
-                          <canvas id="chart-2"
-                                  width="400"
-                                  height="400">
-                                  {{ showChart(2) }}
-                          </canvas>
-                        </div>
-                    </div>
-                </div>
-                <!-- End of stats -->
+                        <canvas ng-attr-id="{{ 'chart-' + $index }}"
+                                ng-show="dataLoaded[$index]"
+                                width="400"
+                                height="400">
+                                {{ showChart($index) }}
+                        </canvas>
+                      </div>
+                  </div>
+              </div>
             </div>
         </div>
     </div>
