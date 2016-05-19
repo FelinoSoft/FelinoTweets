@@ -273,6 +273,10 @@ angular.module('felinotweetsApp', [
     });
   };
 
+  self.deleteHashtag = function(account_id, hashtag_id){
+    return $http.delete(API + '/twitter_accounts/' + account_id + '/hashtags/' + hashtag_id);
+  };
+
   self.createRetweet = function(account_id,tweet_id){
     return $http.post(API + '/twitter/retweet', {
       'tweet_id' : tweet_id,
