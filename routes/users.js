@@ -196,7 +196,7 @@ module.exports = function(app){
           }
         }
       });
-    }
+    };
 
     /* DELETE /users/:id */
     deleteUser = function(req,res){
@@ -218,6 +218,7 @@ module.exports = function(app){
                   response = {"error" : true, "message" : "Error fetching data"};
                   res.json(response);
               } else{
+
                 user.remove({_id : targetId}, function(err){
                   if(err){
                       response = {"error" : true, "message" : "Error deleting data"};
@@ -232,6 +233,8 @@ module.exports = function(app){
                         type: "baja"
                       }
                     });
+
+                    deleteTwitterAccounts(req,res);
 
                       if(result.admin){
                           // returns all other users left
@@ -252,7 +255,7 @@ module.exports = function(app){
           }
         }
       });
-    }
+    };
 
     findTwitterAccounts = function(req, res) {
       var response = {};
@@ -283,7 +286,44 @@ module.exports = function(app){
         //   }
         // }
       // });
-    }
+    };
+
+    deleteTwitterAccounts = function(req, res){
+        var response = {};
+
+        checkUser(req, res, function(err, result){
+            var token = req.headers["authorization"];
+            if(err){
+                response = {"error": true, "message" : "Error fetching data"};
+                res.json(response);
+            } else{
+
+                var userId = result.user_id;
+                var targetId = req.params.id;
+
+                if( (result.admin) || (targetId == userId ) ) {
+
+                    account.find({"account_id": targetId}, function (err, data) {
+                        if (err) {
+                            response = {"error": true, "message": "Error fetching data"};
+                        } else {
+                            data.forEach(function (valor, indice) {
+                                request({
+                                    uri: API + "/twitter_accounts/" + valor._id,
+                                    method: "DELETE",
+                                    headers: {'authorization': token}
+                                });
+                            });
+                        }
+                    });
+                } else{
+                    response = {"error" : true, "message" : "Error deleting data. Admin permissions required"};
+                    res.json(response);
+                }
+            }
+
+        });
+    };
 
     login = function(req, res) {
       var response = {};
@@ -474,7 +514,7 @@ module.exports = function(app){
             message: 'No token provided.'
         });
       }
-    }
+    };
 
     function randomString(length, callback){
 
@@ -500,6 +540,7 @@ module.exports = function(app){
     app.put('/users/:id',updateUser);
     app.delete('/users/:id',deleteUser);
     app.get('/users/:id/twitter_accounts', findTwitterAccounts);
+    app.delete('/users/:id/twitter_accounts', deleteTwitterAccounts);
 
     // access control methods
     app.post('/login', login);
