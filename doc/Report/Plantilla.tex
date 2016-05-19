@@ -292,6 +292,24 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 
 \section{Implementación}
 
+	\paragraph{} Para el desarrollo de la aplicación web propuesta se ha hecho uso del conjunto de tecnologías denominado como \textbf{\textit{MEAN Stack}} (\textit{MongoDB}, \textit{Express}, \textit{AngularJS}, \textit{Node}). Para el desarrollo del \textit{front-end} se han usado \textit{AngularJS + Bootstrap} y para el desarrollo del \textit{back-end} se han utilizado \textit{MongoDB} para la base de datos y \textit{Express} y \textit{Node} para el desarrollo del servidor, lo cual asegura escalabilidad.
+
+	\subsection{Desarrollo de \textit{front-end}}
+	
+		\paragraph{} Se ha optado por realizar la gestión de enrutamiento mediante \textit{AngularJS} aprovechando las facilidades que proporciona en la implementación de un modelo vista-controlador.
+		
+		\paragraph{} En primer lugar, se ha definido en un fichero \textbf{public/app.js} el conjunto de estados (vistas) en los que se puede encontrar la aplicación de forma, que es el que se encarga de redirigir correctamente cualquier petición de cambio de estado. Éste módulo también se encarga de asignar a cada estado una vista \textit{.html} con un controlador \textit{.js}.
+	
+		\paragraph{} Cada controlador gestiona de forma dinámica su vista asociada. En el caso de invocar a un \textit{API} externa se comunica con el módulo principal de los controladores (\textit{public/app.js}) y es éste el único que realiza las peticiones \textbf{.http}. Así se consige modular el código, de forma que es más fácil su depuración.
+	
+		\paragraph{} Por último, todas las vistas (\textit{.html}) utilizan \textit{Bootstrap} para asegurar que la aplicación se pueda visualizar correctamente en dispositivos con pantallas de distintos tamaños.
+		
+	\subsection{Desarrollo de \textit{back-end}}
+	
+		\paragraph{} Dado que es el \textit{front-end} el que se encarga de enrutar las peticiones, la función del servidor en este aspecto es la de para cualquier petición que reciba redirigir al \textit{front-end}. De esta forma el servidor se limita a proporcionar los distintos servicios web propuestos (\textit{control de usuarios}, \textit{acortador de URLs} y servicio de \textit{estadísticas}).
+		
+		\paragraph{} El servidor se ha implementado con \textit{node.js}, de esta forma se asegura una buena escalabilidad de la aplicación. En este sentido la gestión de la base de datos mediante \textit{Mongoose} también ayuda a mejorar esta característica.
+		
 \section{Modelo de navegación}
 
 \section{Despliegue del sistema (instrucciones)}
