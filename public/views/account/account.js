@@ -11,6 +11,8 @@ accountModule.controller('accountController',
     $scope.tweeting = false;
     $scope.sendingTweet = false;
     $scope.scheduledTweets = {};
+    $scope.errorTweeting = false;
+    $scope.tweet = {};
 
     twitter.getScheduledTweets($stateParams.account_id).then(function(result){
         if(!result.error){
@@ -33,8 +35,9 @@ accountModule.controller('accountController',
       }
     };
 
-    $scope.cantTweet = function(length, date){
-      return length < 0 || length == 140 || (date!==undefined && new Date(date).getTime() < Date.now());
+    $scope.cantTweet = function(){
+      return $scope.caracteres < 0 || $scope.caracteres == 140 || ($scope.tweet.date!==undefined &&
+                                                    new Date($scope.tweet.date).getTime() < Date.now());
     };
 
     $scope.isAddingHashtag = function(){
@@ -76,6 +79,10 @@ accountModule.controller('accountController',
                 if(!result.data.error){
                     $scope.tweeting = false;
                     $scope.sendingTweet = false;
+                } else{
+                    $scope.tweeting = false;
+                    $scope.sendingTweet = false;
+                    $scope.errorTweeting = true;
                 }
             });
         } else{
@@ -85,6 +92,10 @@ accountModule.controller('accountController',
                     $scope.tweeting = false;
                     $scope.sendingTweet = false;
                     $scope.scheduledTweets = result.data.message;
+                } else{
+                    $scope.tweeting = false;
+                    $scope.sendingTweet = false;
+                    $scope.errorTweeting = true;
                 }
             });
         }
@@ -103,4 +114,23 @@ accountModule.controller('accountController',
            }
         });
     };
+
+    $scope.contarCaracteres = function(){
+        var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
+        var match = urlRegex.exec($scope.tweet.text);
+
+        var count = 0;
+
+        var texto = $scope.tweet.text.length;
+
+        while(match != null){
+            texto = texto - match[0].length;
+            match = urlRegex.exec($scope.tweet.text);
+            count++;
+        }
+
+        $scope.caracteres = 140 - (texto + count*19);
+    };
+
 });
