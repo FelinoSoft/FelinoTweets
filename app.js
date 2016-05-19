@@ -6,7 +6,7 @@ var path = require('path');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var http = require('http');
-var databaseAddress = "mongodb://FelinoUser:superfelino1#@ds013310.mlab.com:13310/felinotweetsdb";
+//var databaseAddress = "mongodb://FelinoUser:superfelino1#@ds013310.mlab.com:13310/felinotweetsdb";
 //var databaseAddress = 'mongodb://127.0.0.1:27017/felino_tweets';
 var bodyParser = require('body-parser');
 var config = require('./config/config');
@@ -39,7 +39,7 @@ require('./routes/twitter_accounts')(app);
 require('./routes/urls')(app);
 require('./routes/app')(app);
 
-mongoose.connect(databaseAddress,function(err,res){
+mongoose.connect(config.databaseAddress,function(err,res){
    if(err){
        console.log('Error conectando a la BD');
    } else{

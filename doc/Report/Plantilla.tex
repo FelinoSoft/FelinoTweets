@@ -196,6 +196,22 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 \section{Modelo de navegación}
 
 \section{Despliegue del sistema (instrucciones)}
+\paragraph{}Para desplegar el sistema se hace uso de Heroku, una plataforma que permite montar la aplicación de manera gratuita (con limitaciones, pero para el alcance del proyecto es más que suficiente) de una manera fácil y sencilla. Está configurado de tal manera que se despliegue automáticamente a partir del repositorio de GitHub de \href{https://github.com/FelinoSoft/FelinoTweets}{FelinoTweets}. De esta forma, la aplicación se actualizará con cada commit realizado sobre la branch principal del repositorio.
+\paragraph{}La aplicación contiene un fichero de configuración, siguiendo la ruta a partir de la raíz \textit{/confi/config.json}. En él hay que definir los siguientes campos;
+\begin{itemize}
+\item \textbf{domain}: el dominio de la aplicación.
+\item \textbf{port}: el puerto en el que escuchará la aplicación.
+\item \textbf{consumerKey}: la clave de consumidor de Twitter, para realizar las operaciones con el API de Twitter (esto se explicará más adelante).
+\item \textbf{consumerSecret}: la clave secreta de Twitter, que junto con la anterior, permite autentificarse como una App de Twitter.
+\item \textbf{databaseAddress}: dirección de la base de datos sobre la que se realizarán las consultas y almacenarán los datos de la aplicación.
+\item \textbf{API}: ruta de la API de la aplicación, sobre la que se situarán los endpoints.
+\end{itemize}
+
+\paragraph{}Los apartados \textit{consumerKey} y \textit{consumerSecret} contienen las claves de la aplicación de Twitter. Para poder realizar operaciones al API de Twitter, es necesario haber creado antes una Twitter App, en su página oficial, que permitirá a los usuarios autentificarse o loguearse a Twitter a través de la aplicación, y de esta manera realizar en su lugar operaciones (como postear tweets, hacer búsquedas...). Estas dos claves sirven para identificarse de una manera segura como aplicación de Twitter, y no deben ser ni compartidas ni públicas.
+
+\paragraph{}La base de datos de la aplicación está proporcionada por \href{https://mlab.com/}{mLab}, un servicio de base de datos \textit{Database-as-a-Service} para MongoDb. Al igual que Heroku, tiene ciertas limitaciones, pero sus funcionalidades son más que suficientes para el proyecto.
+
+\paragraph{}Por último, para terminar de desplegar el sistema y dejarlo listo para funcionar, hay que añadir un usuario que actuará como administrador, y de esta manera, podrá realizar operaciones sobre los usuarios y sus cuentas.
 
 \section{Validación (test, pruebas realizadas)}
 
