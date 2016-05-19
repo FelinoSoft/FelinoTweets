@@ -10,8 +10,10 @@ var request = require('request');
 var user = require('../models/user.js');
 var account = require('../models/twitter_account.js');
 
+var config = require('./../config/config');
+
 // cambiar para subir a heroku
-var API = "http://127.0.0.1:8888";
+var API = config.API;
 
 module.exports = function(app){
 
