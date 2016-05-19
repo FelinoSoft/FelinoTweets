@@ -1,8 +1,8 @@
-var loginModule = angular.module('adminModule', [
+var adminModule = angular.module('adminModule', [
   'felinotweetsApp'
 ]);
 
-loginModule.controller('adminController',
+adminModule.controller('adminController',
   function($scope,$state,$filter,user,auth,twitter) {
     console.log("AdminController inicializado");
 

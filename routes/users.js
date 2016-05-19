@@ -10,20 +10,23 @@ var request = require('request');
 var user = require('../models/user.js');
 var account = require('../models/twitter_account.js');
 
+// cambiar para subir a heroku
+var API = "http://127.0.0.1:8888";
+
 module.exports = function(app){
 
     /* GET /users */
     findAllUsers = function(req,res){
       var response = {};
 
-      checkUser(req, res, function(err, data) {
-
-        if (err) {
-          response = {"error" : true, "message" : "Error fetching data"};
-          res.json(response);
-        } else {
-
-          if (data.admin) {
+      // checkUser(req, res, function(err, data) {
+      //
+      //   if (err) {
+      //     response = {"error" : true, "message" : "Error fetching data"};
+      //     res.json(response);
+      //   } else {
+      //
+      //     if (data.admin) {
             user.find(function(err,data){
               if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
@@ -32,13 +35,13 @@ module.exports = function(app){
               }
               res.json(response);
             });
-          }
-          else {
-            response = {"error" : true, "message" : "Admin permissions required."};
-            res.json(response);
-          }
-        }
-      });
+      //     }
+      //     else {
+      //       response = {"error" : true, "message" : "Admin permissions required."};
+      //       res.json(response);
+      //     }
+      //   }
+      // });
     };
 
     /* GET /users/:id */
@@ -116,9 +119,6 @@ module.exports = function(app){
                 if(req.body.email !== undefined){
                     data.email = req.body.email;
                 }
-                if(req.body.password !== undefined){
-                    data.password = req.body.password;
-                }
                 if(req.body.first_name !== undefined){
                     data.first_name = req.body.first_name;
                 }
@@ -131,15 +131,28 @@ module.exports = function(app){
                 if(req.body.hashtags !== undefined){
                     data.hashtags = req.body.hashtags;
                 }
-
-                data.save(function(err){
-                  if(err){
-                      response = {"error" : true, "message" : "Error updating data"};
-                      res.json(response);
-                  } else{
-                    findAllUsers(req,res);
-                  }
-                });
+                if(req.body.password !== undefined){
+                    bcrypt.hash(req.body.password, 10, function (err, hash) {
+                        data.password = hash;
+                        data.save(function(err){
+                            if(err){
+                                response = {"error" : true, "message" : "Error updating data"};
+                                res.json(response);
+                            } else{
+                                findAllUsers(req,res);
+                            }
+                        });
+                    });
+                } else{
+                    data.save(function(err){
+                        if(err){
+                            response = {"error" : true, "message" : "Error updating data"};
+                            res.json(response);
+                        } else{
+                            findAllUsers(req,res);
+                        }
+                    });
+                }
             });
           }
           else {
@@ -188,16 +201,16 @@ module.exports = function(app){
       var response = {};
 
       // checks if the user is allowed to delete users (admin)
-      checkUser(req, res, function(err, data) {
+      checkUser(req, res, function(err, result) {
         if (err) {
           response = {"error" : true, "message" : "Error fetching data"};
           res.json(response);
         } else {
 
-          var userId = data.user_id;
+          var userId = result.user_id;
           var targetId = req.params.id;
 
-          if( (data.admin) || (targetId == userId ) ) {
+          if( (result.admin) || (targetId == userId ) ) {
             user.findById(targetId, function(err,data){
               if(err){
                   response = {"error" : true, "message" : "Error fetching data"};
@@ -211,22 +224,26 @@ module.exports = function(app){
 
                     // saves delete stat
                     request({
-                      uri: "http://127.0.0.1:8888/stats/registrations",
+                      uri: API + "/stats/registrations",
                       method: "POST",
                       form: {
                         type: "baja"
                       }
                     });
 
-                    // returns all other users left
-                    findAllUsers(req,res);
+                      if(result.admin){
+                          // returns all other users left
+                          findAllUsers(req,res);
+                      } else{
+                          response = {"error" : false, "message" : "User deleted"};
+                          res.json(response);
+                      }
                   }
                 });
               }
             });
           }
           else {
-
             // user is not admin
             response = {"error" : true, "message" : "Error deleting data. Admin permissions required"};
             res.json(response);
@@ -238,31 +255,32 @@ module.exports = function(app){
     findTwitterAccounts = function(req, res) {
       var response = {};
 
-      checkUser(req, res, function(err, data) {
-        if (err) {
-          response = {"error" : true, "message" : "Error fetching data"};
-          res.json(response);
-        } else {
-
-          var userId = data.user_id;
+      // checkUser(req, res, function(err, data) {
+      //   if (err) {
+      //     response = {"error" : true, "message" : "Error fetching data"};
+      //     res.json(response);
+      //   } else {
+      //
+      //     var userId = data.user_id;
           var targetId = req.params.id;
-
-          if( (data.admin) || (targetId == userId ) ) {
+      //
+      //     if( (data.admin) || (targetId == userId ) ) {
             account.find({"account_id": targetId}, function(err,data){
               if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
               } else{
                 response = {"error" : false, "message" : data};
               }
+              // console.log(response.message[0].account_id);
               res.json(response);
             });
-          }
-          else {
-            response = {"error" : true, "message" : "Admin permissions required."};
-            res.json(response);
-          }
-        }
-      });
+        //   }
+        //   else {
+        //     response = {"error" : true, "message" : "Admin permissions required."};
+        //     res.json(response);
+        //   }
+        // }
+      // });
     }
 
     login = function(req, res) {
@@ -298,7 +316,7 @@ module.exports = function(app){
 
                   // saves login stat
                   request({
-                    uri: "http://127.0.0.1:8888/stats/registrations",
+                    uri: API + "/stats/registrations",
                     method: "POST",
                     form: {
                       type: "acceso"
@@ -392,7 +410,7 @@ module.exports = function(app){
 
                           // saves register stat
                           request({
-                            uri: "http://127.0.0.1:8888/stats/registrations",
+                            uri: API + "/stats/registrations",
                             method: "POST",
                             form: {
                               type: "alta"
@@ -405,7 +423,7 @@ module.exports = function(app){
                               "admin" : data.admin
                           };
                           var token = jwt.sign(userInfo, app.get('superSecret'), {
-                              expiresIn: 60 // expires in 1 hour (3600 secs)
+                              expiresIn: 3600 // expires in 1 hour (3600 secs)
                           });
 
                           // return the information including token as JSON

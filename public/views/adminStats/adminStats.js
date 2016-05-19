@@ -2,7 +2,7 @@ var adminStatsModule = angular.module('adminStatsModule', [
   'felinotweetsApp'
 ]);
 
-loginModule.controller('adminStatsController',
+adminStatsModule.controller('adminStatsController',
   function($scope, $filter, auth, stats) {
     console.log("AdminStatsController inicializado");
 

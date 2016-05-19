@@ -1,0 +1,211 @@
+<div class="admin">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand marca" href="/">
+                    <span>
+                        <img alt="FelinoTweets logo" src="/assets/favicon/favicon-32x32.png"/>
+                    </span>
+                    <a class="navbar-brand brand" href="/main">FelinoTweets</a>
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <a class="navbar-brand navbar-buttons" href="/home">
+                    <span class="glyphicon glyphicon-home"></span>  Home</a>
+                <a class="navbar-brand navbar-buttons" href="/homeStats">
+                    <span class="glyphicon glyphicon-stats"></span>  Estadísticas</a>
+                <a class="navbar-brand navbar-buttons barraSelected" href="/account">
+                    <span class="glyphicon glyphicon-user"></span>  Perfil</a>
+                <form class="navbar-form navbar-right">
+                    <a href="/profile" class="btn btn-default">Mi cuenta</a>
+                    <a href="/" ng-click="logOut()" class="btn btn-danger">Salir</a>
+                </form>
+            </div><!--/.navbar-collapse -->
+        </div>
+    </nav>
+
+    <div class="container list">
+        <div class="panel panel-primary">
+
+            <!-- Cabecera panel -->
+            <div class="panel-heading form-inline">
+                <div class="form-group cabecera">
+                    <label class="col-md-3 col-sm-5 col-xs-12 titulo"><b>MI PERFIL</b></label>
+                    <div class="input-group search col-md-offset-6 col-sm-offset-3 col-md-3 col-sm-4 col-xs-12">
+                        <buton class="btn btn-danger" ng-click="deleteUser()"><span class="glyphicon glyphicon-trash"></span> Eliminar cuenta</buton>
+                    </div>
+                </div><!-- /input-group -->
+            </div>
+
+            <div>
+
+                <div class="list-group-item">
+                    <form class="form-horizontal">
+
+                        <!-- User's first name -->
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">Nombre</label>
+                            <div class="col-sm-4">
+
+                                <input ng-show="isEditing()"
+                                       ng-model="thisUser.first_name"
+                                       class="form-control"
+                                       type="text" required>
+
+                                <input ng-show="!isEditing()"
+                                       ng-model="thisUser.first_name"
+                                       class="form-control"
+                                       type="text"
+                                       disabled>
+                            </div>
+                        </div>
+
+                        <!-- User's last name -->
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">Apellidos</label>
+                            <div class="col-sm-4">
+
+                                <input ng-show="isEditing()"
+                                       ng-model="thisUser.last_name"
+                                       class="form-control"
+                                       type="text" required>
+
+                                <input ng-show="!isEditing()"
+                                       ng-model="thisUser.last_name"
+                                       class="form-control"
+                                       type="text"
+                                       disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="isEditing()">
+                            <label class="control-label col-sm-3">Contraseña</label>
+                            <div class="col-sm-4">
+
+                                <input ng-model="thisUser.newPassword"
+                                       class="form-control"
+                                       type="password" required>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="isEditing()">
+                            <label class="control-label col-sm-3">Confirmar contraseña</label>
+                            <div class="col-sm-4">
+
+                                <input ng-model="thisUser.confirm_password"
+                                       class="form-control"
+                                       type="password" required>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="isEditing()">
+                            <div class="col-sm-offset-3 col-sm-4">
+                                <div ng-hide="samePasswords()" class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    Error: las contraseñas no coinciden.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User's Registration date -->
+                        <div class="form-group">
+                            <label for="reg"
+                                   class="control-label col-sm-3">Fecha de registro</label>
+                            <div class="col-sm-4">
+                                <input id="reg"
+                                       class="form-control"
+                                       type="text"
+                                       ng-value="thisUser.registration_date | date:'yyyy-MM-dd HH:mm:ss'"
+                                       disabled>
+                            </div>
+                        </div>
+
+                        <!-- User's last access date -->
+                        <div class="form-group">
+                            <label for="last"
+                                   class="control-label col-sm-3">Último acceso</label>
+                            <div class="col-sm-4">
+                                <input id="last"
+                                       class="form-control"
+                                       type="text"
+                                       ng-value="thisUser.last_access_date | date:'yyyy-MM-dd HH:mm:ss'"
+                                       disabled>
+                            </div>
+                        </div>
+
+                        <!-- Number of tweets sent by user -->
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">Tweets enviados</label>
+                            <div class="col-sm-4">
+                                <input class="form-control"
+                                       type="text"
+                                       ng-value="thisUser.n_tweets"
+                                       disabled>
+                            </div>
+                        </div>
+
+                        <!-- User's twitter accounts -->
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">Cuentas de twitter autorizadas:</label>
+                            <div class="col-sm-4">
+                                <input class="form-control"
+                                       type="text"
+                                       ng-value="thisUser.accounts"
+                                       disabled>
+                            </div>
+                        </div>
+
+                        <!-- Form operations buttons -->
+                        <div class="col-md-1 col-sm-2 col-xs-2
+                  col-md-offset-10 col-sm-offset-8 col-xs-offset-8">
+
+                            <!-- Save changes button -->
+                            <button ng-show="isEditing()"
+                                    ng-click="updateUser(); toggleEditing()"
+                                    ng-disabled="!samePasswords()"
+                                    class="btn btn-success botonlistado glyphicon glyphicon-ok"
+                                    type="button">
+                            </button>
+                        </div>
+
+                        <div class="col-md-1 col-sm-2 col-xs-2">
+
+                            <!-- Edit button -->
+                            <button ng-show="!isEditing()"
+                                    ng-click="toggleEditing()"
+                                    class="btn btn-info botonlistado glyphicon glyphicon-pencil"
+                                    type="button">
+                            </button>
+
+                            <!-- Cancel changes button -->
+                            <button ng-show="isEditing()"
+                                    ng-click="toggleEditing()"
+                                    class="btn btn-danger botonlistado glyphicon glyphicon-remove"
+                                    type="button">
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="clearfix visible-xs"></div>
+                    <div class="clearfix visible-sm"></div>
+                    <div class="clearfix visible-md"></div>
+                    <div class="clearfix visible-lg"></div>
+                </div>
+            </div>
+            <!-- Loop's end -->
+
+        </div>
+    </div>
+</div>
+
+
+</div>

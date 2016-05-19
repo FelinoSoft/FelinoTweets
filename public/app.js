@@ -2,11 +2,13 @@ angular.module('felinotweetsApp', [
   'ui.router',
   'mainModule',
   'homeModule',
+  'homeStatsModule',
   'loginModule',
   'registerModule',
   'accountModule',
   'adminModule',
-  'adminStatsModule'
+  'adminStatsModule',
+  'profileModule'
 ])
 
 .constant('API', 'http://127.0.0.1:8888')
@@ -140,10 +142,14 @@ angular.module('felinotweetsApp', [
     return $http.get(API + '/users')
   };
 
+  self.getUser = function(id) {
+    return $http.get(API + '/users/' + id);
+  };
+
   // obtiene todos los usuarios
   self.deleteUser = function(id) {
     console.log("Intentando borrar usuario " + id);
-    return $http.delete(API + '/users/' + id)
+    return $http.delete(API + '/users/' + id);
   };
 
   // update method
@@ -152,7 +158,22 @@ angular.module('felinotweetsApp', [
       first_name: first_name,
       last_name: last_name,
     })
-  }
+  };
+
+  self.updateMyself = function(id, first_name, last_name, password) {
+    if(password !== undefined){
+      return $http.put(API + '/users/' + id, {
+        first_name: first_name,
+        last_name: last_name,
+        password: password
+      });
+    } else{
+      return $http.put(API + '/users/' + id, {
+        first_name: first_name,
+        last_name: last_name,
+      });
+    }
+  };
 
   // register method
   self.register = function(email, first_name, last_name) {
@@ -321,9 +342,24 @@ angular.module('felinotweetsApp', [
     return $http.get(API + '/stats/activeUsers/' + days);
   };
 
-  // obtiene los tweets ordenados por numero de interacciones
-  self.getTweetsMostInteracted = function(id) {
-    return $http.get(API + '/stats/interactions/' + id);
+  // obtiene las menciones por hora
+  self.getMentionsByHour = function(id) {
+    return $http.get(API + '/stats/mentions/' + id);
+  };
+
+  // obtiene los tweets con hashtags por hora
+  self.getHashtagsByHour = function(id) {
+    return $http.get(API + '/stats/hashtags/' + id);
+  };
+
+  // obtiene los tweets con multimedia por hora
+  self.getMultimediaByHour = function(id) {
+    return $http.get(API + '/stats/multimedia/' + id);
+  };
+
+  // obtiene los tweets con mas retweets por hora
+  self.getRetweetsByHour = function(id) {
+    return $http.get(API + '/stats/retweets/' + id);
   };
 
 })
@@ -431,6 +467,19 @@ angular.module('felinotweetsApp', [
           }
           else if(!auth.isAdmin()) {
             $state.go('home');
+          }
+        }]
+      })
+      .state('profileModule',{
+        url: '/profile',
+        templateUrl: '/views/profile/profile.html',
+        controller: 'profileController',
+        onEnter: ['$state', 'auth', function($state, auth) {
+          if(!auth.isAuthed()) {
+            $state.go('login');
+          }
+          else if(auth.isAdmin()) {
+            $state.go('admin');
           }
         }]
       });
