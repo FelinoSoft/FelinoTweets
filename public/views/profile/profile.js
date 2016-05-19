@@ -4,7 +4,6 @@ var profileModule = angular.module('profileModule', [
 
 profileModule.controller('profileController',
     function($scope,$state,$filter,$location,user,auth,twitter) {
-        console.log("profileController inicializado");
 
         // user feedback
         $scope.notError = true;
@@ -78,7 +77,6 @@ profileModule.controller('profileController',
                     // user updated successfully
                     $scope.success = true;
                     $scope.messageSuccess = "Usuario actualizado con éxito.";
-                    console.log(result.data.message);
                     $scope.thisUser = result.data.message;
                 }
             });

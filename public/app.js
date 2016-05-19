@@ -23,9 +23,6 @@ angular.module('felinotweetsApp', [
         config.headers.Authorization = token;
       }
 
-      // console.log("PETICION");
-      // console.log(config);
-
       return config;
     },
 
@@ -34,13 +31,9 @@ angular.module('felinotweetsApp', [
       if(res.config.url.indexOf(API) === 0 && res.data.token) {
         auth.saveToken(res.data.token);
       }
-
-      // console.log("RESPUESTA");
-      // console.log(res);
-
       return res;
     }
-  }
+  };
 })
 
 .controller('appController', function($scope, auth) {
@@ -48,30 +41,28 @@ angular.module('felinotweetsApp', [
 
   function handleRequest(res) {
     var token = res.data ? res.data.token : null;
-    if(token) { console.log('JWT:', token); }
     self.message = res.data.message;
   }
 
   self.login = function() {
     user.login(self.email, self.password)
-      .then(handleRequest, handleRequest)
+      .then(handleRequest, handleRequest);
   };
   self.register = function() {
     user.register(self.email, self.password)
-      .then(handleRequest, handleRequest)
+      .then(handleRequest, handleRequest);
   };
   self.getUsers = function() {
     user.getUsers()
-      .then(handleRequest, handleRequest)
+      .then(handleRequest, handleRequest);
   };
   $scope.logOut = function() {
-    auth.logout && auth.logout()
+    auth.logout && auth.logout();
   };
   $scope.isLoggedIn = function() {
     var logged = auth.isAuthed ? auth.isAuthed() : false;
-    console.log("Logeado: " + logged + " ??");
     return logged;
-  }
+  };
 })
 
 .service('auth', function($window) {
@@ -87,8 +78,6 @@ angular.module('felinotweetsApp', [
   // saves the token in local storage for future requests
   self.saveToken = function(token) {
     $window.localStorage['jwtToken'] = token;
-    console.log('Token saved.');
-    console.log($window.localStorage['jwtToken']);
   };
 
   // obtains the token from localStorage
@@ -100,8 +89,6 @@ angular.module('felinotweetsApp', [
   self.isAuthed = function() {
     var token = self.getToken();
     if(token) {
-      // console.log("Autentificando");
-      // console.log(token);
 
       var params = self.parseJwt(token);
       return Math.round(new Date().getTime() / 1000) <= params.exp;
@@ -131,7 +118,7 @@ angular.module('felinotweetsApp', [
   // deletes the token from localStorage
   self.logout = function() {
     $window.localStorage.removeItem('jwtToken');
-  }
+  };
 })
 
 .service('user', function($http, API) {
@@ -139,7 +126,7 @@ angular.module('felinotweetsApp', [
 
   // obtiene todos los usuarios
   self.getUsers = function() {
-    return $http.get(API + '/users')
+    return $http.get(API + '/users');
   };
 
   self.getUser = function(id) {
@@ -148,7 +135,6 @@ angular.module('felinotweetsApp', [
 
   // obtiene todos los usuarios
   self.deleteUser = function(id) {
-    console.log("Intentando borrar usuario " + id);
     return $http.delete(API + '/users/' + id);
   };
 
@@ -157,7 +143,7 @@ angular.module('felinotweetsApp', [
     return $http.put(API + '/users/' + id, {
       first_name: first_name,
       last_name: last_name,
-    })
+    });
   };
 
   self.updateMyself = function(id, first_name, last_name, password) {
@@ -181,7 +167,7 @@ angular.module('felinotweetsApp', [
       email: email,
       first_name: first_name,
       last_name: last_name
-    })
+    });
   };
 
   // login method

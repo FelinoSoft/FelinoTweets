@@ -87,7 +87,6 @@ module.exports = function(app){
                   // Error
                   response = {"error" : true, "message" : "Error during generation"};
                   res.json(response);
-                  console.log(err);
                 } else{
                   // No error
                   newUrl.short_url = shortener.encode(num);

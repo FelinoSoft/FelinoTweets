@@ -4,13 +4,11 @@ var loginModule = angular.module('loginModule', [
 
 loginModule.controller('loginController',
   function($scope,$state,user) {
-    console.log("LoginController inicializado");
     $scope.notError = true;
 
     $scope.login = function() {
       var email = $scope.formData.email;
       var pass = $scope.formData.password;
-      console.log($scope.formData);
 
       // posts the login user info
       user.login(email, pass).then(function(error) {

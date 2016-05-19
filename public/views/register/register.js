@@ -2,7 +2,6 @@ var loginModule = angular.module('registerModule', ['felinotweetsApp','ngDialog'
 
 loginModule.controller('registerController',
   function($scope,$state,user,ngDialog) {
-    console.log("RegisterController inicializado");
     $scope.notError = true;
     $scope.messageError = "";
 
@@ -45,10 +44,8 @@ loginModule.controller('registerController',
 });
 
 loginModule.controller('InsideCtrl', function ($scope, $state) {
-    
+
     $scope.goHome = function(){
         $state.go('home');
     }
 });
-
-

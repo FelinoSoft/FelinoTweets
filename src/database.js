@@ -31,18 +31,9 @@ function test_user(callback){
                if(!err){
                    user.account = account.id;
                    user.save(function(err,inserted){
-                       if(!err){
-                           console.log(inserted);
-                       } else{
-                           console.log(err);
-                       }
                    });
-               } else{
-                   console.log('Error 2');
                }
            });
-       } else{
-           console.log('Error 1');
        }
     });
 }
@@ -57,23 +48,16 @@ function createTwitterAccount(token, token_secret, profile_id, authorized,callba
     newTwitterAccount.authorized = authorized;
     newTwitterAccount.save(function(err, data){
        if(!err){
-           console.log('Cuenta insertada');
            user_account.findById(ObjectId('572672c1354d7c382da251e7'),function(err,account){
                account.accounts = account.accounts.concat(data.id);
                account.save(function(err,user_ac){
                    if(err){
-                       console.log('error');
+                       //
                    } else{
-                       console.log('no_error');
                        callback(err);
                    }
-               })
+               });
            });
-
-
-       } else{
-           console.log('Cuenta no insertada');
-           console.log(err);
        }
     });
 }
