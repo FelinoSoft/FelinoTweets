@@ -12,9 +12,10 @@ var twitter_account = require('./../models/twitter_account.js');
 var registrations = require('../models/registrations.js');
 
 var twitter = require('./../src/twitter.js');
+var config = require('./../config/config');
 
 // cambiar para subir a heroku
-var API = "http://127.0.0.1:8888";
+var API = config.API;
 
 module.exports = function(app){
 
