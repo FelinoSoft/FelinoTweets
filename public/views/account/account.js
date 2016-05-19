@@ -20,6 +20,7 @@ accountModule.controller('accountController',
     $scope.hashtagsStarted = false;
     $scope.errorTweeting = false;
     $scope.tweet = {};
+    $scope.timer = undefined;
 
     $scope.GLOBAL_LOAD_TWEETS = 20;
     $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT = 120;
@@ -287,6 +288,10 @@ accountModule.controller('accountController',
             twitter.postTweet($stateParams.account_id,
                     $scope.tweet.text).then(function(result){
                 if(!result.data.error){
+                    // Call for checking new tweets
+                    $timeout.cancel($scope.timer);
+                    $scope.checkForNewTweets();
+                    $scope.setCheckingTimeout();
                     $scope.tweeting = false;
                     $scope.sendingTweet = false;
                     $scope.contarCaracteres();
@@ -301,9 +306,13 @@ accountModule.controller('accountController',
             twitter.postScheduledTweet($stateParams.account_id, $scope.tweet.text,
                 new Date($scope.tweet.date).getTime()).then(function(result){
                 if(!result.data.error){
-                    $scope.tweeting = false;
-                    $scope.sendingTweet = false;
-                    $scope.scheduledTweets = result.data.message;
+                  // Call for checking new tweets
+                  $timeout.cancel($scope.timer);
+                  $scope.checkForNewTweets();
+                  $scope.setCheckingTimeout();
+                  $scope.tweeting = false;
+                  $scope.sendingTweet = false;
+                  $scope.scheduledTweets = result.data.message;
                 } else{
                     $scope.tweeting = false;
                     $scope.sendingTweet = false;
@@ -657,14 +666,18 @@ accountModule.controller('accountController',
       });
     };
 
+    $scope.$on('$destroy', function(){
+      $timeout.cancel($scope.timer);
+    });
+
     $scope.setCheckingTimeout = function(){
       function callForCheckNewTweets(){
         $scope.checkForNewTweets();
-        $timeout(callForCheckNewTweets,
+        $scope.timer = $timeout(callForCheckNewTweets,
           $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT * 1000);
       }
 
-      $timeout(callForCheckNewTweets,
+      $scope.timer = $timeout(callForCheckNewTweets,
         $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT * 1000);
     };
 
@@ -830,6 +843,13 @@ accountModule.controller('accountController',
       for(var k = 0; k < $scope.userInfo.hashtagsPanel.length;k++){
         getNewTweets('hashtag', $scope.userInfo.hashtagsPanel[k].hashtag,-1);
       }
+      twitter.getScheduledTweets($stateParams.account_id).then(function(result){
+          if(!result.error){
+              $scope.scheduledTweets = result.data.message;
+          } else{
+              console.log(result.error);
+          }
+      });
     };
 
       $scope.replyDialog = function(tweetID, author, nombre){
