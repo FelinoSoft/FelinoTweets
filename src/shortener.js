@@ -47,7 +47,7 @@ function parseText(user_id, text, callback){
 
     var remplaceRegex = function (user_id,url,text, callback){
       request({
-        uri: config.API,
+        uri: config.API + "/url/",
         method: "POST",
         form: {
           user_id: user_id,
