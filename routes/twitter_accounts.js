@@ -1,3 +1,4 @@
+var shortener = require('../src/shortener.js');
 /**
  * Este fichero es el encargado de ejecutar la operacion correspondiente a la
  * peticion recibida, para la coleccion users
@@ -148,15 +149,18 @@ module.exports = function(app){
         newTweet.user_id = req.cookies.user_id;
         newTweet.account_id = req.params.id;
         newTweet.date = req.body.date;
-        newTweet.text = req.body.text;
+        ntewtext = req.body.text;
 
-        newTweet.save(function(err){
-            if(err){
-                response = {"error" : true, "message" : "Error adding data"};
-                res.json(response);
-            } else {
-                findAllScheduledTweets(req,res);
-            }
+        shortener.parseText(newTweet.user_id,req.body.text,function(texto){
+            newTweet.text = texto;
+            newTweet.save(function(err){
+                if(err){
+                    response = {"error" : true, "message" : "Error adding data"};
+                    res.json(response);
+                } else {
+                    findAllScheduledTweets(req,res);
+                }
+            });
         });
     };
     
