@@ -314,7 +314,7 @@ angular.module('felinotweetsApp', [
         'tweet' : text
       });
     }
-    
+
   };
 
   self.postScheduledTweet = function(account_id, text, date){
@@ -384,6 +384,11 @@ angular.module('felinotweetsApp', [
   // obtiene los tweets escritos por hora
   self.getTweetsByHour = function(id) {
     return $http.get(API + '/stats/tweets/' + id);
+  };
+
+  // obtiene las cuentas con sus menciones totales
+  self.getRankingMentions = function(top, id) {
+    return $http.get(API + '/stats/ranking/mentions/' + top + '/' + id);
   };
 
 })

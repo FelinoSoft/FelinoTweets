@@ -13,16 +13,19 @@ homeStatsModule.controller('homeStatsController',
 
     // stats info
     $scope.stats = {};
-    $scope.dataLoaded = [false,false,false,false,false];
+    $scope.dataLoaded = [false,false,false,
+                          false,false,false];
 
     // chart's info
     $scope.opt = [];
+    $scope.topAccounts = 2;
     $scope.statTitle = ['Menciones por franja horaria',
                         'Tweets escritos por usuario por franja horaria',
-                        'Tweets con contenido multimedia por franja horaria',
+                        'Porcentaje de tweets con contenido multimedia por franja horaria',
                         'Tweets con más retweets por franja horaria',
-                        'Tweets con hashtags por franja horaria'];
-    $scope.chartType = ['line', 'line', 'line', 'line','line'];
+                        'Porcentaje de tweets con hashtags por franja horaria',
+                        'Menciones totales a cada cuenta'];
+    $scope.chartType = ['line', 'line', 'line', 'line','line','pie'];
 
     // chart #1 (last registered users)
     $scope.getMentionsByHour = function() {
@@ -325,6 +328,58 @@ homeStatsModule.controller('homeStatsController',
       });
     };
 
+    // chart #3 (top 5 users with more tweets)
+    $scope.getRankingMentions = function() {
+      stats.getRankingMentions($scope.topAccounts, auth.currentUser()).
+          then(function(result) {
+        if (result.data.error) {
+
+          // login error, resets only the password field
+          $scope.messageError = "Error: no se ha podido recuperar a los usuarios.";
+          $scope.notError = false;
+        }
+        else {
+
+          // usuarios obtenidos con exito
+          var ranking = result.data.message;
+
+          // obtains access users stats
+          $scope.stats[5] =
+          {
+              labels: ranking.labels,
+              datasets: [{
+                  label: 'Menciones totales a @',
+                  data: ranking.data,
+                  borderColor:'rgba(94,169,221,0.9)',
+                  backgroundColor:[
+                    'rgba(94,169,221,0.6)',
+                    'rgba(153,51,255,0.6)',
+                    'rgba(255,26,26,0.6)',
+                    'rgba(51,204,51,0.6)',
+                    'rgba(255,102,0,0.6)',
+                  ]
+              }]
+          };
+
+          // sets the options
+          $scope.opt[5] = {
+            scales: {
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }],
+                xAxes: [{
+                  display: false
+                }]
+            }
+          };
+          $scope.dataLoaded[5] = true;
+        }
+      });
+    };
+
     $scope.getActiveUsers = function() {
       stats.getActiveUsers($scope.activUsersDays).then(function(result) {
         if (result.data.error) {
@@ -363,5 +418,6 @@ homeStatsModule.controller('homeStatsController',
     $scope.getMultimediaByHour();
     $scope.getRetweetsByHour();
     $scope.getTweetsByHour();
+    $scope.getRankingMentions();
     $scope.getActiveUsers();
 });
