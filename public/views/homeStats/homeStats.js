@@ -32,10 +32,10 @@ homeStatsModule.controller('homeStatsController',
     $scope.opt = [];
 
     $scope.statTitle = ['Menciones por franja horaria',
-                        'Estadísticas de accesos (últimos ' + $scope.daysAccess + ' días)',
-                        'Estadísticas de tweets',
-                        'Mapa de tweets'];
-    $scope.chartType = ['line', 'line', 'bar', 'line'];
+                        'Tweets con hashtags por franja horaria',
+                        'Tweets con contenido multimedia por franja horaria',
+                        'Tweets con más retweets por franja horaria'];
+    $scope.chartType = ['line', 'line', 'line', 'line'];
 
     // chart #1 (last registered users)
     $scope.getMentionsByHour = function() {
@@ -51,21 +51,19 @@ homeStatsModule.controller('homeStatsController',
           // usuarios obtenidos con exito
           var stats = result.data.message;
 
-          $scope.labelsMentions = stats.labels;
-          $scope.dataMentions = stats.data;
-
           // obtains registered users stats
           var datasets = [];
-          for(var i in $scope.dataMentions) {
+          for(var i in stats.data) {
 
             var r = Math.floor(Math.random() * 256);
             var g = Math.floor(Math.random() * 256);
             var b = Math.floor(Math.random() * 256);
             var a = Math.random();
+            if (a < 0.5) a = 0.5;
 
             var dataset =
             {
-              label: 'Menciones a @usuario ' + i,
+              label: 'Menciones a @' + stats.data[i].name,
               borderColor:'rgba(' + r +
                                 ',' + g +
                                 ',' + b +
@@ -74,13 +72,13 @@ homeStatsModule.controller('homeStatsController',
                                 ',' + g +
                                 ',' + b +
                                 ',' + a + ')',
-              data: $scope.dataMentions[i]
+              data: stats.data[i].values
             };
             datasets.push(dataset);
           }
           $scope.stats[0] =
           {
-            labels: $scope.labelsMentions,
+            labels: stats.labels,
             datasets: datasets
           };
           // sets the options
@@ -97,10 +95,9 @@ homeStatsModule.controller('homeStatsController',
       });
     }
 
-
-    // chart #2 (last access)
-    $scope.getAccessInfo = function() {
-      stats.getAccessByDate('acceso', $scope.daysAccess).then(function(result) {
+    // chart #2 (hashtags per hour)
+    $scope.getHashtagsByHour = function() {
+      stats.getHashtagsByHour(auth.currentUser()).then(function(result) {
         if (result.data.error) {
 
           // login error, resets only the password field
@@ -111,38 +108,55 @@ homeStatsModule.controller('homeStatsController',
 
           // usuarios obtenidos con exito
           var stats = result.data.message;
-          $scope.labelsAccess = stats.labels;
-          $scope.dataAccess = stats.data.events;
 
-          // obtains access users stats
+          // obtains registered users stats
+          var datasets = [];
+          for(var i in stats.data) {
+
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            var a = Math.random();
+            if (a < 0.5) a = 0.5;
+
+            var dataset =
+            {
+              label: 'Tweets con hashtags de @' + stats.data[i].name,
+              borderColor:'rgba(' + r +
+                                ',' + g +
+                                ',' + b +
+                                ',' + a + ')',
+              backgroundColor:'rgba(' + r +
+                                ',' + g +
+                                ',' + b +
+                                ',' + a + ')',
+              data: stats.data[i].values
+            };
+            datasets.push(dataset);
+          }
+
           $scope.stats[1] =
           {
-              labels: $scope.labelsAccess,
-              datasets: [{
-                  label: 'Accesos',
-                  borderColor:'rgba(0,230,77,0.9)',
-                  backgroundColor:'rgba(0,230,77,0.6)',
-                  data: $scope.dataAccess
-              }]
+            labels: stats.labels,
+            datasets: datasets
           };
-
           // sets the options
           $scope.opt[1] = {
             scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
+              yAxes: [{
+                ticks: {
+                  beginAtZero:true
+                }
+              }]
             }
           }
         }
       });
     }
 
-    // chart #3 (top 5 users with more tweets)
-    $scope.getRankingInfo = function() {
-      stats.getRankingUsers($scope.topUsers).then(function(result) {
+    // chart #3 (multimedia per hour)
+    $scope.getMultimediaByHour = function() {
+      stats.getMultimediaByHour(auth.currentUser()).then(function(result) {
         if (result.data.error) {
 
           // login error, resets only the password field
@@ -152,41 +166,109 @@ homeStatsModule.controller('homeStatsController',
         else {
 
           // usuarios obtenidos con exito
-          var ranking = result.data.message;
+          var stats = result.data.message;
 
-          $scope.labelsRanking = ranking.labels;
-          $scope.dataRanking = ranking.data;
+          // obtains registered users stats
+          var datasets = [];
+          for(var i in stats.data) {
 
-          // obtains access users stats
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            var a = Math.random();
+            if (a < 0.5) a = 0.5;
+
+            var dataset =
+            {
+              label: 'Tweets multimedia de @' + stats.data[i].name,
+              borderColor:'rgba(' + r +
+                                ',' + g +
+                                ',' + b +
+                                ',' + a + ')',
+              backgroundColor:'rgba(' + r +
+                                ',' + g +
+                                ',' + b +
+                                ',' + a + ')',
+              data: stats.data[i].values
+            };
+            datasets.push(dataset);
+          }
+
           $scope.stats[2] =
           {
-              labels: $scope.labelsRanking,
-              datasets: [{
-                  label: 'nº tweets',
-                  data: $scope.dataRanking,
-                  borderColor:'rgba(94,169,221,0.9)',
-                  backgroundColor:[
-                    'rgba(94,169,221,0.6)',
-                    'rgba(153,51,255,0.6)',
-                    'rgba(255,26,26,0.6)',
-                    'rgba(51,204,51,0.6)',
-                    'rgba(255,102,0,0.6)',
-                  ]
-              }]
+            labels: stats.labels,
+            datasets: datasets
           };
-
           // sets the options
           $scope.opt[2] = {
             scales: {
-                yAxes: [{
-                    display: true,
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }],
-                xAxes: [{
-                  display: false
-                }]
+              yAxes: [{
+                ticks: {
+                  beginAtZero:true
+                }
+              }]
+            }
+          }
+        }
+      });
+    }
+
+    // chart #3 (multimedia per hour)
+    $scope.getRetweetsByHour = function() {
+      stats.getRetweetsByHour(auth.currentUser()).then(function(result) {
+        if (result.data.error) {
+
+          // login error, resets only the password field
+          $scope.messageError = "Error: no se ha podido recuperar a los usuarios."
+          $scope.notError = false;
+        }
+        else {
+
+          // usuarios obtenidos con exito
+          var stats = result.data.message;
+
+          console.log(stats);
+
+          // obtains registered users stats
+          var datasets = [];
+          for(var i in stats.data) {
+
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            var a = Math.random();
+            if (a < 0.5) a = 0.5;
+
+            var dataset =
+            {
+              label: 'Retweets por franja horaria a tweets de @' +
+                  stats.data[i].name,
+              borderColor:'rgba(' + r +
+                                ',' + g +
+                                ',' + b +
+                                ',' + a + ')',
+              backgroundColor:'rgba(' + r +
+                                ',' + g +
+                                ',' + b +
+                                ',' + a + ')',
+              data: stats.data[i].values
+            };
+            datasets.push(dataset);
+          }
+
+          $scope.stats[3] =
+          {
+            labels: stats.labels,
+            datasets: datasets
+          };
+          // sets the options
+          $scope.opt[3] = {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero:true
+                }
+              }]
             }
           }
         }
@@ -227,7 +309,8 @@ homeStatsModule.controller('homeStatsController',
 
     // Initializes controller
     $scope.getMentionsByHour();
-    $scope.getAccessInfo();
-    $scope.getRankingInfo();
+    $scope.getHashtagsByHour();
+    $scope.getMultimediaByHour();
+    $scope.getRetweetsByHour();
     $scope.getActiveUsers();
 });

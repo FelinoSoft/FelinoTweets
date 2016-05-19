@@ -319,9 +319,24 @@ angular.module('felinotweetsApp', [
     return $http.get(API + '/stats/activeUsers/' + days);
   };
 
-  // obtiene los tweets ordenados por numero de interacciones
+  // obtiene las menciones por hora
   self.getMentionsByHour = function(id) {
     return $http.get(API + '/stats/mentions/' + id);
+  };
+
+  // obtiene los tweets con hashtags por hora
+  self.getHashtagsByHour = function(id) {
+    return $http.get(API + '/stats/hashtags/' + id);
+  };
+
+  // obtiene los tweets con multimedia por hora
+  self.getMultimediaByHour = function(id) {
+    return $http.get(API + '/stats/multimedia/' + id);
+  };
+
+  // obtiene los tweets con mas retweets por hora
+  self.getRetweetsByHour = function(id) {
+    return $http.get(API + '/stats/retweets/' + id);
   };
 
 })
