@@ -224,6 +224,12 @@
                     </p>
                     <!-- RT button -->
                     <div class="homeTwitButtons">
+
+                      <!--Reply button-->
+                      <button class="homeGlifaiconsRes" ng-click="replyDialog(tweet.tweetID, tweet.author, tweet.name)">
+                        <i class="fa fa-reply homeGlifaiconsRES" aria-hidden="true"></i>
+                      </button>
+
                       <span class="homeGlifaiconsRTNolink" ng-show="isSameUserAndAuthor(userInfo.accountName,tweet.author)">
                         <span class="glyphicon glyphicon-retweet homeGlifaiconsRTNoLink">
                         </span>
@@ -319,6 +325,12 @@
                     </p>
                     <!-- RT button -->
                     <div class="homeTwitButtons">
+
+                      <!--Reply button-->
+                      <button class="homeGlifaiconsRes" ng-click="replyDialog(tweet.tweetID, tweet.author, tweet.name)">
+                        <i class="fa fa-reply homeGlifaiconsRES" aria-hidden="true"></i>
+                      </button>
+
                       <span class="homeGlifaiconsRTNolink" ng-show="isSameUserAndAuthor(userInfo.accountName,tweet.author)">
                         <span class="glyphicon glyphicon-retweet homeGlifaiconsRTNoLink">
                         </span>
