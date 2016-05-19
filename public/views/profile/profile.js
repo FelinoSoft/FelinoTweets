@@ -70,7 +70,7 @@ profileModule.controller('profileController',
                 if (result.data.error) {
 
                     // login error, resets only the password field
-                    $scope.messageError = "Error: usuario no actualizado."
+                    $scope.messageError = "Error: usuario no actualizado.";
                     $scope.notError = false;
                 }
                 else {
@@ -78,6 +78,7 @@ profileModule.controller('profileController',
                     // user updated successfully
                     $scope.success = true;
                     $scope.messageSuccess = "Usuario actualizado con éxito.";
+                    console.log(result.data.message);
                     $scope.thisUser = result.data.message;
                 }
             });

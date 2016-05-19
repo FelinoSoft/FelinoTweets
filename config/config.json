@@ -5,5 +5,5 @@
   "consumerSecret": "tG04Aj77od7jG7a6CQCk7ULbqbNEagFq5d3Z0qQi0qdanYXw2V",
   "secret": "felinotweets",
   "databaseAddress" : "mongodb://FelinoUser:superfelino1#@ds013310.mlab.com:13310/felinotweetsdb",
-  "API": "http://127.0.0.1:8888"
+  "API": "http://felinotweets.tk"
 }
