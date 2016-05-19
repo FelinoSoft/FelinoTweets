@@ -301,18 +301,20 @@ angular.module('felinotweetsApp', [
     });
   };
 
-  self.postTweet = function(account_id, text){
-    return $http.post(API + '/twitter/tweet', {
-      'id' : account_id,
-      'tweet' : text
-    });
-  };
-
-  self.postTweet = function(account_id, text){
-    return $http.post(API + '/twitter/tweet', {
-      'id' : account_id,
-      'tweet' : text
-    });
+  self.postTweet = function(account_id, text, id_reply){
+    if(id_reply !== undefined){
+      return $http.post(API + '/twitter/tweet', {
+        'id' : account_id,
+        'tweet' : text,
+        'id_reply': id_reply
+      });
+    } else{
+      return $http.post(API + '/twitter/tweet', {
+        'id' : account_id,
+        'tweet' : text
+      });
+    }
+    
   };
 
   self.postScheduledTweet = function(account_id, text, date){
@@ -377,6 +379,11 @@ angular.module('felinotweetsApp', [
   // obtiene los tweets con mas retweets por hora
   self.getRetweetsByHour = function(id) {
     return $http.get(API + '/stats/retweets/' + id);
+  };
+
+  // obtiene los tweets escritos por hora
+  self.getTweetsByHour = function(id) {
+    return $http.get(API + '/stats/tweets/' + id);
   };
 
 })

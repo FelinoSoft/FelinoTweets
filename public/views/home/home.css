@@ -200,6 +200,47 @@
   padding-bottom:5px;
 }
 
+.homeGlifaiconsRetweeted{
+  font-size: x-small;
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:0px;
+  padding-top:2px;
+}
+
+.homeGlifaiconsRetweeted:hover{
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:0px;
+  padding-top:2px;
+}
+
+.whenRetweeted{
+  padding-bottom: 5px;
+  margin-right: 2px;
+}
+
+.whenRetweeted:hover{
+  padding-bottom: 5px;
+  margin-right: 2px;
+}
+
+.homeGlifaiconsRes{
+  color:gray;
+  vertical-align:middle;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
+}
+
+.homeGlifaiconsRes:hover{
+  color:#333333;
+  vertical-align:middle;
+  padding-bottom:0px;
+  background: transparent;
+  border: none;
+}
+
 .homeTwitButtons{
   font-size: small;
   color:black;

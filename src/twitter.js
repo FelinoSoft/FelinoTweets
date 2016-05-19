@@ -130,7 +130,7 @@ function getMDs(userToken, userSecret, count, since_id, max_id, callback){
     }
 }
 
-function postTweet(userID, userToken, userSecret, tweet, callback){
+function postTweet(userID, userToken, userSecret, tweet, callback, id_reply){
     shortURLs = function(user_id, text, callback){
 
         var count = countURLs(text);
@@ -190,11 +190,18 @@ function postTweet(userID, userToken, userSecret, tweet, callback){
     };
 
     shortURLs(userID,tweet,function(texto){
+        options = {
+            "status" : texto
+        };
+        if(id_reply !== undefined){
+            options.in_reply_to_status_id = id_reply;
+        }
+
         oa.post(
             "https://api.twitter.com/1.1/statuses/update.json",
             userToken,
             userSecret,
-            {"status" : texto},
+            options,
             function(err,data){
                 if(!err){
                     user.findByIdAndUpdate(userID, {$inc: {n_tweets : 1}}, function(err){

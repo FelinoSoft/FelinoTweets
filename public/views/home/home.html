@@ -71,6 +71,14 @@
                     </button>
                   </li>
                   <li class="list-group-item homeZeroPadding" ng-repeat="tweet in pan.tweets">
+                    <a class=" col-md-12 col-sm-12 col-xs-12 homeGlifaiconsRetweeted" ng-show="tweet.isRetweeted" href={{tweet.authorRetweetLink}} target="_blank">
+                        <span class="glyphicon glyphicon-retweet homeGlifaiconsRT whenRetweeted">
+                        </span> Retuiteado por {{tweet.authorRetweetName}}
+                    </a>
+                    <a class=" col-md-12 col-sm-12 col-xs-12 homeGlifaiconsRetweeted" ng-show="tweet.isAnswer" href={{tweet.answerTweetLink}} target="_blank">
+                      <i class="fa fa-reply whenRetweeted" aria-hidden="true"></i>
+                      En respuesta a {{tweet.answerAuthorName}}
+                    </a>
                     <div class="homeTwitImgDiv">
                       <a href="https://twitter.com/{{tweet.author}}">
                         <img src={{tweet.imgLink}} class="imgPanel img-responsive" alt="Cinque Terre">
