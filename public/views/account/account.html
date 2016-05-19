@@ -107,6 +107,14 @@
                     </button>
                   </li>
                   <li class="list-group-item homeZeroPadding" ng-repeat="tweet in userInfo.homePanel.tweets">
+                    <a class=" col-md-12 col-sm-12 col-xs-12 homeGlifaiconsRetweeted" ng-show="tweet.isRetweeted" href={{tweet.authorRetweetLink}} target="_blank">
+                        <span class="glyphicon glyphicon-retweet homeGlifaiconsRT whenRetweeted">
+                        </span> Retuiteado por {{tweet.authorRetweetName}}
+                    </a>
+                    <a class=" col-md-12 col-sm-12 col-xs-12 homeGlifaiconsRetweeted" ng-show="tweet.isAnswer" href={{tweet.answerTweetLink}} target="_blank">
+                      <i class="fa fa-reply whenRetweeted" aria-hidden="true"></i>
+                      En respuesta a {{tweet.answerAuthorName}}
+                    </a>
                     <div class="homeTwitImgDiv">
                       <a href="https://twitter.com/{{tweet.author}}">
                         <img src={{tweet.imgLink}} class="imgPanel img-responsive" alt="Cinque Terre">
@@ -208,6 +216,14 @@
                     </button>
                   </li>
                   <li class="list-group-item homeZeroPadding" ng-repeat="tweet in userInfo.TLPanel.tweets">
+                    <a class=" col-md-12 col-sm-12 col-xs-12 homeGlifaiconsRetweeted" ng-show="tweet.isRetweeted" href={{tweet.authorRetweetLink}} target="_blank">
+                        <span class="glyphicon glyphicon-retweet homeGlifaiconsRT whenRetweeted">
+                        </span> Retuiteado por {{tweet.authorRetweetName}}
+                    </a>
+                    <a class=" col-md-12 col-sm-12 col-xs-12 homeGlifaiconsRetweeted" ng-show="tweet.isAnswer" href={{tweet.answerTweetLink}} target="_blank">
+                      <i class="fa fa-reply whenRetweeted" aria-hidden="true"></i>
+                      En respuesta a {{tweet.answerAuthorName}}
+                    </a>
                     <div class="homeTwitImgDiv">
                       <a href="https://twitter.com/{{tweet.author}}">
                         <img src={{tweet.imgLink}} class="imgPanel img-responsive" alt="Cinque Terre">
@@ -309,6 +325,10 @@
                     </button>
                   </li>
                   <li class="list-group-item homeZeroPadding" ng-repeat="tweet in userInfo.mentionsPanel.tweets">
+                    <a class=" col-md-12 col-sm-12 col-xs-12 homeGlifaiconsRetweeted" ng-show="tweet.isAnswer" href={{tweet.answerTweetLink}} target="_blank">
+                      <i class="fa fa-reply whenRetweeted" aria-hidden="true"></i>
+                      En respuesta a {{tweet.answerAuthorName}}
+                    </a>
                     <div class="homeTwitImgDiv">
                       <a href="https://twitter.com/{{tweet.author}}">
                         <img src={{tweet.imgLink}} class="imgPanel img-responsive" alt="Cinque Terre">
@@ -408,7 +428,7 @@
                       <b>Tweet:</b> {{sch_tweet.text}}
                     </p>
                     <p class="homeTwitText" >
-                      <b>Fecha:</b> {{sch_tweet.date | date: 'dd MMM yyyy - hh:mm'}}
+                      <b>Fecha:</b> {{sch_tweet.date | date: 'dd MMM yyyy - HH:mm'}}
                     </p>
                     <div class="homeTwitButtons">
                       <button ng-click="deleteScheduledTweet(sch_tweet._id)" class="homeGlifaiconsNoFAV" ><span class="glyphicon glyphicon-remove"></span> Eliminar</button>
@@ -573,18 +593,7 @@
           </div>
         </div> <!-- Panel twitter -->
       </div> <!-- Col -->
-      <!--
-      <div class="col-md-3 col-sm-4 col-xs-12">
-        <div class="panel panel-default home-panel-add">
-          <div class="homeAddPanelText">
-            <a href="#" class="homeAddPanelButton">
-              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-              <br>
-              Add account
-            </a>
-          </div>
-        </div>  Panel add
-      </div>  Col -->
+
     </div> <!-- Row -->
   </div> <!-- Site wrapper-->
 </div>
