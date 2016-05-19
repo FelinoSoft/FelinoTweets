@@ -1,6 +1,7 @@
 var alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
 var base = alphabet.length;
 var request = require('request');
+var config = require('../config/config.json');
 /**
  * Funcion para convertir un entero en un codigo en base58 unico
  */
@@ -46,7 +47,7 @@ function parseText(user_id, text, callback){
 
     var remplaceRegex = function (user_id,url,text, callback){
       request({
-        uri: "http://127.0.0.1:8888/url/",
+        uri: config.API,
         method: "POST",
         form: {
           user_id: user_id,
