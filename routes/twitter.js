@@ -1,5 +1,6 @@
 var twitter = require('./../src/twitter.js');
 var twitter_account = require('./../models/twitter_account.js');
+var shortener = require('./../src/shortener.js');
 
 module.exports = function(app,passport){
 
@@ -147,38 +148,22 @@ module.exports = function(app,passport){
         var user_id = req.cookies.user_id;
         var id_reply = req.body.id_reply;
 
-        twitter_account.findOne({'_id' : req.body.id, 'account_id' : user_id}, function(err,data){
-            if(!err){
-                twitter.postTweet(req.cookies.user_id, data.token, data.token_secret, text, function(err, data){
-                    if(err){
-                        response = {'error' : true, 'message' : 'Error enviando el tweet'};
-                    } else{
-                        response = {'error' : false, 'message' : data};
-                    }
-                    res.json(response);
-                }, id_reply);
-            } else{
-                response = {'error' : true, 'message' : 'Error accediendo a la BD'};
-            }
-        });
-
-
-
-        /*
-        twitter_account.findOne({'_id' : req.body.id, 'account_id' : user_id}, function(err,data){
-            if(!err){
-                twitter.postTweet(req.cookies.user_id, data.token, data.token_secret, text, function(err, data){
+        shortener.parseText(user_id, text, function(texto){
+            twitter_account.findOne({'_id' : req.body.id, 'account_id' : user_id}, function(err,data){
+                if(!err){
+                    twitter.postTweet(req.cookies.user_id, data.token, data.token_secret, texto, function(err, data){
                         if(err){
                             response = {'error' : true, 'message' : 'Error enviando el tweet'};
                         } else{
                             response = {'error' : false, 'message' : data};
                         }
                         res.json(response);
-                    });
-            } else{
-                response = {'error' : true, 'message' : 'Error accediendo a la BD'};
-            }
-        });*/
+                    }, id_reply);
+                } else{
+                    response = {'error' : true, 'message' : 'Error accediendo a la BD'};
+                }
+            });
+        });
     };
 
     postMD = function(req, res){

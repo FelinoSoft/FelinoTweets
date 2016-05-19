@@ -408,7 +408,7 @@
                       <b>Tweet:</b> {{sch_tweet.text}}
                     </p>
                     <p class="homeTwitText" >
-                      <b>Fecha:</b> {{sch_tweet.date}}
+                      <b>Fecha:</b> {{sch_tweet.date | date: 'dd MMM yyyy - hh:mm'}}
                     </p>
                     <div class="homeTwitButtons">
                       <button ng-click="deleteScheduledTweet(sch_tweet._id)" class="homeGlifaiconsNoFAV" ><span class="glyphicon glyphicon-remove"></span> Eliminar</button>

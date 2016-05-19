@@ -19,6 +19,7 @@ accountModule.controller('accountController',
     $scope.hashtagsStarted = false;
     $scope.errorTweeting = false;
     $scope.tweet = {};
+    $scope.caracteres = 140;
 
     $scope.GLOBAL_LOAD_TWEETS = 20;
     $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT = 120;
