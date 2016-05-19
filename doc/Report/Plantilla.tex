@@ -65,9 +65,9 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 
 \section{Propuestas similares - Hootsuite}
 
-	\paragraph{} Como principal aplicación parecida a la propuesta destaca \textit{Hootsuite}. Esta herramienta ofrece un panel de control (\textit{dashboard}) para gestionar las cuentas de diferentes redes sociales (\textit{Twitter}, \textit{Facebook}...).
+	\paragraph{} Se ha analizado principalmente un servicio web similar a la propuesta, \textit{Hootsuite}. Esta herramienta ofrece en su vista principal un panel de control (\textit{dashboard}) para gestionar las cuentas de diferentes redes sociales (\textit{Twitter}, \textit{Facebook}...). Es posible añadir nuevas columnas o eliminarlas para estar al tanto de la mayor cantidad de información posible. 
 	
-	\paragraph{} Se proporcionan varias versiones de esta aplicación, una gratuita (con funcionalidades limitadas) y otra de pago que ofrece al usuario servicios adicionales como realizar informes de estadísticas sobre sus redes sociales
+	\paragraph{} Se proporcionan varias versiones de esta aplicación, una gratuita (con funcionalidades limitadas) y otra de pago que ofrece al usuario servicios adicionales como el de realizar informes de estadísticas sobre sus redes sociales.
 
 \section{Arquitectura de alto nivel}
 	\paragraph{} A continuación se presenta un diagrama arquitectural de alto nivel con la estructura de la aplicación desarrollada, seguido de una descripción más en detalle de cada una de las partes que la componen:
@@ -86,11 +86,97 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 		\end{itemize}
 		\paragraph{} La descripción detallada de cada función del API se encuentra en el apartado \textbf{API}.
 
-\section{Modelo de datos (Esquemas Mongoose*)}
+\section{Modelo de datos}
+
+	\paragraph{} Se han definido varias colecciones para almacenar la información de los disintos usuarios de la aplicación, de sus cuentas de twitter, de los enlaces a acortar o para almacenar estadísticas que proporcionan a los usuarios, ya sean administradores o usuarios normales una retroalimentación de su interacción con la aplicación. A continuación se describen todas las colecciones utilizadas:
+	
+	\begin{itemize}
+	\item \textbf{hashtag}: contiene la información almacenada sobre cada \textit{hashtag}.
+		
+		\begin{itemize}
+		\item user\_id : String,
+		\item account\_id : String,
+		\item hashtag : String
+		\end{itemize}
+		
+	\item \textbf{registrations}: almacena la información relativa a los diferentes eventos de acceso que pueden tener lugar: \textit{alta}, \textit{baja} y \textit{acceso}. Asociada a cada evento se guarda también la fecha, de esta forma se puede utilizar esta colección para crear estadísticas al respecto.
+		
+		\begin{itemize}
+		\item type : String,
+		\item date : Date
+		\end{itemize}
+	 
+	\item \textbf{scheduled\_tweets}: contiene toda la información necesaria para representar un \textit{tweet}.
+	
+		\begin{itemize}
+		\item user\_id : String,
+		\item account\_id : String,
+		\item date : Date,
+		\item text : String
+		\end{itemize}
+	
+	\item \textbf{twitter\_accounts}: guarda la información relativa a la asociación entre una cuenta de \textit{twitter} y una cuenta de usuario de la aplicación, así como los tokens necesarios para comunicarse con el \textbf{API} de \textit{Twitter}.
+	
+		\begin{itemize}
+		\item account\_id : String,
+		\item token : String,
+		\item token\_secret : String,
+		\item profile\_name : String,
+		\item photo\_url : String,
+		\item description : String,
+		\end{itemize}
+	
+	\item \textbf{url}: contiene la asociación entre \textit{urls} acortadas y \textit{urls} originales para poder realizar la redirección.
+	
+		\begin{itemize}
+		\item short\_url : String,
+		\item long\_url : String,
+		\item user\_id : String,
+		\item clicks : Number
+		\end{itemize}
+	
+	\item \textbf{user}: almacena toda la información relativa a un usuario de la aplicación. Se guardan tanto datos personales como fechas de acceso y registro o número total de tweets enviado (representan la suma de tweets enviados por todas las cuentas de \textit{twitter} asociadas a dicho usuario).
+	
+		\begin{itemize}
+		\item admin : Boolean,
+		\item email : String,
+		\item password : String,
+		\item first\_name : String,
+		\item last\_name : String,
+		\item registration\_date : Date,
+		\item last\_access\_date : Date,
+		\item n\_tweets : Number		
+		\end{itemize}
+	
+	\end{itemize}
 
 \section{API REST}
 
 \section{Analíticas}
+
+	\paragraph{} Se ha desarrollado un servicio de analíticas que ofrece datos acerca del comportamiento del conjunto de usuarios de la aplicación para un usuario de tipo administrador. Por otro lado, el mismo servicio ofrece estadísticas acerca de las cuentas de \textit{Twitter} asociadas con un usuario.
+	
+	\subsection{Analíticas de administrador}
+	
+		\paragraph{} El objetivo de estas estadísticas es el de dar al administrador una visión del modo en que sus usuarios utilizan la aplicación. A continuación se muestran las gráficas que puede visualizar el administrador del sistema:
+		
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1\linewidth]{img/altas-bajas-accesos}
+				\caption{Registros, cuentas borradas en la aplicación en los útlimos 15 días y accesos de los usuarios (no únicos) a la apliación en los últimos 7 días.}
+				\label{fig:altas-bajas-accesos}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1\linewidth]{img/rankingsAdmin}
+				\caption{Ranking de cuentas con mayor número de tweets enviados (izquierda) y ranking de cuentas de la aplicación con mayor número de cuentas de twitter asociadas cada una (derecha).}
+				\label{fig:rankingsAdmin}
+			\end{figure}
+	
+	\subsection{Analíticas de usuario} 
+
+		\paragraph{} El interés de estas gráficas para el usuario reside en informarle de la diferente repercursión que tienen sus disintas cuentas de \textit{Twitter} asociadas.
 
 \section{Implementación}
 
@@ -111,13 +197,6 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 	\subsection{Valoración personal del grupo}
 	\subsection{Valoración personal de cada miembro}
 \section{Anexos}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\linewidth]{logoUZ.png}
-	\caption{Caption}
-	\label{fig:pf}
-\end{figure}
 
 \newpage
 \begin{thebibliography}{99} 
