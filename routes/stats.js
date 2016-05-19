@@ -799,6 +799,110 @@ module.exports = function(app){
                       accountsSaved = accountsSaved + 1;
                     }
                   });
+                });
+              }
+            });
+            //     }
+            //     else {
+            //       response = {"error" : true, "message" : "Admin permissions required."};
+            //       res.json(response);
+            //     }
+            //   }
+    // });
+  };
+
+  /* GET /stats/ranking/mentions/:id */
+  findRankingMentions = function(req,res){
+    var response = {};
+
+    // checkUser(req, res, function(err, data) {
+    //
+    //   if (err) {
+    //     response = {"error" : true, "message" : "Error fetching data"};
+    //     res.json(response);
+    //   } else {
+    //
+    //     if (data.admin) {
+            var limit = req.params.limit;
+            var user_id = req.params.id;
+
+            var labels = [];
+            var data = [];
+            var result = {labels, data};
+
+            // Busca cuentas de twitter del usuario user_id
+            request({
+              uri: API + '/users/' + user_id + '/twitter_accounts',
+              method: "GET",
+            }, function(err, response, body) {
+              if(err) {
+                response = {"error" : true, "message" : "Error fetching data"};
+                res.json(response);
+              } else{
+                var accounts = JSON.parse(body).message;
+
+                // Para cada cuenta, busca sus menciones
+                var accountsSaved = 0;
+                accounts.forEach(function(account, i) {
+
+                  // inicializa las menciones
+                  labels.push(account.profile_name);
+                  data.push(0);
+
+                  var idTwitter = account._id;
+
+                  request({
+                    uri: API + '/twitter/mentions?id=' + idTwitter +
+                               '&user_id=' + user_id +
+                               '&account=' +  account.profile_name +
+                               '&count=' + 200 +
+                               '&since_id=' + -1 +
+                               '&max_id=' + -1,
+                    method: "GET",
+                  }, function(err, response, body) {
+                    if(err) {
+                      response = {"error" : true, "message" : "Error fetching data"};
+                      res.json(response);
+                    } else{
+                      var tweets = JSON.parse(body).message;
+
+                      // Para cada mencion suma 1
+                      for (j in tweets) {
+                        data[i] = data[i] + 1;
+                      }
+                    }
+
+                    if (accountsSaved + 1  == accounts.length) {
+
+                      for(var k in accounts) {
+                        var mentions = data[k];
+                        data[k] = ['@' + labels[k], mentions];
+                      }
+
+                      // sorts and filters data array
+                      function Comparator(a,b){
+                        if (a[1] > b[1]) return -1;
+                        if (a[1] < b[1]) return 1;
+                        return 0;
+                      }
+                      data = data.sort(Comparator);
+
+                      // resets labels and data arrays
+                      var newData = data;
+                      labels = [];
+                      data = [];
+                      for (var j = 0; j < limit && j < accounts.length; j++) {
+                        labels[j] = newData[j][0];
+                        data[j] = newData[j][1];
+                      }
+                      result = {labels, data};
+
+                      response = {"error" : false, "message" : result};
+                      res.json(response);
+                    } else {
+                      accountsSaved = accountsSaved + 1;
+                    }
+                  });
                 })
               }
             });
@@ -963,4 +1067,5 @@ module.exports = function(app){
   app.get('/stats/hashtags/:id', findHashtagsByHour);
   app.get('/stats/retweets/:id', findRetweetsByHour);
   app.get('/stats/tweets/:id', findTweetsByHour);
+  app.get('/stats/ranking/mentions/:limit/:id', findRankingMentions);
 };
