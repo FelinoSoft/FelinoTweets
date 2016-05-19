@@ -198,6 +198,29 @@ angular.module('felinotweetsApp', [
   };
 })
 
+.service('account', function($http, API) {
+  var self = this;
+
+  // obtiene la timeline de una cuenta de twitter y de un panel concreto
+  self.getTweetsPanel = function(kind, accountID, accountName, count, since_id, max_id) {
+    if(kind == 'home'){
+      return $http.get(API + '/twitter/home?id=' + accountID + '&account=' +
+                        accountName + '&count=' + count + '&since_id=' + since_id +
+                        '&max_id=' + max_id);
+    } else if(kind == 'timeline'){
+      return $http.get(API + '/twitter/tweetline?id=' + accountID + '&account=' +
+                        accountName + '&count=' + count + '&since_id=' + since_id +
+                        '&max_id=' + max_id);
+    } else if(kind == 'mentions'){
+      return $http.get(API + '/twitter/mentions?id=' + accountID + '&account=' +
+                        accountName + '&count=' + count + '&since_id=' + since_id +
+                        '&max_id=' + max_id);
+    } else{
+      return null;
+    }
+  };
+})
+
 .service('twitter', function($http, API) {
   var self = this;
 

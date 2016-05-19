@@ -87,8 +87,8 @@ var homeModule = angular.module('homeModule', [
             var user = tweets[0].user.screen_name;
             var desc = tweets[0].user.description;
             var imgLink = tweets[0].user.profile_image_url;
-            var max_id;
-            var since_id;
+            var max_id = -1;
+            var since_id = -1;
             for(j = 0; j < tweets.length; j++){
               if(j === 0){
                 since_id = tweets[j].id;
@@ -202,10 +202,10 @@ var homeModule = angular.module('homeModule', [
       // Auxiliary functions definitions
       function getAccTL(mongoID, index){
         home.getAccountTimeLine(mongoID, $scope.panels[index].user,
-          $scope.GLOBAL_LOAD_TWEETS, -1,
+          $scope.GLOBAL_LOAD_TWEETS + 1, -1,
           $scope.panels[index].max_id).then(function(result){
           var tweets = result.data.message;
-          for(j = 0; j < tweets.length; j++){
+          for(j = 1; j < tweets.length; j++){
             if(j == tweets.length - 1){
               $scope.panels[index].max_id = tweets[j].id;
             }

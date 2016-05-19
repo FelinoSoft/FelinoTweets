@@ -55,7 +55,8 @@ module.exports = function(app,passport){
                         if(err){
                             response = {'error' : true, 'message' : 'Error obteniendo el TL'};
                         } else{
-                            response = {'error' : false, 'message' : data};
+                          var parsed = JSON.parse(data);
+                          response = {'error' : false, 'message' : parsed};
                         }
                         res.json(response);
                     });
@@ -72,9 +73,11 @@ module.exports = function(app,passport){
                 twitter.getMentions(data.token, data.token_secret, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
                         if(err){
+                            console.log(err);
                             response = {'error' : true, 'message' : 'Error obteniendo las menciones'};
                         } else{
-                            response = {'error' : false, 'message' : data};
+                          var parsed = JSON.parse(data);
+                          response = {'error' : false, 'message' : parsed};
                         }
                         res.json(response);
                     });
