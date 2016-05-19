@@ -2,6 +2,7 @@ angular.module('felinotweetsApp', [
   'ui.router',
   'mainModule',
   'homeModule',
+  'homeStatsModule',
   'loginModule',
   'registerModule',
   'accountModule',
@@ -218,6 +219,29 @@ angular.module('felinotweetsApp', [
   };
 })
 
+.service('account', function($http, API) {
+  var self = this;
+
+  // obtiene la timeline de una cuenta de twitter y de un panel concreto
+  self.getTweetsPanel = function(kind, accountID, accountName, count, since_id, max_id) {
+    if(kind == 'home'){
+      return $http.get(API + '/twitter/home?id=' + accountID + '&account=' +
+                        accountName + '&count=' + count + '&since_id=' + since_id +
+                        '&max_id=' + max_id);
+    } else if(kind == 'timeline'){
+      return $http.get(API + '/twitter/tweetline?id=' + accountID + '&account=' +
+                        accountName + '&count=' + count + '&since_id=' + since_id +
+                        '&max_id=' + max_id);
+    } else if(kind == 'mentions'){
+      return $http.get(API + '/twitter/mentions?id=' + accountID + '&account=' +
+                        accountName + '&count=' + count + '&since_id=' + since_id +
+                        '&max_id=' + max_id);
+    } else{
+      return null;
+    }
+  };
+})
+
 .service('twitter', function($http, API) {
   var self = this;
 
@@ -318,9 +342,24 @@ angular.module('felinotweetsApp', [
     return $http.get(API + '/stats/activeUsers/' + days);
   };
 
-  // obtiene los tweets ordenados por numero de interacciones
-  self.getTweetsMostInteracted = function(id) {
-    return $http.get(API + '/stats/interactions/' + id);
+  // obtiene las menciones por hora
+  self.getMentionsByHour = function(id) {
+    return $http.get(API + '/stats/mentions/' + id);
+  };
+
+  // obtiene los tweets con hashtags por hora
+  self.getHashtagsByHour = function(id) {
+    return $http.get(API + '/stats/hashtags/' + id);
+  };
+
+  // obtiene los tweets con multimedia por hora
+  self.getMultimediaByHour = function(id) {
+    return $http.get(API + '/stats/multimedia/' + id);
+  };
+
+  // obtiene los tweets con mas retweets por hora
+  self.getRetweetsByHour = function(id) {
+    return $http.get(API + '/stats/retweets/' + id);
   };
 
 })

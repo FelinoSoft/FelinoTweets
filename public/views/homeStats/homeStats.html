@@ -113,6 +113,28 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Ranking stat -->
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <form class="form-inline">
+                                <div class="form-group cabecera">
+                                  <p class="titulo"><b>{{ statTitle[3] }}</b></p>
+                                </div><!-- /input-group -->
+                            </form>
+                        </div>
+
+                        <!-- Contains the representation of each stat -->
+                        <div class="panel-body">
+                          <canvas id="chart-3"
+                                  width="400"
+                                  height="400">
+                                  {{ showChart(3) }}
+                          </canvas>
+                        </div>
+                    </div>
+                </div>
                 <!-- End of stats -->
             </div>
         </div>
