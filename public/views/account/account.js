@@ -7,7 +7,6 @@ var accountModule = angular.module('accountModule', [
 accountModule.controller('accountController',
   function($scope,$http,$location,$filter,$stateParams,$timeout,auth,twitter,
                 home,account,ngDialog){
-    console.log("AccountController inicializado");
     $scope.userInfo = {};
     $scope.addingHashtag = false;
     $scope.implemented = false;
@@ -66,9 +65,6 @@ accountModule.controller('accountController',
             }
             $scope.userInfo.homePanel = panel;
             $scope.homeStarted = true;
-          } else{
-            console.log("Home Error");
-            console.log(result.data.message);
           }
         });
       }
@@ -213,9 +209,6 @@ accountModule.controller('accountController',
             if($scope.userInfo.hashtagsPanel.length == $scope.hashtagsLength){
               $scope.hashtagsStarted = true;
             }
-          } else{
-            console.log("Error on hashtag");
-            console.log(result.data.message);
           }
         });
       }
@@ -235,8 +228,6 @@ accountModule.controller('accountController',
     twitter.getScheduledTweets($stateParams.account_id).then(function(result){
         if(!result.error){
             $scope.scheduledTweets = result.data.message;
-        } else{
-            console.log(result.error);
         }
     });
 
@@ -531,7 +522,6 @@ accountModule.controller('accountController',
               if(j == tweets.length - 1){
                 $scope.userInfo.mentionsPanel.max_id = tweets[j].id;
               }
-              console.log(tweets);
               processedTweet = $scope.processTweet(tweets[j]);
               $scope.userInfo.mentionsPanel.tweets.push(processedTweet);
             } else if(kind == 'hashtag'){
@@ -544,7 +534,6 @@ accountModule.controller('accountController',
               if(j == tweets.length - 1){
                 $scope.userInfo.hashtagsPanel[index].max_id = tweets[j].id;
               }
-              console.log(tweets);
               processedTweet = $scope.processTweet(tweets[j]);
               $scope.userInfo.hashtagsPanel[index].tweets.push(processedTweet);
             }
@@ -895,8 +884,6 @@ accountModule.controller('accountController',
       twitter.getScheduledTweets($stateParams.account_id).then(function(result){
           if(!result.error){
               $scope.scheduledTweets = result.data.message;
-          } else{
-              console.log(result.error);
           }
       });
     };

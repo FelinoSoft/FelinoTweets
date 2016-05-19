@@ -4,7 +4,6 @@ var homeStatsModule = angular.module('homeStatsModule', [
 
 homeStatsModule.controller('homeStatsController',
   function($scope, $filter, auth, stats) {
-    console.log("HomeStatsController inicializado");
 
     // user feedback
     $scope.notError = true;

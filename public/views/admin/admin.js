@@ -4,7 +4,6 @@ var adminModule = angular.module('adminModule', [
 
 adminModule.controller('adminController',
   function($scope,$state,$filter,user,auth,twitter) {
-    console.log("AdminController inicializado");
 
     // user feedback
     $scope.notError = true;

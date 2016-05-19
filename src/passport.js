@@ -36,14 +36,12 @@ module.exports = function(passport) {
 		// momento y ya está almacenado en ella
 
 		twitter_account.findOne({'profile_name' : profile._json.screen_name, 'account_id': req.cookies.user_id }, function(err, twitter) {
-		console.log(req.cookies.user_id)
-		console.log(req.cookies)
 			if(err) throw(err);
 			// Si existe en la Base de Datos, lo devuelve
 			if(!err && twitter !== null){
 				done(null,twitter);
 			} else {
-				console.log("Creando twitter account");
+				
 				// Si no existe crea un nuevo objecto usuario
 				var twitterAcc = new twitter_account({
 					"account_id": req.cookies.user_id,
