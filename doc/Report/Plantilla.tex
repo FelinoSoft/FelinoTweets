@@ -155,20 +155,71 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 \newpage
 \section{API REST}
 
-	\paragraph{} En este apartado se recogen todos los endpoints de cada componente del API desarrollados, junto a una descriptición de lo que hace, sus parámetros y ejemplos de uso.
+	\paragraph{} En este apartado se recogen todos los endpoints de cada componente del API desarrollados, junto a una descripción de lo que hace, sus parámetros y ejemplos de uso.
 	
 	\subsection{API del componente Twitter}
 	
 	\subsection{API del componente Stats}
 	
 	\subsection{API del componente URLs}
-	app.get('/url', findAllUrls);
-	app.get('/url/:shorturl', findById);
 	app.post('/url', addUrl);
 	app.delete('/url', deleteAllUrls);
 	app.delete('/url/:shorturl',deleteUrl);
 	\begin{itemize}
-		\item \textbf{GET /url:} Devuelve una lista con todas las URLs acortadas de la base de datos.
+		\item \textbf{GET /url:} Devuelve una lista con todas las URLs acortadas de la base de datos. No admite ningún parámetro.
+		Ejemplo de uso:
+		\newline
+		\\ \textbf{GET} .../url
+		\newline \textbf{Respuesta:}
+		\newline {"error" : false, "message" : [
+		\newline {
+		"\_id": {
+			"\$oid": "573d15b8f94d69d2665cd0e4"
+		},
+		\newline"clicks": 14,
+		\newline"user\_id": "5738a5ed5ac8bbc2238001f9",
+		\newline"long\_url": "https://github.com/chriso/validator.js",
+		\newline"short\_url": "24vc4",
+		\newline"\_\_v": 0
+		},{
+		\newline
+		\newline"\_id": {
+			"\$oid": "573d8a98545dfd700b69c928"
+		},
+		\newline"clicks": 11,
+		\newline"user\_id": "5738a5ed5ac8bbc2238001f9",
+		\newline"long\_url": "http://www.3djuegos.com/",
+		\newline"short\_url": "24vc9",
+		\newline"\_\_v": 0
+	}]}
+		\item \textbf{GET /url/:short\_url:} Redirige la petición a la url original que fue acortada. El único parámetro que admite es el identificador de la url acortada
+		Ejemplo de uso:
+		\newline
+		\\ \textbf{GET} .../url/24vc0
+		\newline \textbf{Respuesta:}
+		\newline La respuesta es una redirección a la url original del acortamiento, en este caso, 3djuegos.com.
+		\newpage
+		\item \textbf{POST /url/:} Provee una url para su acortamiento y posterior almacenamiento en la base de datos junto con los datos del usuario que solicita el acortamiento. Admite como parámetros la url larga para acortar y el id del usuario que solicita su acortamiento. Dichos parámetros deben ir en el cuerpo de la petición.
+		Ejemplo de uso:
+		\newline
+		\textbf{POST} .../url
+		\newline \textbf{Body:} 
+		\newline long\_url : felinotweets.herokuapp.com
+		\newline user\_id : 5738a5ed5ac8b
+		\newline \textbf{Respuesta:}
+		\newline La misma respuesta que con GET /url
+		\item \textbf{DELETE /url/:} Elimina todas las urls acortadas almacenadas en la base de datos. No admite parámetros.
+		Ejemplo de uso:
+		\newline
+		\textbf{DELETE} .../url
+		\newline \textbf{Respuesta:}
+		\newline La misma respuesta que con GET /url (deberá ser vacía si no hubo problema)
+		\item \textbf{DELETE /url/:short\_url:} Elimina la url acortada especificada por el parámetro short\_url de la base de datos. El único parámetro que admite es la url acortada.
+		Ejemplo de uso:
+		\newline
+		\textbf{DELETE} .../url/24vc0
+		\newline \textbf{Respuesta:}
+		\newline La misma respuesta que con GET /url (la url especificada en el parámetro no debería aparecer en la lista)
 	\end{itemize}
 	
 	\subsection{API del componente Users}
