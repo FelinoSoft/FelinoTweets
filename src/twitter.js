@@ -133,7 +133,7 @@ function postTweet(userID, userToken, userSecret, tweet, callback, id_reply){
 
 
     options = {
-        "status" : texto
+        "status" : tweet
     };
     if(id_reply !== undefined){
         options.in_reply_to_status_id = id_reply;
