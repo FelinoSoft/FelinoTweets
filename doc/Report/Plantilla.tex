@@ -82,7 +82,9 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 		\begin{itemize}
 			\item \textbf{Twitter:} Este componente se encarga de todas las interacciones con Twitter según las solicitudes del Cliente o de otros componentes del servidor. Devuelve y publica tweets y permite realizar retweets o dar "Me gusta".
 			\item \textbf{Stats:} Gestiona todas las estadísticas, tanto de usuarios como del administrador del sistema. Se comunica con la base de datos en mLab y con el componente Twitter de FelinoTweets para elaborar las estadísticas.
-			\item \textbf{URLs:}
+			\item \textbf{URLs:} Es el componente encargado de acortar urls para publicarlas en los tweets enviados a través de la aplicación. Se comunica con la base de datos para almacenar el usuario que acortó una cierta url, la url acortada y el número de clicks realizados sobre dicha url.
+			\item \textbf{Users:} Componente que gestiona los usuarios de la aplicacion de Felino Tweets. Se comunica con la base de datos para obtener información de los usuarios, así como realizar tareas de registro y login.
+			\item \textbf{Twitter Accounts:} Por último, este componente gestiona toda la información asociada a cuentas de Twitter, así como sus tokens para poder publicar tweets y recibir información de Twitter.
 		\end{itemize}
 		\paragraph{} La descripción detallada de cada función del API se encuentra en el apartado \textbf{API}.
 
