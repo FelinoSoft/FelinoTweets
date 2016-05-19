@@ -2,6 +2,7 @@ var config = require('./../config/config');
 var OAuth = require('oauth').OAuth;
 var oa;
 var user = require('../models/user.js');
+var request = require('request');
 
 function initTwitterOauth(){
     oa = new OAuth(
@@ -132,21 +133,81 @@ function getMDs(userToken, userSecret, count, since_id, max_id, callback){
 }
 
 function postTweet(userID, userToken, userSecret, tweet, callback){
-    oa.post(
-        "https://api.twitter.com/1.1/statuses/update.json",
-        userToken,
-        userSecret,
-        {"status" : tweet},
-        function(err,data){
-            if(!err){
-                user.findByIdAndUpdate(userID, {$inc: {n_tweets : 1}}, function(err){
-                    callback(err,data);
-                });
-            } else{
-                callback(err,data);
+    shortURLs = function(user_id, text, callback){
+
+        var count = countURLs(text);
+
+        (function next(num_url,texto){
+            if(num_url == count){
+                callback(texto);
+                return;
             }
+            var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            var match = urlRegex.exec(texto);
+            remplaceRegex(user_id,match,texto,function(texto){
+                num_url = num_url + 1;
+                next(num_url, texto);
+            });
+        })(0,text);
+
+        function remplaceRegex(user_id,url,text, callback){
+            request({
+                uri: "http://127.0.0.1:8888/url/",
+                method: "POST",
+                form: {
+                    user_id: user_id,
+                    long_url: url[0]
+                }
+            }, function(error, response, body){
+                var index;
+                body = JSON.parse(body);
+                var i = body.message.length - 1;
+                var found = false;
+                while(i >= 0 && !found){
+                    if(body.message[i].long_url == url[0]){
+                        index = i;
+                        found = true;
+                    } else{
+                        i++;
+                    }
+                }
+                callback(text.replace(url[0],'felino.tk/url/' + body.message[index].short_url));
+            });
         }
-    );
+    };
+
+    countURLs = function(text){
+        var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
+        var match = urlRegex.exec(text);
+
+        var count = 0;
+
+        while(match != null){
+            count++;
+            match = urlRegex.exec(text);
+        }
+
+        return count;
+    };
+
+    shortURLs(userID,tweet,function(texto){
+        oa.post(
+            "https://api.twitter.com/1.1/statuses/update.json",
+            userToken,
+            userSecret,
+            {"status" : texto},
+            function(err,data){
+                if(!err){
+                    user.findByIdAndUpdate(userID, {$inc: {n_tweets : 1}}, function(err){
+                        callback(err,data);
+                    });
+                } else{
+                    callback(err,data);
+                }
+            }
+        );
+    });
 }
 
 function postRetweet(userToken, userSecret, tweet_ID, callback) {

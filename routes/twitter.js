@@ -1,7 +1,5 @@
 var twitter = require('./../src/twitter.js');
 var twitter_account = require('./../models/twitter_account.js');
-var request = require('request');
-
 
 module.exports = function(app,passport){
 
@@ -148,21 +146,19 @@ module.exports = function(app,passport){
         var text = req.body.tweet;
         var user_id = req.cookies.user_id;
 
-        shortURLs(user_id, text, function(text){
-            twitter_account.findOne({'_id' : req.body.id, 'account_id' : user_id}, function(err,data){
-                if(!err){
-                    twitter.postTweet(req.cookies.user_id, data.token, data.token_secret, text, function(err, data){
-                        if(err){
-                            response = {'error' : true, 'message' : 'Error enviando el tweet'};
-                        } else{
-                            response = {'error' : false, 'message' : data};
-                        }
-                        res.json(response);
-                    });
-                } else{
-                    response = {'error' : true, 'message' : 'Error accediendo a la BD'};
-                }
-            });
+        twitter_account.findOne({'_id' : req.body.id, 'account_id' : user_id}, function(err,data){
+            if(!err){
+                twitter.postTweet(req.cookies.user_id, data.token, data.token_secret, text, function(err, data){
+                    if(err){
+                        response = {'error' : true, 'message' : 'Error enviando el tweet'};
+                    } else{
+                        response = {'error' : false, 'message' : data};
+                    }
+                    res.json(response);
+                });
+            } else{
+                response = {'error' : true, 'message' : 'Error accediendo a la BD'};
+            }
         });
 
 
@@ -272,65 +268,6 @@ module.exports = function(app,passport){
                 response = {'error' : true, 'message' : 'Error accediendo a la BD'};
             }
         });
-    };
-
-
-    shortURLs = function(user_id, text, callback){
-
-        var count = countURLs(text);
-
-        (function next(num_url,texto){
-            if(num_url == count){
-                callback(texto);
-                return;
-            }
-            var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-            var match = urlRegex.exec(texto);
-            remplaceRegex(user_id,match,texto,function(texto){
-                num_url = num_url + 1;
-                next(num_url, texto);
-            });
-        })(0,text);
-
-        function remplaceRegex(user_id,url,text, callback){
-            request({
-                uri: "http://127.0.0.1:8888/url/",
-                method: "POST",
-                form: {
-                    user_id: user_id,
-                    long_url: url[0]
-                }
-            }, function(error, response, body){
-                var index;
-                body = JSON.parse(body);
-                var i = body.message.length - 1;
-                var found = false;
-                while(i >= 0 && !found){
-                    if(body.message[i].long_url == url[0]){
-                        index = i;
-                        found = true;
-                    } else{
-                        i++;
-                    }
-                }
-                callback(text.replace(url[0],'felino.tk/url/' + body.message[index].short_url));
-            });
-        }
-    };
-
-    countURLs = function(text){
-        var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-
-        var match = urlRegex.exec(text);
-
-        var count = 0;
-
-        while(match != null){
-            count++;
-            match = urlRegex.exec(text);
-        }
-
-        return count;
     };
 
     app.get('/twitter/auth', passport.authenticate('twitter',

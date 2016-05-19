@@ -215,9 +215,10 @@ accountModule.controller('accountController',
       }
     };
 
-      $scope.cantTweet = function(){
-          return $scope.caracteres < 0 || $scope.caracteres == 140 || ($scope.tweet.date!==undefined &&
+      $scope.cantTweet = function() {
+          return $scope.caracteres < 0 || $scope.caracteres == 140 || ($scope.tweet.date !== undefined &&
               new Date($scope.tweet.date).getTime() < Date.now());
+      };
 
     $scope.isAddingHashtag = function(){
         return $scope.addingHashtag;
