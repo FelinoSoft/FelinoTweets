@@ -367,6 +367,11 @@ angular.module('felinotweetsApp', [
     return $http.get(API + '/stats/retweets/' + id);
   };
 
+  // obtiene los tweets escritos por hora
+  self.getTweetsByHour = function(id) {
+    return $http.get(API + '/stats/tweets/' + id);
+  };
+
 })
 
 .config([

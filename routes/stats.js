@@ -774,7 +774,7 @@ module.exports = function(app){
                         var dateCreation = tweets[j].created_at;
                         dateCreation = moment(new Date(dateCreation)).format('HH');
 
-                        // obtains hashtags if available
+                        // obtains retweet count
                         var retweets = tweets[j].retweet_count;
 
                         // Para cada hora del dia, comprueba si el tweet se
@@ -782,7 +782,7 @@ module.exports = function(app){
 
                         for (k in labels) {
                           if (dateCreation == labels[k]) {
-                            if (!tweets[j].retweeted) {
+                            if (tweets[j].retweeted_status === undefined) {
                               data[i]['values'][k] =
                                 data[i]['values'][k] + retweets;
                             }
@@ -810,8 +810,8 @@ module.exports = function(app){
     // });
   }
 
-  /* GET /stats/countries/:id */
-  findRankingCountries = function(req,res){
+  /* GET /stats/tweets/:id */
+  findTweetsByHour = function(req,res){
     var response = {};
 
     // checkUser(req, res, function(err, data) {
@@ -822,8 +822,17 @@ module.exports = function(app){
     //   } else {
     //
     //     if (data.admin) {
+
+            // generate labels for chart
             var labels = [];
             var data = [];
+            for (var h = 0; h < 24;h++) {
+              if (h < 10) {
+                h = '0' + h;
+              }
+              var date = moment('2016-05-18 ' + h + ':00').format('HH');
+              labels.push(date);
+            }
             var result = {labels, data};
             var user_id = req.params.id;
 
@@ -868,38 +877,22 @@ module.exports = function(app){
                     } else{
                       var tweets = JSON.parse(body).message;
 
-                      var numTweets = [];
-                      for (k in labels) {
-                        numTweets.push(0);
-                      }
-
                       // Para cada tweet suma 1 a la hora de creacion si tiene
                       // hashtag
                       for (j in tweets) {
                         var dateCreation = tweets[j].created_at;
                         dateCreation = moment(new Date(dateCreation)).format('HH');
 
-                        // obtains hashtags if available
-                        var retweets = tweets[j].retweet_count;
-
                         // Para cada hora del dia, comprueba si el tweet se
                         // ha generado a esa hora, solo si tiene hashtags
 
                         for (k in labels) {
                           if (dateCreation == labels[k]) {
-                            if (tweets[j].retweet_status == undefined) {
+                            if (tweets[j].retweeted_status === undefined) {
                               data[i]['values'][k] =
                                 data[i]['values'][k] + 1;
                             }
-                            numTweets[k] = numTweets[k] + 1;
                           }
-                        }
-                      }
-
-                      // Calcula la media de RT/tweet
-                      for (k in labels) {
-                        if (numTweets[k] !== 0) {
-                          data[i][k] = Math.floor(data[i][k] / numTweets[k]);
                         }
                       }
                     }
@@ -965,8 +958,8 @@ module.exports = function(app){
 
   // '/stats' methods for users
   app.get('/stats/mentions/:id', findMentionsByHour);
-  app.get('/stats/countries/:id', findRankingCountries);
   app.get('/stats/multimedia/:id', findMultimediaByHour);
   app.get('/stats/hashtags/:id', findHashtagsByHour);
   app.get('/stats/retweets/:id', findRetweetsByHour);
+  app.get('/stats/tweets/:id', findTweetsByHour);
 };
