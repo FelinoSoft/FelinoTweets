@@ -123,3 +123,11 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.aux
+doc/Report/Plantilla.out
+doc/Report/Plantilla.toc
+*.gz
+doc/Report/Plantilla.pdf
+*.pdf
+doc/Report/Plantilla.out
+*.gz
