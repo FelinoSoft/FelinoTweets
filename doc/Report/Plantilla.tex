@@ -214,8 +214,54 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 	\end{itemize}
 	
 	\subsection{API del componente Users}
-	
+	\begin{itemize}
+		\item \textbf{GET /users:} Devuelve una lista con todos los users de la base de datos de FelinoTweets. No admite ningún parámetro.
+		\item \textbf{POST /users:} Inserta un nuevo usuario en la base de datos de FelinoTweets. Admite como parámetros la información del usuario, el correo y la contraseña (generada automáticamente).
+		\item \textbf{DELETE /users:} Elimina todos los usuarios de la base de datos. No admite ningún parámetro.
+		\item \textbf{GET /users/:id:} Devuelve la información asociada al usuario referenciado por id. Admite como parámetro el id del usuario de FelinoTweets buscado.
+		\item \textbf{PUT /users/:id:} Actualiza la información asociada al usuario referenciado por id. Admite como parámetro el id del usuario de FelinoTweets buscado.
+		\item \textbf{DELETE /users/:id:} Elimina al usuario de la base de datos referenciado por id. Admite como parámetro el id del usuario de FelinoTweets buscado.
+		\item \textbf{GET /users/:id/twitter\_accounts:} Devuelve la información de las cuentas de twitter del usuario referenciado por id. Admite como parámetro el id del usuario de FelinoTweets buscado.
+		\item \textbf{DELETE /users/:id/twitter\_accounts:} Devuelve la información asociada al usuario referenciado por id. Admite como parámetro el id del usuario de FelinoTweets buscado.
+		\item \textbf{POST /login/:} A pesar de no coincidir en el nombre del endpoint con el resto, este endpoint pertenece también al componente Users. Devuelve el token de acceso para el usuario referenciado por el email si el email y el password coinciden con los almacenados en la base de datos. Admite como parámetros el email del usuario que se quiere loguear y su password.
+		\item \textbf{POST /register/:} A pesar de no coincidir en el nombre del endpoint con el resto, este endpoint pertenece también al componente Users. \newline Registra a un nuevo usuario en FelinoTweets en base a los parámetros de email, nombre y apellidos. Devuelve el token de acceso a la aplicación más una contraseña generada aleatoriamente para ese usuario. Admite como parámetros el email del usuario que se quiere loguear, su nombre y apellidos.
+	\end{itemize}
 	\subsection{API del componente Twitter accounts}
+
+	app.post('/twitter\_accounts/:id/hashtags', addHashtag);
+	app.put('/twitter\_accounts/:id/hashtags/:hashtag\_id', updateHashtag);
+	app.delete('/twitter\_accounts/:id/hashtags', deleteAllHashtags);
+	app.delete('/twitter\_accounts/:id/hashtags/:hashtag\_id', deleteHashtag);
+	\begin{itemize}
+		\item \textbf{GET /twitter\_accounts:} Devuelve una lista con todas las cuentas de twitter almacenadas en la base de datos de FelinoTweets. No admite ningún parámetro.
+		\item \textbf{GET /twitter\_accounts/:id:} Devuelve la cuenta de twitter referenciada por el parámetro id. El único parámetro que admite es el identificador de la cuenta de Twitter almacenada en la base de datos.
+		\item \textbf{POST /twitter\_accounts:} Almacena una nueva cuenta de twitter en la base de datos de FelinoTweets. Los parámetros de entrada que admite son el id del usuario de FelinoTweets, el nombre de la cuenta de twitter y los tokens normal y secreto para poder acceder a dicha cuenta de twitter (tokens de autorización).
+		\item \textbf{PUT /twitter\_accounts/:id:} Actualiza la información de la cuenta de twitter referenciada por el parámetro id. Los parámetros de entrada que admite son el id del usuario de FelinoTweets, el nombre de la cuenta de twitter y los tokens normal y secreto para poder acceder a dicha cuenta de twitter (tokens de autorización).
+		\item \textbf{DELETE /twitter\_accounts:} Borra todas las cuentas de twitter almacenadas en la base de datos de FelinoTweets. No admite ningún parámetro.
+		\item \textbf{PUT /twitter\_accounts/:id:} Borra la cuenta de twitter referenciada por el parámetro id. Aparte del id no admite más parámetros de entrada.
+		\item \textbf{GET /twitter\_accounts/:id/scheduled\_tweets:} Devuelve una lista con todos los tweets programados para una cuenta de twitter referenciada por id. El único parámetro que admite es el id de la base de datos de la cuenta de twitter almacenada.
+		\item \textbf{GET /twitter\_accounts/:id/scheduled\_tweets/:tweet\_id:} Devuelve toda la información asociada a un tweet programado (referenciado por tweet\_id) de la cuenta de twitter referenciada por id. Los parámetros que admite son el id de la cuenta de twitter almacenada en la base de datos y el id del tweet concreto del cual se quiere la información.
+		
+		\item \textbf{POST /twitter\_accounts/:id/scheduled\_tweets:} Permite añadir un nuevo tweet programado a la cuenta de twitter referenciada por id. Aparte del parámetro id pasado en la request, admite como parámetros en el body los datos del nuevo tweet: el id del usuario que postea el tweet, la fecha del tweet programado y el texto.
+		
+		\item \textbf{PUT /twitter\_accounts/:id/scheduled\_tweets/:tweet\_id:} Permite actualizar la información de un tweet programado a la cuenta de twitter referenciada por id. Aparte del parámetro id pasado en la request, admite como parámetros en el body los datos del nuevo tweet: el id del usuario que postea el tweet, la fecha del tweet programado y el texto.
+		
+		\item \textbf{DELETE /twitter\_accounts/:id/scheduled\_tweets:} Elimina todos los tweets programados para una cuenta de twitter referenciada por id. El único parámetro que admite es el id de la base de datos de la cuenta de twitter almacenada.
+		
+		\item \textbf{DELETE /twitter\_accounts/:id/scheduled\_tweets/:tweet\_id:} Elimina un tweet programado (referenciado por tweet\_id) de la cuenta de twitter referenciada por id. Los parámetros que admite son el id de la cuenta de twitter almacenada en la base de datos y el id del tweet concreto del cual se quiere la información.
+		
+		\item \textbf{GET /twitter\_accounts/:id/hashtags:} Devuelve una lista con todos los hashtags guardados para una cuenta de twitter referenciada por id. El único parámetro que admite es el id de la base de datos de la cuenta de twitter almacenada.
+		
+		\item \textbf{GET /twitter\_accounts/:id/hashtags/:hashtag\_id:} Devuelve toda la información asociada a un hashtag guardado (referenciado por hashtag\_id) de la cuenta de twitter referenciada por id. Los parámetros que admite son el id de la cuenta de twitter almacenada en la base de datos y el id del hashtag concreto del cual se quiere la información.
+		
+		\item \textbf{POST /twitter\_accounts/:id/hashtags:} Permite añadir un nuevo hashtag a la cuenta de twitter referenciada por id. Aparte del parámetro id pasado en la request, admite como parámetros en el body los datos del nuevo hashtag: el id del usuario que postea el tweet y el hashtag en sí.
+		
+		\item \textbf{PUT /twitter\_accounts/:id/hashtags/:hashtag\_id:} Permite actualizar la información de un hashtag guardado asociado a la cuenta de twitter referenciada por id. Aparte del parámetro id pasado en la request, admite como parámetros en el body los datos del nuevo hashtag: el id del usuario que postea el tweet y el hashtag en sí.
+		
+		\item \textbf{DELETE /twitter\_accounts/:id/hashtags:} Elimina todos los hashtags guardados para una cuenta de twitter referenciada por id. El único parámetro que admite es el id de la base de datos de la cuenta de twitter almacenada.
+		
+		\item \textbf{DELETE /twitter\_accounts/:id/hashtags/:hashtag\_id:} Elimina un hashtag guardado (referenciado por hashtag\_id) de la cuenta de twitter referenciada por id. Los parámetros que admite son el id de la cuenta de twitter almacenada en la base de datos y el id del hashtag concreto del cual se quiere la información.
+	\end{itemize}
 \section{Analíticas}
 
 	\paragraph{} Se ha desarrollado un servicio de analíticas que ofrece datos acerca del comportamiento del conjunto de usuarios de la aplicación para un usuario de tipo administrador. Por otro lado, el mismo servicio ofrece estadísticas acerca de las cuentas de \textit{Twitter} asociadas con un usuario.
@@ -380,17 +426,23 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 	
 		\subsubsection{Alejandro Márquez}
 		
-			\paragraph{}
+			\paragraph{}Considero que el proyecto en sí (y la asignatura en general) ha sido muy provechoso, puesto que las tecnologías empleadas están muy de actualidad, y resulta muy interesante trabajar con ellas. Además, con el proyecto he aprendido un poco a manejarlas, y me he quedado con ganas de seguir trabando en él para ampliarlo.
+
+			\paragraph{}Como puntos en contra, he visto el curso muy descompensado, empezando muy despacio y sin nada de trabajo, y acumulándose este proyecto para las últimas semanas, que junto con las rectas finales de los demás cursos, se ha hecho muy cuesta arriba, y por lo tanto, no ha dado tiempo a dedicarle toda la atención y detalle que me habría gustado. Además, si bien con las prácticas he aprendido a usar las distintas tecnologías, me he sentido perdido a la hora de establecer la estructura de un proyecto ''grande'' como es este, sin saber muy bien como organizarlo. He echado de menos algo de guía en ese sentido.
+
+			\paragraph{}Como conclusión del proyecto y de la asignatura, pese al detalle del tiempo, que creo que se podría solucionar distribuyéndolo un poco mejor (empezar antes las prácticas y dar antes la información del trabajo), esta ha sido sin duda la asignatura más interesante y provechosa del cuatrimestre.
 		
 		\subsubsection{Jaime Ruiz-Borau}
 			
-			\paragraph{}
+			\paragraph{} Ha sido uno de los trabajos de los cuales puedo decir que me siento más orgulloso por el resultado que ha dado. Aunque nos costó al principio finalmente hemos conseguido una simpática aplicación que interacciona correctamente con el API de Twitter y que se parece bastante a otras soluciones como la que se planteó en el enunciado.
+			
+			\paragraph{}Quizás lo más complicado del trabajo para mi ha sido la parte del front end y el diseño en general de la web, nos ha traído muchos más quebraderos de cabeza que el back end. También hacia el final nos ha faltado un poco de tiempo para retocar y mejorar todas las cosas que teníamos en mente.
 		
 		\subsubsection{Alejandro Royo}
 		
 			\paragraph{} El desarrollo del trabajo me ha resultado gratificante por un lado por las tecnologías usadas que no conocía y también por la utilidad que se aprecia al realizar este tipo de aplicaciones. De todas formas, creo que el tiempo proporcionado para realizar el trabajo ha sido más bien escaso.
 			
-			\paragraph{} Como posible solución al poco tiempo que he percibido creo que igual sería mejor integrarlo más con las prácticas en el sentido de permitir que se vaya integrando cada práctica en el trabajoo desde el principio.
+			\paragraph{} Como posible solución al poco tiempo que he percibido creo que igual sería mejor integrarlo más con las prácticas en el sentido de permitir que se vaya integrando cada práctica en el trabajo desde el principio.
 	
 \newpage
 \begin{thebibliography}{99} 
