@@ -505,7 +505,7 @@
                     </div>
                   </li>
                   <li>
-                    <button ng-show="pan.hasMore" type="button" ng-click="loadMore('hashtag',pan.hashtag)" class="btn btn-primary btn-md center-block" ng-disabled="isLoading('hashtag',{{pan.hashtag}})">
+                    <button ng-show="pan.hasMore" type="button" ng-click="loadMore('hashtag',pan.hashtag)" class="btn btn-primary btn-md center-block" ng-disabled="isLoading('hashtag',pan.hashtag)">
                       <i class="fa fa-spinner fa-spin fa-fw fa-lg" ng-show="isLoading('hashtag',pan.hashtag)"></i>
                       <i class="fa fa-twitter" ng-show="!isLoading(pan.mongoID)"></i>
                       Load more
@@ -518,7 +518,7 @@
           </div>
         </div> <!-- Panel twitter -->
       </div> <!-- Col -->
-      
+
       <div class="col-md-3 col-sm-4 col-xs-12" ng-show="!isAddingHashtag()">
         <div class="panel panel-default home-panel-add">
           <div class="homeAddPanelText">

@@ -5,7 +5,8 @@ var accountModule = angular.module('accountModule', [
 ]);
 
 accountModule.controller('accountController',
-  function($scope,$http,$location,$filter,$stateParams,$timeout,auth,twitter,home,account,ngDialog){
+  function($scope,$http,$location,$filter,$stateParams,$timeout,auth,twitter,
+                home,account,ngDialog){
     console.log("AccountController inicializado");
     $scope.userInfo = {};
     $scope.addingHashtag = false;
@@ -27,7 +28,8 @@ accountModule.controller('accountController',
 
       // Auxiliary functions
       function getHomePanel(accountID, accountName){
-        account.getTweetsPanel('home', accountID, accountName, $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
+        account.getTweetsPanel('home', accountID, accountName,
+              $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
           var tweets = result.data.message;
           var panelTweets = [];
           var max_id = -1;
@@ -42,7 +44,6 @@ accountModule.controller('accountController',
                 if(j === tweets.length - 1){
                   max_id = tweets[j].id;
                 }
-                console.log(tweets[j]);
                 var processedTweet = $scope.processTweet(tweets[j]);
                 panelTweets.push(processedTweet);
               } // End for each tweet
@@ -70,7 +71,8 @@ accountModule.controller('accountController',
       }
 
       function getTLPanel(accountID, accountName){
-        account.getTweetsPanel('timeline', accountID, accountName, $scope.GLOBAL_LOAD_TWEETS, -1, -1).then(function(result){
+        account.getTweetsPanel('timeline', accountID, accountName,
+              $scope.GLOBAL_LOAD_TWEETS, -1, -1).then(function(result){
           var tweets = result.data.message;
           var panelTweets = [];
           var max_id = -1;
@@ -110,7 +112,8 @@ accountModule.controller('accountController',
       }
 
       function getMentionsPanel(accountID, accountName){
-        account.getTweetsPanel('mentions', accountID, accountName, $scope.GLOBAL_LOAD_TWEETS, -1, -1).then(function(result){
+        account.getTweetsPanel('mentions', accountID, accountName,
+              $scope.GLOBAL_LOAD_TWEETS, -1, -1).then(function(result){
           var tweets = result.data.message;
           var panelTweets = [];
           var max_id = -1;
@@ -152,8 +155,8 @@ accountModule.controller('accountController',
       function getHashtagsPanels(accountID, accountName){
         // Auxiliary function
         function getHashtagPanel(hashtag, accountID, accountName){
-          account.getHashtagTweets(hashtag, accountID, accountName, $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
-            console.log(result);
+          account.getHashtagTweets(hashtag, accountID, accountName,
+                  $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
             var tweets = result.data.message.statuses;
             var panelTweets = [];
             var max_id = -1;
@@ -241,7 +244,8 @@ accountModule.controller('accountController',
     };
 
     $scope.cantTweet = function() {
-        return $scope.caracteres < 0 || $scope.caracteres == 140 || ($scope.tweet.date !== undefined &&
+        return $scope.caracteres < 0 || $scope.caracteres == 140 ||
+        ($scope.tweet.date !== undefined &&
             new Date($scope.tweet.date).getTime() < Date.now());
     };
 
@@ -280,7 +284,8 @@ accountModule.controller('accountController',
 
     $scope.postTweet = function(){
         if($scope.tweet.date === undefined){
-            twitter.postTweet($stateParams.account_id, $scope.tweet.text).then(function(result){
+            twitter.postTweet($stateParams.account_id,
+                    $scope.tweet.text).then(function(result){
                 if(!result.data.error){
                     $scope.tweeting = false;
                     $scope.sendingTweet = false;
@@ -365,7 +370,8 @@ accountModule.controller('accountController',
           }
         }
         $scope.userInfo.hashtagsPanel[index].tweets =
-            $scope.userInfo.hashtagsPanel[index].newTweetsList.concat($scope.userInfo.hashtagsPanel[index].tweets);
+            $scope.userInfo.hashtagsPanel[index].newTweetsList.concat(
+              $scope.userInfo.hashtagsPanel[index].tweets);
         $scope.userInfo.hashtagsPanel[index].newTweetsList = [];
         $scope.userInfo.hashtagsPanel[index].hasNewTweets = false;
       }
@@ -456,10 +462,15 @@ accountModule.controller('accountController',
 
         // Auxiliary function
         function processResult(result){
-          var tweets = result.data.message;
-          var minusJ = 0;
-          if(kind == 'mentions'){
-            minusJ = 1;
+          var tweets;
+          if(kind != 'hashtag'){
+            tweets = result.data.message;
+          } else{
+            tweets = result.data.message.statuses;
+          }
+          var minusJ = 1;
+          if(kind == 'mentions' || kind == 'hashtag'){
+            minusJ = 0;
           }
           for(j = 1 - minusJ; j < tweets.length; j++){
             var processedTweet;
@@ -479,6 +490,7 @@ accountModule.controller('accountController',
               if(j == tweets.length - 1){
                 $scope.userInfo.mentionsPanel.max_id = tweets[j].id;
               }
+              console.log(tweets);
               processedTweet = $scope.processTweet(tweets[j]);
               $scope.userInfo.mentionsPanel.tweets.push(processedTweet);
             } else if(kind == 'hashtag'){
@@ -491,6 +503,7 @@ accountModule.controller('accountController',
               if(j == tweets.length - 1){
                 $scope.userInfo.hashtagsPanel[index].max_id = tweets[j].id;
               }
+              console.log(tweets);
               processedTweet = $scope.processTweet(tweets[j]);
               $scope.userInfo.hashtagsPanel[index].tweets.push(processedTweet);
             }
@@ -502,7 +515,7 @@ accountModule.controller('accountController',
             $scope.userInfo.TLPanel.hasMore = (tweets.length !== 0);
             $scope.userInfo.TLPanel.loading = false;
           } else if(kind == 'mentions'){
-            $scope.userInfo.mentionsPanel.hasMore = (tweets.length !== 0);
+            $scope.userInfo.mentionsPanel.hasMore = (tweets.length - 1 > 0);
             $scope.userInfo.mentionsPanel.loading = false;
           } else if(kind == 'hashtag'){
             var Kindex;
@@ -520,7 +533,9 @@ accountModule.controller('accountController',
           account.getTweetsPanel(kind, $scope.userInfo.accountID, $scope.userInfo.accountName,
             $scope.GLOBAL_LOAD_TWEETS + 1, -1, max_id).then(processResult);
         } else{
-          account.getHashtagTweets(hashtag, $scope.userInfo.accountID, $scope.userInfo.accountName, $scope.GLOBAL_LOAD_TWEETS + 1, -1, max_id).then(processResult);
+          account.getHashtagTweets(hashtag, $scope.userInfo.accountID,
+                  $scope.userInfo.accountName,
+                  $scope.GLOBAL_LOAD_TWEETS + 1, -1, max_id).then(processResult);
         }
       }
 
@@ -675,7 +690,12 @@ accountModule.controller('accountController',
 
         // Auxiliary function inside auxiliary function
         function processResult(result){
-          var tweets = result.data.message;
+          var tweets;
+          if(kind == 'hashtag'){
+            tweets = result.data.message.statuses;
+          } else{
+            tweets = result.data.message;
+          }
           if(!result.data.error){
             if(tweets.length > 0){
               var arrayTemp = [];
@@ -798,7 +818,9 @@ accountModule.controller('accountController',
           account.getTweetsPanel(kind, $scope.userInfo.accountID, $scope.userInfo.accountName,
             $scope.GLOBAL_LOAD_TWEETS + 1, since_id, max_id_temp).then(processResult);
         } else{
-          account.getHashtagTweets(hashtag, $scope.userInfo.accountID, $scope.userInfo.accountName, $scope.GLOBAL_LOAD_TWEETS, since_id, max_id_temp).then(processResult);
+          account.getHashtagTweets(hashtag, $scope.userInfo.accountID,
+            $scope.userInfo.accountName, $scope.GLOBAL_LOAD_TWEETS,
+            since_id, max_id_temp).then(processResult);
         }
       } // End of get new tweets function
 
@@ -844,7 +866,8 @@ accountModule.controller('ReplyCtrl', function ($scope, twitter) {
     $scope.tweet.text = $scope.user_name;
 
     $scope.reply = function(){
-        twitter.postTweet($scope.account_id, $scope.tweet.text, $scope.tweetID).then(function(result){
+        twitter.postTweet($scope.account_id, $scope.tweet.text,
+                $scope.tweetID).then(function(result){
             if(!result.data.error){
                 $scope.tweeting = false;
                 $scope.sendingTweet = false;
