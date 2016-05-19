@@ -240,6 +240,18 @@ angular.module('felinotweetsApp', [
       return null;
     }
   };
+
+  // obtiene todos los hashtagas para una cuenta de twitter de un user
+  self.getHashtags = function(accountID){
+    return $http.get(API + '/twitter_accounts/' +  accountID + '/hashtags');
+  };
+
+  // obtiene los tweets bajo un hashtag concreto
+  self.getHashtagTweets = function(hashtag, accountID, accountName, count, since_id, max_id) {
+    return $http.get(API + '/twitter/hashtag?id=' + accountID + '&account=' +
+                      accountName + '&count=' + count + '&since_id=' + since_id +
+                      '&max_id=' + max_id + '&hashtag' + hashtag);
+  };
 })
 
 .service('twitter', function($http, API) {
