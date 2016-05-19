@@ -61,8 +61,7 @@ module.exports = function(app,passport){
                 twitter.getHome(data.token, data.token_secret, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
                         if(err){
-                            console.log(error);
-                            response = {'error' : true, 'message' : 'Error obteniendo el TL'};
+                            response = {'error' : true, 'message' : 'Error obteniendo el TL: ' + JSON.stringify(err)};
                         } else{
                           var parsed = JSON.parse(data);
                           response = {'error' : false, 'message' : parsed};
@@ -85,7 +84,6 @@ module.exports = function(app,passport){
                 twitter.getMentions(data.token, data.token_secret, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
                         if(err){
-                            console.log(err);
                             response = {'error' : true, 'message' : 'Error obteniendo las menciones'};
                         } else{
                           var parsed = JSON.parse(data);
@@ -109,9 +107,10 @@ module.exports = function(app,passport){
                 twitter.searchHashtag(data.token, data.token_secret, req.query.hashtag, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
                         if(err){
-                            response = {'error' : true, 'message' : 'Error obteniendo los hashtags'};
+                            response = {'error' : true, 'message' : 'Error obteniendo los hashtags: ' + JSON.stringify(err)};
                         } else{
-                            response = {'error' : false, 'message' : data};
+                          var parsed = JSON.parse(data);
+                          response = {'error' : false, 'message' : parsed};
                         }
                         res.json(response);
                     });

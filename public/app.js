@@ -250,7 +250,7 @@ angular.module('felinotweetsApp', [
   self.getHashtagTweets = function(hashtag, accountID, accountName, count, since_id, max_id) {
     return $http.get(API + '/twitter/hashtag?id=' + accountID + '&account=' +
                       accountName + '&count=' + count + '&since_id=' + since_id +
-                      '&max_id=' + max_id + '&hashtag' + hashtag);
+                      '&max_id=' + max_id + '&hashtag=' + hashtag);
   };
 })
 

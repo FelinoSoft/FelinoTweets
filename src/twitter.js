@@ -86,33 +86,31 @@ function getMentions(userToken, userSecret, count, since_id, max_id, callback){
 }
 
 function searchHashtag(userToken, userSecret, query, count, since_id, max_id, callback){
-    if(since_id == -1 || max_id == -1){
-        oa.get(
-            "https://api.twitter.com/1.1/search/tweets.json?q=" + encodeURIComponent(query) + "&count=" + count,
-            userToken,
-            userSecret,
-            function(err,data){
-                callback(err,data);
-            }
-        );
-    } else{
-        oa.get(
-            "https://api.twitter.com/1.1/search/tweets.json?q=" + encodeURIComponent(query) + "&count=" + count +
-            "&since_id=" + since_id + "&max_id=" + max_id,
-            userToken,
-            userSecret,
-            function(err,data){
-                callback(err,data);
-            }
-        );
+    var part = "";
+    if(since_id != -1){
+        part = part + "&since_id=" + since_id;
     }
+    if(max_id != -1){
+        part = part + "&max_id=" +  max_id;
+    }
+    console.log("https://api.twitter.com/1.1/search/tweets.json?q=" + encodeURIComponent(query) + "&count=" + count +
+    part);
+    oa.get(
+        "https://api.twitter.com/1.1/search/tweets.json?q=" + encodeURIComponent(query) + "&count=" + count +
+        part,
+        userToken,
+        userSecret,
+        function(err,data){
+            callback(err,data);
+        }
+    );
 }
 
 function getMDs(userToken, userSecret, count, since_id, max_id, callback){
     if(since_id == -1 || max_id == -1){
         oa.get(
-            "https://api.twitter.com/1.1/direct_messages.json?count=" + count
-            + "&trim_user=" + true,
+            "https://api.twitter.com/1.1/direct_messages.json?count=" + count +
+            "&trim_user=" + true,
             userToken,
             userSecret,
             function(err,data){
@@ -183,7 +181,7 @@ function postTweet(userID, userToken, userSecret, tweet, callback, id_reply){
 
         var count = 0;
 
-        while(match != null){
+        while(match !== null){
             count++;
             match = urlRegex.exec(text);
         }
@@ -277,7 +275,7 @@ function postMD(userToken, userSecret, user, md, callback){
         function(err,data){
             callback(err,data);
         }
-    )
+    );
 }
 
 exports.initTwitter = initTwitterOauth;
