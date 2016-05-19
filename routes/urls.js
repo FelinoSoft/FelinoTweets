@@ -125,7 +125,7 @@ module.exports = function(app){
         });
     };
 
-    /* DELETE /users/:id */
+    /* DELETE /url/:short_url */
     deleteUrl = function(req,res){
         var response = {};
         url.find({"short_url" : req.params.short_url}, function(err,data){
