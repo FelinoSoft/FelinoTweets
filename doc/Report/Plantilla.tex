@@ -158,65 +158,56 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 	\paragraph{} En este apartado se recogen todos los endpoints de cada componente del API desarrollados, junto a una descripción de lo que hace, sus parámetros y ejemplos de uso.
 	
 	\subsection{API del componente Twitter}
+	\begin{itemize}
+		\item \textbf{GET /twitter/tweet\_account:} Devuelve una cuenta de twitter asociada al usuario de FelinoTweets que recibe por parámetro, la cual tambien está referenciada en el body de la petición. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, y el nombre de la cuenta de twitter.
+		
+		\item \textbf{GET /twitter/tweetline:} Devuelve la timeline de una cuenta de twitter. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, y el nombre de la cuenta de twitter.
+		
+		\item \textbf{GET /twitter/home:} Devuelve el home de una cuenta de twitter. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, y el nombre de la cuenta de twitter.
+		
+		\item \textbf{GET /twitter/mentions:} Devuelve las menciones de una cuenta de twitter. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, y el nombre de la cuenta de twitter.
+		
+		\item \textbf{GET /twitter/md:} Devuelve los mensajes directos de una cuenta de twitter. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, y el nombre de la cuenta de twitter.
+		
+		\item \textbf{POST /twitter/tweet:} Postea un nuevo tweet dada una cuenta de twitter pasada por parámetro. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, y el nombre de la cuenta de twitter.
+		
+		\item \textbf{POST /twitter/md:} Envía un nuevo mensaje directo dada una cuenta de twitter pasada por parámetro. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, y el nombre de la cuenta de twitter.
+		
+		\item \textbf{POST /twitter/retweet:} Realiza un retweet dada una cuenta de twitter pasada por parámetro y un tweet de origen. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, el nombre de la cuenta de twitter y el tweet al que se realiza el retweet.
+		\newpage
+		\item \textbf{POST /twitter/unretweet:} Deshace un retweet dada una cuenta de twitter pasada por parámetro y un tweet de origen. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, el nombre de la cuenta de twitter y el tweet al que se quita el retweet.
+		
+		\item \textbf{POST /twitter/fav:} Realiza un "me gusta" dada una cuenta de twitter pasada por parámetro y un tweet de origen. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, el nombre de la cuenta de twitter y el tweet al que se realiza el "me gusta".
+		
+		\item \textbf{POST /twitter/unfav:} Quita un "me gusta" dada una cuenta de twitter pasada por parámetro y un tweet de origen. Los parámetros que admite son el id del usuario de FelinoTweets, ya sea a través del body o a través de la cookie del navegador, el nombre de la cuenta de twitter y el tweet al que se quita el "me gusta".
+		
+		\item \textbf{GET /twitter/auth:} Realiza una llamada al middleware Passport.js que se encarga de gestionar la interacción con Twitter para autorizar a la aplicación FelinoTweets a que utilice una determinada cuenta de Twitter. Realiza una redirección al servicio de autorización de Twitter.
+		
+		\item \textbf{GET /twitter/auth/callback:} Es el endpoint al que accede el middleware Passport.js cuando retorna de la llamada a Twitter para autorizar una cuenta de twitter. Trae de vuelta los tokens que permiten utilizar una cuenta de Twitter desde una aplicación externa que no sea Twitter.
+	\end{itemize}
 	
 	\subsection{API del componente Stats}
-	
+	\begin{itemize}
+		\item \textbf{GET /stats/registrations/:days:} 
+		\item \textbf{GET /stats/registrations/:type/:days:} 
+		\item \textbf{POST /stats/registrations/:} 
+		\item \textbf{GET /stats/ranking/tweets/:limit:} 
+		\item \textbf{GET /stats/ranking/accounts/:limit:} 
+		\item \textbf{GET /stats/activeUsers/:days:} 
+		\item \textbf{GET /stats/mentions/:id:} 
+		\item \textbf{GET /stats/multimedia/:id:}
+		\item \textbf{GET /stats/hashtags/:id:} 
+		\item \textbf{GET /stats/retweets/:id:}
+		\item \textbf{GET /stats/tweets/:id:}
+		\item \textbf{GET /stats/ranking/mentions/:limit/:id:}  
+	\end{itemize}
 	\subsection{API del componente URLs}
 	\begin{itemize}
 		\item \textbf{GET /url:} Devuelve una lista con todas las URLs acortadas de la base de datos. No admite ningún parámetro.
-		Ejemplo de uso:
-		\newline
-		\\ \textbf{GET} .../url
-		\newline \textbf{Respuesta:}
-		\newline {"error" : false, "message" : [
-		\newline {
-		"\_id": {
-			"\$oid": "573d15b8f94d69d2665cd0e4"
-		},
-		\newline"clicks": 14,
-		\newline"user\_id": "5738a5ed5ac8bbc2238001f9",
-		\newline"long\_url": "https://github.com/chriso/validator.js",
-		\newline"short\_url": "24vc4",
-		\newline"\_\_v": 0
-		},{
-		\newline
-		\newline"\_id": {
-			"\$oid": "573d8a98545dfd700b69c928"
-		},
-		\newline"clicks": 11,
-		\newline"user\_id": "5738a5ed5ac8bbc2238001f9",
-		\newline"long\_url": "http://www.3djuegos.com/",
-		\newline"short\_url": "24vc9",
-		\newline"\_\_v": 0
-	}]}
-		\item \textbf{GET /url/:short\_url:} Redirige la petición a la url original que fue acortada. El único parámetro que admite es el identificador de la url acortada
-		Ejemplo de uso:
-		\newline
-		\\ \textbf{GET} .../url/24vc0
-		\newline \textbf{Respuesta:}
-		\newline La respuesta es una redirección a la url original del acortamiento, en este caso, 3djuegos.com.
-		\newpage
+		\item \textbf{GET /url/:short\_url:} Redirige la petición a la url original que fue acortada. El único parámetro que admite es el identificador de la url acortada.
 		\item \textbf{POST /url/:} Provee una url para su acortamiento y posterior almacenamiento en la base de datos junto con los datos del usuario que solicita el acortamiento. Admite como parámetros la url larga para acortar y el id del usuario que solicita su acortamiento. Dichos parámetros deben ir en el cuerpo de la petición.
-		Ejemplo de uso:
-		\newline
-		\textbf{POST} .../url
-		\newline \textbf{Body:} 
-		\newline long\_url : felinotweets.herokuapp.com
-		\newline user\_id : 5738a5ed5ac8b
-		\newline \textbf{Respuesta:}
-		\newline La misma respuesta que con GET /url
 		\item \textbf{DELETE /url/:} Elimina todas las urls acortadas almacenadas en la base de datos. No admite parámetros.
-		Ejemplo de uso:
-		\newline
-		\textbf{DELETE} .../url
-		\newline \textbf{Respuesta:}
-		\newline La misma respuesta que con GET /url (deberá ser vacía si no hubo problema)
 		\item \textbf{DELETE /url/:short\_url:} Elimina la url acortada especificada por el parámetro short\_url de la base de datos. El único parámetro que admite es la url acortada.
-		Ejemplo de uso:
-		\newline
-		\textbf{DELETE} .../url/24vc0
-		\newline \textbf{Respuesta:}
-		\newline La misma respuesta que con GET /url (la url especificada en el parámetro no debería aparecer en la lista)
 	\end{itemize}
 	
 	\subsection{API del componente Users}
@@ -345,16 +336,29 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 
 \section{Análisis de problemas}
 
+	\paragraph{} Dado que es la primera vez que el equipo afronta un desarrollo web de estas características, se ha encontrado como princpal dificultad el aprendizaje de las nuevas tecnologías con las que se requería realizar el proyecto.
+	
+	\paragraph{} Por otro lado, ha resultado complicado plantear la estructura del código a implementar en cuanto a cómo debía gestionarse el enrutamiento y cual es la mejor estrategia para organizar los directorios de una aplicación con características como múltiples vistas y de las dimensiones que tiene la aplicación propuesta. Todas estas cuestiones cobran mayor importancia al ser la primera vez que se afrontan.
+
 \section{Distribución de tiempos}
 	\subsection{Diagrama de Gannt}
 	\subsection{Horas de esfuerzo del equipo y por separado en tareas}
 
 \section{Conclusiones}
 	\subsection{Conclusiones del proyecto}
+	
+		\paragraph{} La realización de este proyecto ha generado como resultado una aplicación web \textit{responsive} que permite al usuario gestionar cuentas de \textit{Twitter} así como ver estadísticas de las mismas.
+		
+		\paragraph{} Durante el desarrollo del proyecto se ha trabajo con un \textit{API} externa que es la de \textit{Twitter}, lo cual ha resultado útil a la hora de entender cómo se comunican las aplicaciones web actualmente. 
+	
 	\subsection{Valoración personal del grupo}
+	
+		\paragraph{} El proyecto ha ayudado principalmente a comprender el funcionamiento de un servicio web y de los canales de comunicación así como tecnologías mas usadas actualmente, lo cual puede servir de ayuda para futuros desarrollos.
+	
+		\paragraph{} El desarrollo con nuevas tecnologías ha sido desafiante pero al mismo tiempo gratificante, ya que se obtienen resultados simples con rapidez. El equipo ha quedado satisfecho con el resultado conseguido aunque se considera que el tiempo disponible para realizarlo ha sido muy ajustado.
+		
 	\subsection{Valoración personal de cada miembro}
-\section{Anexos}
-
+	
 \newpage
 \begin{thebibliography}{99} 
 \bibitem{paraQueSirve} \textbf{Title} - Consulted in XXXXX aaaa. [\url{link}]
