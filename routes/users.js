@@ -268,31 +268,32 @@ module.exports = function(app){
     findTwitterAccounts = function(req, res) {
       var response = {};
 
-      checkUser(req, res, function(err, data) {
-        if (err) {
-          response = {"error" : true, "message" : "Error fetching data"};
-          res.json(response);
-        } else {
-
-          var userId = data.user_id;
+      // checkUser(req, res, function(err, data) {
+      //   if (err) {
+      //     response = {"error" : true, "message" : "Error fetching data"};
+      //     res.json(response);
+      //   } else {
+      //
+      //     var userId = data.user_id;
           var targetId = req.params.id;
-
-          if( (data.admin) || (targetId == userId ) ) {
+      //
+      //     if( (data.admin) || (targetId == userId ) ) {
             account.find({"account_id": targetId}, function(err,data){
               if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
               } else{
                 response = {"error" : false, "message" : data};
               }
+              // console.log(response.message[0].account_id);
               res.json(response);
             });
-          }
-          else {
-            response = {"error" : true, "message" : "Admin permissions required."};
-            res.json(response);
-          }
-        }
-      });
+        //   }
+        //   else {
+        //     response = {"error" : true, "message" : "Admin permissions required."};
+        //     res.json(response);
+        //   }
+        // }
+      // });
     };
 
     deleteTwitterAccounts = function(req, res){
@@ -380,6 +381,9 @@ module.exports = function(app){
                   var token = jwt.sign(userInfo, app.get('superSecret'), {
                     expiresIn: 3600 // expires in 1 hour (3600 secs)
                   });
+
+                  console.log("Cookie time");
+                  console.log(data.id);
 
                   // return the information including token as JSON
                   res.cookie("user_id",data.id);

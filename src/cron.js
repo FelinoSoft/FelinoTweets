@@ -6,6 +6,7 @@ var tweet = require('../models/scheduled_tweet.js');
 var account = require('../models/twitter_account.js');
 
 function initJob(twitter) {
+    console.log('Starting cron');
     var job = new CronJob({
         cronTime: '01 * * * * 0-6',
         onTick: function () {

@@ -92,6 +92,8 @@ function searchHashtag(userToken, userSecret, query, count, since_id, max_id, ca
     if(max_id != -1){
         part = part + "&max_id=" +  max_id;
     }
+    console.log("https://api.twitter.com/1.1/search/tweets.json?q=" + encodeURIComponent(query) + "&count=" + count +
+    part);
     oa.get(
         "https://api.twitter.com/1.1/search/tweets.json?q=" + encodeURIComponent(query) + "&count=" + count +
         part,

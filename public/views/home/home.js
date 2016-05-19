@@ -285,6 +285,7 @@ var homeModule = angular.module('homeModule', [
     };
 
     $scope.$on('$destroy', function(){
+      console.log("Anulando timer")
       $timeout.cancel($scope.timer);
     });
 
