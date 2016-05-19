@@ -370,10 +370,36 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 \section{Validación (test, pruebas realizadas)}
 \paragraph{}Para probar el correcto funcionamiento de la aplicación, se han ido probando mediante Postman todas las operaciones disponibles sobre los endpoints de las APIs, obteniendo el comportamiento deseado. Finalmente, se ha realizado un recorrido por toda la aplicación, que se detalla a continuación:
 \begin{itemize}
-	\item \textbf{Paso: }Registro de un usuario. \textbf{Resultado: }
+	\item \textbf{Paso: }Registro de un usuario. \textbf{Resultado:} Usuario registrado correctamente. Redirigido a home.
+	\item \textbf{Paso: }Editar un usuario. \textbf{Resultado: }Datos editados correctamente. Se actualizan inmediatamente.
+	\item \textbf{Paso: }Cerrar sesión. \textbf{Resultado: }Redirigido a pantalla principal.
+	\item \textbf{Paso: }Loguear con los nuevos datos. \textbf{Resultado: }Entra correctamente.
+	\item \textbf{Paso: }Añadir nueva cuenta de twitter. \textbf{Resultado: }Cuenta agregada correctamente.
+	\item \textbf{Paso: }Entrar en la cuenta de twitter. \textbf{Resultado: }Entra correctamente.
+	\item \textbf{Paso: }Añadir un hastag. \textbf{Resultado: }Hashtag añadido correctamente.
+	\item \textbf{Paso: }Enviar un tweet \textbf{Resultado: }Tweet enviado correctamente.
+	\item \textbf{Paso: }Dar un fav \textbf{Resultado: }Fav realizado correctamente.
+    \item \textbf{Paso: }Dar un retweet. \textbf{Resultado: }Retweet realizado correctamente.
+    \item \textbf{Paso: }Programar un tweet. \textbf{Resultado: }Tweet programado correctamente.
+    \item \textbf{Paso: }Esperar el envío del tweet programado. \textbf{Resultado: }Envío realizado correctamente.
+    \item \textbf{Paso: }Programar otro tweet y eliminarlo. \textbf{Resultado: }Tweet programado y eliminado correctamente.
+    \item \textbf{Paso: }Añadir otro hashtag y eliminarlo. \textbf{Resultado: }Hashtag añadido y eliminado correctamente.
+    \item \textbf{Paso: }Añadir otra cuenta de twitter y ver estadísticas. \textbf{Resultado: }Se observan las estadísticas del usuario correctamente.
+    \item \textbf{Paso: }Eliminar una cuenta de Twitter. \textbf{Resultado: }Cuenta de Twitter eliminada correctamente.
+    \item \textbf{Paso: }Salir sesión y registrarse con otra cuenta, para después entrar con la de administrador. \textbf{Resultado: }Pantalla del administrador mostrada correctamente (se observa el listado de todos los usuarios).
+    \item \textbf{Paso: }Ver info de un usuario, desplegarla, y editarla. \textbf{Resultado: }Información mostrada y editada correctamente.
+    \item \textbf{Paso: }Ver estadísticas del administrador. \textbf{Resultado: }Estadísticas mostradas correctamente.
+    \item \textbf{Paso: }Eliminar un usuario desde la pantalla de admin. \textbf{Resultado: }Usuario eliminado correctamente.
+    \item \textbf{Paso: }Iniciar sesión como el usuario borrado. \textbf{Resultado: }Error al entrar.
+    \item \textbf{Paso: }Iniciar sesión como el usuario antes creado, y borrar su cuenta. \textbf{Resultado: }Cuenta eliminada correctamente.
+    \item \textbf{Paso: }Entrar con el móvil. \textbf{Resultado: }La aplicación es responsive.
 \end{itemize}
 
 \section{Análisis de problemas}
+
+	\paragraph{} Dado que es la primera vez que el equipo afronta un desarrollo web de estas características, se ha encontrado como princpal dificultad el aprendizaje de las nuevas tecnologías con las que se requería realizar el proyecto.
+	
+	\paragraph{} Por otro lado, ha resultado complicado plantear la estructura del código a implementar en cuanto a cómo debía gestionarse el enrutamiento y cual es la mejor estrategia para organizar los directorios de una aplicación con características como múltiples vistas y de las dimensiones que tiene la aplicación propuesta. Todas estas cuestiones cobran mayor importancia al ser la primera vez que se afrontan.
 
 \section{Distribución de tiempos}
 	\subsection{Diagrama de Gannt}
@@ -381,10 +407,34 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 
 \section{Conclusiones}
 	\subsection{Conclusiones del proyecto}
+	
+		\paragraph{} La realización de este proyecto ha generado como resultado una aplicación web \textit{responsive} que permite al usuario gestionar cuentas de \textit{Twitter} así como ver estadísticas de las mismas.
+		
+		\paragraph{} Durante el desarrollo del proyecto se ha trabajo con un \textit{API} externa que es la de \textit{Twitter}, lo cual ha resultado útil a la hora de entender cómo se comunican las aplicaciones web actualmente. 
+	
 	\subsection{Valoración personal del grupo}
+	
+		\paragraph{} El proyecto ha ayudado principalmente a comprender el funcionamiento de un servicio web y de los canales de comunicación así como tecnologías mas usadas actualmente, lo cual puede servir de ayuda para futuros desarrollos.
+	
+		\paragraph{} El desarrollo con nuevas tecnologías ha sido desafiante pero al mismo tiempo gratificante, ya que se obtienen resultados simples con rapidez. El equipo ha quedado satisfecho con el resultado conseguido aunque se considera que el tiempo disponible para realizarlo ha sido muy ajustado.
+		
 	\subsection{Valoración personal de cada miembro}
-\section{Anexos}
-
+	
+	
+		\subsubsection{Alejandro Márquez}
+		
+			\paragraph{}
+		
+		\subsubsection{Jaime Ruiz-Borau}
+			
+			\paragraph{}
+		
+		\subsubsection{Alejandro Royo}
+		
+			\paragraph{} El desarrollo del trabajo me ha resultado gratificante por un lado por las tecnologías usadas que no conocía y también por la utilidad que se aprecia al realizar este tipo de aplicaciones. De todas formas, creo que el tiempo proporcionado para realizar el trabajo ha sido más bien escaso.
+			
+			\paragraph{} Como posible solución al poco tiempo que he percibido creo que igual sería mejor integrarlo más con las prácticas en el sentido de permitir que se vaya integrando cada práctica en el trabajoo desde el principio.
+	
 \newpage
 \begin{thebibliography}{99} 
 \bibitem{paraQueSirve} \textbf{Title} - Consulted in XXXXX aaaa. [\url{link}]
