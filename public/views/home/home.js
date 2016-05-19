@@ -19,7 +19,16 @@ var homeModule = angular.module('homeModule', [
       var tweetID;
       var tweetLink;
       var date;
+      var isRetweeted = false;
+      var authorRetweetName;
+      var authorRetweetLink;
+      var isAnswer = false;
+      var answerAuthorName;
+      var answerTweetLink;
       if(tweet.retweeted_status !== undefined){
+        isRetweeted = true;
+        authorRetweetName = tweet.user.name;
+        authorRetweetLink = "http://twitter.com/" + tweet.user.screen_name;
         author = tweet.retweeted_status.user.screen_name;
         name = tweet.retweeted_status.user.name;
         text = tweet.retweeted_status.text;
@@ -33,6 +42,12 @@ var homeModule = angular.module('homeModule', [
         date = new Date(tweet.retweeted_status.created_at);
         date = $filter('date')(date, 'dd MMM yyyy');
       } else{
+        if(tweet.in_reply_to_status_id !== undefined && tweet.in_reply_to_status_id !== null){
+          isAnswer = true;
+          answerAuthorName = '@' + tweet.in_reply_to_screen_name;
+          answerTweetLink = "http://twitter.com/" + tweet.in_reply_to_screen_name +
+              "/status/" + tweet.in_reply_to_status_id_str;
+        }
         author = tweet.user.screen_name;
         name = tweet.user.name;
         text = tweet.text;
@@ -51,7 +66,9 @@ var homeModule = angular.module('homeModule', [
       var finalTweet = {
         'author':author, 'name':name, 'text':text, 'imgLink':imgLinkT,
         'nRetweets':nRetweets, 'nLikes':nLikes, 'rted':rted, 'liked':liked,
-        'date':date, 'tweetLink':tweetLink, 'tweetID' : tweetID
+        'date':date, 'tweetLink':tweetLink, 'tweetID' : tweetID, 'isRetweeted' : isRetweeted,
+        'authorRetweetName' : authorRetweetName, 'authorRetweetLink' : authorRetweetLink,
+        'isAnswer' : isAnswer, 'answerAuthorName' : answerAuthorName, 'answerTweetLink' : answerTweetLink
       };
 
       return finalTweet;
