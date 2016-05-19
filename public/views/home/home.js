@@ -19,7 +19,7 @@ var homeModule = angular.module('homeModule', [
       var tweetID;
       var tweetLink;
       var date;
-      if(tweet.retweeted){
+      if(tweet.retweeted_status !== undefined){
         author = tweet.retweeted_status.user.screen_name;
         name = tweet.retweeted_status.user.name;
         text = tweet.retweeted_status.text;
