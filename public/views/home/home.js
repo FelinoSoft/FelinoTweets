@@ -4,10 +4,11 @@ var homeModule = angular.module('homeModule', [
 ]);
 
   homeModule.controller('homeController',
-    function($http,$scope,$filter,$location,auth,twitter,home){
+    function($http,$scope,$filter,$location,$timeout,auth,twitter,home){
 
     $scope.GLOBAL_LOAD_TWEETS = 20;
     $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT = 120;
+    $scope.timer = undefined;
 
     $scope.processTweet = function(tweet){
       var author;
@@ -283,16 +284,18 @@ var homeModule = angular.module('homeModule', [
       });
     };
 
+    $scope.$on('$destroy', function(){
+      console.log("Anulando timer")
+      $timeout.cancel($scope.timer);
+    });
+
     $scope.setCheckingTimeOut = function(){
       function callForCheckNewTweets(){
         $scope.checkForNewTweets();
-        if($location.$$url == "/home" || $location.$$url == "/#/home"){
-          setTimeout(callForCheckNewTweets,
-            $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT * 1000);
-        }
+        $scope.timer = $timeout(callForCheckNewTweets,
+          $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT * 1000);
       }
-
-      setTimeout(callForCheckNewTweets,
+      $scope.timer = $timeout(callForCheckNewTweets,
         $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT * 1000);
     };
 

@@ -105,7 +105,7 @@ module.exports = function(app,passport){
 
         twitter_account.findOne({'_id' : req.query.id, 'account_id' : user_id}, function(err,data){
             if(!err){
-                twitter.searchHashtag(data.token, data.token_secret, req.query.hashtag, req.query.count,
+                twitter.searchHashtag(data.token, data.token_secret, '#'+req.query.hashtag, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
                         if(err){
                             response = {'error' : true, 'message' : 'Error obteniendo los hashtags: ' + JSON.stringify(err)};
