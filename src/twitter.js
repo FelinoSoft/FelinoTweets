@@ -204,8 +204,6 @@ function postDeleteFav(userToken, userSecret, tweet_ID, callback) {
     );
 }
 
-
-
 function postMD(userToken, userSecret, user, md, callback){
     oa.post(
         "https://api.twitter.com/1.1/direct_messages/new.json",
