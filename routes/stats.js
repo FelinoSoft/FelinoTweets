@@ -18,7 +18,7 @@ var API = "http://127.0.0.1:8888";
 
 module.exports = function(app){
 
-  /* GET /stats/users/:days */
+  /* GET /stats/ranking/tweets */
   findRankingUsers = function(req,res){
     var response = {};
 
@@ -53,6 +53,91 @@ module.exports = function(app){
               response = {"error" : false, "message" : result};
             }
             res.json(response);
+          });
+    //     }
+    //     else {
+    //       response = {"error" : true, "message" : "Admin permissions required."};
+    //       res.json(response);
+    //     }
+    //   }
+    // });
+  };
+
+  /* GET /stats/ranking/accounts */
+  findRankingAccounts = function(req,res){
+    var response = {};
+
+    // checkUser(req, res, function(err, data) {
+    //
+    //   if (err) {
+    //     response = {"error" : true, "message" : "Error fetching data"};
+    //     res.json(response);
+    //   } else {
+    //
+    //     if (data.admin) {
+          var limit = req.params.limit;
+          user.find(function(err,resData){
+            if(err) {
+              response = {"error" : true, "message" : "Error fetching data"};
+            } else{
+
+              var labels = [];
+              var data = [];
+              for (var i in resData) {
+                var email = resData[i].email;
+                var accounts = 0;
+
+                labels.push(email);
+                data.push(accounts);
+              }
+              var result = {labels, data};
+
+              // obtiene el numero de cuentas para cada usuario
+              var usersSaved = 0;
+              resData.forEach(function (currentUser, i) {
+
+                var user_id = currentUser._id;
+                request({
+                  uri: API + '/users/' + user_id + '/twitter_accounts',
+                  method: "GET",
+                }, function(err, response, body) {
+                  if(err) {
+                    response = {"error" : true, "message" : "Error fetching data"};
+                    res.json(response);
+                  } else{
+
+                    var numAccounts = JSON.parse(body).message.length;
+                    data[i] = [labels[i], numAccounts];
+
+                    if (usersSaved + 1  == resData.length) {
+
+                      // sorts and filters data array
+                      function Comparator(a,b){
+                        if (a[1] > b[1]) return -1;
+                        if (a[1] < b[1]) return 1;
+                        return 0;
+                      }
+                      data = data.sort(Comparator);
+
+                      // resets labels and data arrays
+                      var newData = data;
+                      labels = [];
+                      data = [];
+                      for (var j = 0; j < limit; j++) {
+                        labels[j] = newData[j][0];
+                        data[j] = newData[j][1];
+                      }
+                      result = {labels, data};
+
+                      response = {"error" : false, "message" : result};
+                      res.json(response);
+                    } else {
+                      usersSaved = usersSaved + 1;
+                    }
+                  }
+                })
+              });
+            }
           });
     //     }
     //     else {
@@ -335,7 +420,7 @@ module.exports = function(app){
                     response = {"error" : true, "message" : "Error fetching data"};
                     res.json(response);
                   } else{
-                    var mentions = JSON.parse(JSON.parse(body).message);
+                    var mentions = JSON.parse(body).message;
 
                     // Para cada mencion (tweet) suma 1 a la hora de creacion
                     for (j in mentions) {
@@ -689,7 +774,7 @@ module.exports = function(app){
                         var dateCreation = tweets[j].created_at;
                         dateCreation = moment(new Date(dateCreation)).format('HH');
 
-                        // obtains hashtags if available
+                        // obtains retweet count
                         var retweets = tweets[j].retweet_count;
 
                         // Para cada hora del dia, comprueba si el tweet se
@@ -697,7 +782,7 @@ module.exports = function(app){
 
                         for (k in labels) {
                           if (dateCreation == labels[k]) {
-                            if (!tweets[j].retweeted) {
+                            if (tweets[j].retweeted_status === undefined) {
                               data[i]['values'][k] =
                                 data[i]['values'][k] + retweets;
                             }
@@ -725,8 +810,8 @@ module.exports = function(app){
     // });
   }
 
-  /* GET /stats/countries/:id */
-  findRankingCountries = function(req,res){
+  /* GET /stats/tweets/:id */
+  findTweetsByHour = function(req,res){
     var response = {};
 
     // checkUser(req, res, function(err, data) {
@@ -792,38 +877,22 @@ module.exports = function(app){
                     } else{
                       var tweets = JSON.parse(body).message;
 
-                      var numTweets = [];
-                      for (k in labels) {
-                        numTweets.push(0);
-                      }
-
                       // Para cada tweet suma 1 a la hora de creacion si tiene
                       // hashtag
                       for (j in tweets) {
                         var dateCreation = tweets[j].created_at;
                         dateCreation = moment(new Date(dateCreation)).format('HH');
 
-                        // obtains hashtags if available
-                        var retweets = tweets[j].retweet_count;
-
                         // Para cada hora del dia, comprueba si el tweet se
                         // ha generado a esa hora, solo si tiene hashtags
 
                         for (k in labels) {
                           if (dateCreation == labels[k]) {
-                            if (tweets[j].retweet_status == undefined) {
+                            if (tweets[j].retweeted_status === undefined) {
                               data[i]['values'][k] =
                                 data[i]['values'][k] + 1;
                             }
-                            numTweets[k] = numTweets[k] + 1;
                           }
-                        }
-                      }
-
-                      // Calcula la media de RT/tweet
-                      for (k in labels) {
-                        if (numTweets[k] !== 0) {
-                          data[i][k] = Math.floor(data[i][k] / numTweets[k]);
                         }
                       }
                     }
@@ -883,13 +952,14 @@ module.exports = function(app){
   app.get('/stats/registrations/:days', findRegistrations);
   app.get('/stats/registrations/:type/:days', findRegistrationsFiltered);
   app.post('/stats/registrations', createRegistration);
-  app.get('/stats/ranking/:limit', findRankingUsers);
+  app.get('/stats/ranking/tweets/:limit', findRankingUsers);
+  app.get('/stats/ranking/accounts/:limit', findRankingAccounts);
   app.get('/stats/activeUsers/:days', findActiveUsers);
 
   // '/stats' methods for users
   app.get('/stats/mentions/:id', findMentionsByHour);
-  app.get('/stats/countries/:id', findRankingCountries);
   app.get('/stats/multimedia/:id', findMultimediaByHour);
   app.get('/stats/hashtags/:id', findHashtagsByHour);
   app.get('/stats/retweets/:id', findRetweetsByHour);
+  app.get('/stats/tweets/:id', findTweetsByHour);
 };

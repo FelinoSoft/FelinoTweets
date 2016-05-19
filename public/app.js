@@ -240,6 +240,18 @@ angular.module('felinotweetsApp', [
       return null;
     }
   };
+
+  // obtiene todos los hashtagas para una cuenta de twitter de un user
+  self.getHashtags = function(accountID){
+    return $http.get(API + '/twitter_accounts/' +  accountID + '/hashtags');
+  };
+
+  // obtiene los tweets bajo un hashtag concreto
+  self.getHashtagTweets = function(hashtag, accountID, accountName, count, since_id, max_id) {
+    return $http.get(API + '/twitter/hashtag?id=' + accountID + '&account=' +
+                      accountName + '&count=' + count + '&since_id=' + since_id +
+                      '&max_id=' + max_id + '&hashtag' + hashtag);
+  };
 })
 
 .service('twitter', function($http, API) {
@@ -336,7 +348,12 @@ angular.module('felinotweetsApp', [
 
   // obtiene los usuarios ordenados por numero de tweets
   self.getRankingUsers = function(top) {
-    return $http.get(API + '/stats/ranking/' + top);
+    return $http.get(API + '/stats/ranking/tweets/' + top);
+  };
+
+  // obtiene los usuarios ordenados por numero de cuentas
+  self.getRankingAccounts = function(top) {
+    return $http.get(API + '/stats/ranking/accounts/' + top);
   };
 
   // obtiene los usuarios que han accedido a la app en los últimos days
@@ -362,6 +379,11 @@ angular.module('felinotweetsApp', [
   // obtiene los tweets con mas retweets por hora
   self.getRetweetsByHour = function(id) {
     return $http.get(API + '/stats/retweets/' + id);
+  };
+
+  // obtiene los tweets escritos por hora
+  self.getTweetsByHour = function(id) {
+    return $http.get(API + '/stats/tweets/' + id);
   };
 
 })

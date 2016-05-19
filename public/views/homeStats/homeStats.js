@@ -11,31 +11,18 @@ homeStatsModule.controller('homeStatsController',
     $scope.success = false;
     $scope.selected = -1;
 
-    // user info
-    $scope.activUsersDays = 7;
+    // stats info
     $scope.stats = {};
+    $scope.dataLoaded = [false,false,false,false,false];
 
     // chart's info
-    $scope.daysRegistered = 15;
-    $scope.labelsRegistered = [];
-    $scope.dataAltas = [];
-    $scope.dataBajas = [];
-
-    $scope.daysAccess = 7;
-    $scope.labelsAccess = [];
-    $scope.dataAccess = [];
-
-    $scope.topUsers = 5;
-    $scope.labelsRanking = [];
-    $scope.dataRanking = [];
-
     $scope.opt = [];
-
     $scope.statTitle = ['Menciones por franja horaria',
                         'Tweets con hashtags por franja horaria',
                         'Tweets con contenido multimedia por franja horaria',
-                        'Tweets con más retweets por franja horaria'];
-    $scope.chartType = ['line', 'line', 'line', 'line'];
+                        'Tweets con más retweets por franja horaria',
+                        'Tweets escritos por usuario por franja horaria'];
+    $scope.chartType = ['line', 'line', 'line', 'line','line'];
 
     // chart #1 (last registered users)
     $scope.getMentionsByHour = function() {
@@ -91,6 +78,7 @@ homeStatsModule.controller('homeStatsController',
               }]
             }
           }
+          $scope.dataLoaded[0] = true;
         }
       });
     }
@@ -150,6 +138,7 @@ homeStatsModule.controller('homeStatsController',
               }]
             }
           }
+          $scope.dataLoaded[1] = true;
         }
       });
     }
@@ -209,11 +198,12 @@ homeStatsModule.controller('homeStatsController',
               }]
             }
           }
+          $scope.dataLoaded[2] = true;
         }
       });
     }
 
-    // chart #3 (multimedia per hour)
+    // chart #4 (retweets per hour)
     $scope.getRetweetsByHour = function() {
       stats.getRetweetsByHour(auth.currentUser()).then(function(result) {
         if (result.data.error) {
@@ -226,8 +216,6 @@ homeStatsModule.controller('homeStatsController',
 
           // usuarios obtenidos con exito
           var stats = result.data.message;
-
-          console.log(stats);
 
           // obtains registered users stats
           var datasets = [];
@@ -271,6 +259,68 @@ homeStatsModule.controller('homeStatsController',
               }]
             }
           }
+          $scope.dataLoaded[3] = true;
+        }
+      });
+    }
+
+    // chart #5 (tweets per hour)
+    $scope.getTweetsByHour = function() {
+      stats.getTweetsByHour(auth.currentUser()).then(function(result) {
+        if (result.data.error) {
+
+          // login error, resets only the password field
+          $scope.messageError = "Error: no se ha podido recuperar a los usuarios."
+          $scope.notError = false;
+        }
+        else {
+
+          // usuarios obtenidos con exito
+          var stats = result.data.message;
+
+          // obtains registered users stats
+          var datasets = [];
+          for(var i in stats.data) {
+
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            var a = Math.random();
+            if (a < 0.5) a = 0.5;
+
+            var dataset =
+            {
+              label: 'Tweets escritos por @' +
+                  stats.data[i].name,
+              borderColor:'rgba(' + r +
+                                ',' + g +
+                                ',' + b +
+                                ',' + a + ')',
+              backgroundColor:'rgba(' + r +
+                                ',' + g +
+                                ',' + b +
+                                ',' + a + ')',
+              data: stats.data[i].values
+            };
+            datasets.push(dataset);
+          }
+
+          $scope.stats[4] =
+          {
+            labels: stats.labels,
+            datasets: datasets
+          };
+          // sets the options
+          $scope.opt[4] = {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero:true
+                }
+              }]
+            }
+          }
+          $scope.dataLoaded[4] = true;
         }
       });
     }
@@ -312,5 +362,6 @@ homeStatsModule.controller('homeStatsController',
     $scope.getHashtagsByHour();
     $scope.getMultimediaByHour();
     $scope.getRetweetsByHour();
+    $scope.getTweetsByHour();
     $scope.getActiveUsers();
 });

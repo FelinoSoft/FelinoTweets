@@ -17,25 +17,17 @@ adminStatsModule.controller('adminStatsController',
 
     // chart's info
     $scope.daysRegistered = 15;
-    $scope.labelsRegistered = [];
-    $scope.dataAltas = [];
-    $scope.dataBajas = [];
-
     $scope.daysAccess = 7;
-    $scope.labelsAccess = [];
-    $scope.dataAccess = [];
-
     $scope.topUsers = 5;
-    $scope.labelsRanking = [];
-    $scope.dataRanking = [];
 
+    $scope.dataLoaded = [false, false, false, false];
     $scope.opt = [];
 
     $scope.statTitle = ['Estadísticas de registros (últimos ' + $scope.daysRegistered + ' días)',
                         'Estadísticas de accesos (últimos ' + $scope.daysAccess + ' días)',
-                        'Estadísticas de tweets',
-                        'Mapa de tweets'];
-    $scope.chartType = ['line', 'line', 'bar', 'line'];
+                        'Ranking de usuarios con más tweets',
+                        'Ranking de usuarios con más cuentas de twitter'];
+    $scope.chartType = ['line', 'line', 'pie', 'pie'];
 
     // chart #1 (last registered users)
     $scope.getRegisterInfo = function() {
@@ -51,26 +43,22 @@ adminStatsModule.controller('adminStatsController',
           // usuarios obtenidos con exito
           var stats = result.data.message;
 
-          $scope.labelsRegistered = stats.labels;
-          $scope.dataAltas = stats.data.altas;
-          $scope.dataBajas = stats.data.bajas;
-
           // obtains registered users stats
           $scope.stats[0] =
           {
-              labels: $scope.labelsRegistered,
+              labels: stats.labels,
               datasets: [
                 {
                   label: 'Altas',
                   borderColor:'rgba(94,169,221,0.9)',
                   backgroundColor:'rgba(94,169,221,0.6)',
-                  data: $scope.dataAltas
+                  data: stats.data.altas
                 },
                 {
                   label: 'Bajas',
                   borderColor:'rgba(255,0,0,0.9)',
                   backgroundColor:'rgba(255,0,0,0.6)',
-                  data: $scope.dataBajas
+                  data: stats.data.bajas
                 }
               ]
           };
@@ -85,6 +73,7 @@ adminStatsModule.controller('adminStatsController',
                 }]
             }
           }
+          $scope.dataLoaded[0] = true;
         }
       });
     }
@@ -103,18 +92,16 @@ adminStatsModule.controller('adminStatsController',
 
           // usuarios obtenidos con exito
           var stats = result.data.message;
-          $scope.labelsAccess = stats.labels;
-          $scope.dataAccess = stats.data.events;
 
           // obtains access users stats
           $scope.stats[1] =
           {
-              labels: $scope.labelsAccess,
+              labels: stats.labels,
               datasets: [{
                   label: 'Accesos',
                   borderColor:'rgba(0,230,77,0.9)',
                   backgroundColor:'rgba(0,230,77,0.6)',
-                  data: $scope.dataAccess
+                  data: stats.data.events
               }]
           };
 
@@ -128,6 +115,7 @@ adminStatsModule.controller('adminStatsController',
                 }]
             }
           }
+          $scope.dataLoaded[1] = true;
         }
       });
     }
@@ -146,16 +134,13 @@ adminStatsModule.controller('adminStatsController',
           // usuarios obtenidos con exito
           var ranking = result.data.message;
 
-          $scope.labelsRanking = ranking.labels;
-          $scope.dataRanking = ranking.data;
-
           // obtains access users stats
           $scope.stats[2] =
           {
-              labels: $scope.labelsRanking,
+              labels: ranking.labels,
               datasets: [{
                   label: 'nº tweets',
-                  data: $scope.dataRanking,
+                  data: ranking.data,
                   borderColor:'rgba(94,169,221,0.9)',
                   backgroundColor:[
                     'rgba(94,169,221,0.6)',
@@ -171,7 +156,7 @@ adminStatsModule.controller('adminStatsController',
           $scope.opt[2] = {
             scales: {
                 yAxes: [{
-                    display: true,
+                    display: false,
                     ticks: {
                         beginAtZero:true
                     }
@@ -181,6 +166,58 @@ adminStatsModule.controller('adminStatsController',
                 }]
             }
           }
+          $scope.dataLoaded[2] = true;
+        }
+      });
+    }
+
+    // chart #3 (top 5 users with more tweets)
+    $scope.getRankingAccounts = function() {
+      stats.getRankingAccounts($scope.topUsers).then(function(result) {
+        if (result.data.error) {
+
+          // login error, resets only the password field
+          $scope.messageError = "Error: no se ha podido recuperar a los usuarios."
+          $scope.notError = false;
+        }
+        else {
+
+          // usuarios obtenidos con exito
+          var ranking = result.data.message;
+
+          // obtains access users stats
+          $scope.stats[3] =
+          {
+              labels: ranking.labels,
+              datasets: [{
+                  label: 'nº tweets',
+                  data: ranking.data,
+                  borderColor:'rgba(94,169,221,0.9)',
+                  backgroundColor:[
+                    'rgba(94,169,221,0.6)',
+                    'rgba(153,51,255,0.6)',
+                    'rgba(255,26,26,0.6)',
+                    'rgba(51,204,51,0.6)',
+                    'rgba(255,102,0,0.6)',
+                  ]
+              }]
+          };
+
+          // sets the options
+          $scope.opt[3] = {
+            scales: {
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }],
+                xAxes: [{
+                  display: false
+                }]
+            }
+          }
+          $scope.dataLoaded[3] = true;
         }
       });
     }
@@ -202,9 +239,6 @@ adminStatsModule.controller('adminStatsController',
 
     $scope.showChart = function(index) {
       if ($scope.stats) {
-
-        console.log("CHARTS");
-
         var ctx = document.getElementById('chart-' + index);
         var myChart = new Chart(ctx, {
           type: $scope.chartType[index],
@@ -224,5 +258,6 @@ adminStatsModule.controller('adminStatsController',
     $scope.getRegisterInfo();
     $scope.getAccessInfo();
     $scope.getRankingInfo();
+    $scope.getRankingAccounts();
     $scope.getActiveUsers();
 });

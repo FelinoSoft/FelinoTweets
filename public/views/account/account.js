@@ -26,7 +26,8 @@ accountModule.controller('accountController',
 
       // Auxiliary functions
       function getHomePanel(accountID, accountName){
-        account.getTweetsPanel('home', accountID, accountName, $scope.GLOBAL_LOAD_TWEETS, -1, -1).then(function(result){
+        account.getTweetsPanel('home', accountID, accountName, $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
+          console.log(result);
           var tweets = result.data.message;
           var panelTweets = [];
           var max_id = -1;
@@ -43,7 +44,8 @@ accountModule.controller('accountController',
               var processedTweet = $scope.processTweet(tweets[j]);
               panelTweets.push(processedTweet);
             } // End for each tweet
-            var hasMoreToLoad = panelTweets.length == $scope.GLOBAL_LOAD_TWEETS;
+            console.log(panelTweets.length);
+            var hasMoreToLoad = panelTweets.length >= $scope.GLOBAL_LOAD_TWEETS;
             panel = {
               'tweets':panelTweets,
               'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
@@ -110,11 +112,8 @@ accountModule.controller('accountController',
           var max_id = -1;
           var since_id = -1;
           var panel;
-          console.log(result);
-          console.log(tweets);
           if(tweets.length !== 0){
             for(j = 0; j < tweets.length; j++){
-              console.log(j);
               if(j === 0){
                 since_id = tweets[j].id;
               }
@@ -146,7 +145,19 @@ accountModule.controller('accountController',
       }
 
       function getHashtagsPanels(accountID, accountName){
-        // TODO
+
+        // Auxiliary function
+        
+
+        $scope.userInfo.hashtagsPanel = [];
+        account.getHashtags(accountID).then(function(result){
+          console.log(result);
+          var arrayHashtags = result.data.message;
+          if(!result.data.error){
+
+          }
+        });
+        /*
         account.getTweetsPanel('mentions', accountID, accountName, $scope.GLOBAL_LOAD_TWEETS, -1, -1).then(function(result){
           var tweets = result.data.message;
           var panelTweets = [];
@@ -181,7 +192,7 @@ accountModule.controller('accountController',
             };
             $scope.mentionsPanel = panel;
           }
-        });
+        });*/
       }
 
       $scope.userInfo.mongoID = $stateParams.account_id;
@@ -196,7 +207,7 @@ accountModule.controller('accountController',
           getHomePanel($scope.userInfo.accountID, $scope.userInfo.accountName);
           getTLPanel($scope.userInfo.accountID, $scope.userInfo.accountName);
           getMentionsPanel($scope.userInfo.accountID, $scope.userInfo.accountName);
-          //getHashtagsPanel($scope.userInfo.accountID, $scope.userInfo.accountName);
+          getHashtagsPanels($scope.userInfo.accountID, $scope.userInfo.accountName);
 
         }
       });
@@ -467,7 +478,7 @@ accountModule.controller('accountController',
       var tweetID;
       var tweetLink;
       var date;
-      if(tweet.retweeted){
+      if(tweet.retweeted_status !== undefined){
         author = tweet.retweeted_status.user.screen_name;
         name = tweet.retweeted_status.user.name;
         text = tweet.retweeted_status.text;
@@ -536,6 +547,24 @@ accountModule.controller('accountController',
       };
 
       return finalTweet;
+    };
+
+    $scope.createFav = function(tweet_id, account_id,tweet){
+      twitter.createFav(account_id,tweet_id).then(function(result){
+        if(!result.err){
+          tweet.liked = true;
+          tweet.nLikes = tweet.nLikes + 1;
+        }
+      });
+    };
+
+    $scope.deleteFav = function(tweet_id, account_id,tweet){
+      twitter.deleteFav(account_id,tweet_id).then(function(result){
+        if(!result.err){
+          tweet.liked = false;
+          tweet.nLikes = tweet.nLikes - 1;
+        }
+      });
     };
 
     $scope.setCheckingTimeout = function(){

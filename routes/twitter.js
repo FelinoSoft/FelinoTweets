@@ -61,6 +61,7 @@ module.exports = function(app,passport){
                 twitter.getHome(data.token, data.token_secret, req.query.count,
                     req.query.since_id, req.query.max_id, function(err, data){
                         if(err){
+                            console.log(error);
                             response = {'error' : true, 'message' : 'Error obteniendo el TL'};
                         } else{
                           var parsed = JSON.parse(data);
