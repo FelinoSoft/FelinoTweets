@@ -22,6 +22,7 @@ accountModule.controller('accountController',
     $scope.tweet = {};
     $scope.timer = undefined;
     $scope.caracteres = 140;
+    $scope.loadingHashtag = false;
 
     $scope.GLOBAL_LOAD_TWEETS = 20;
     $scope.GLOBAL_CHECK_NEW_TWEETS_SECONDS_TIMEOUT = 120;
@@ -174,7 +175,7 @@ accountModule.controller('accountController',
 
     $scope.getHashtagsPanels = function(accountID, accountName){
       // Auxiliary function
-      function getHashtagPanel(hashtag, accountID, accountName){
+      function getHashtagPanel(hashtag, hashtagMongoID, accountID, accountName){
         account.getHashtagTweets(hashtag, accountID, accountName,
                 $scope.GLOBAL_LOAD_TWEETS + 1, -1, -1).then(function(result){
           var tweets = result.data.message.statuses;
@@ -195,16 +196,16 @@ accountModule.controller('accountController',
                 panelTweets.push(processedTweet);
               } // End for each tweet
               panel = {
-                'tweets':panelTweets, 'hashtag':hashtag,
+                'tweets':panelTweets, 'hashtag':hashtag, 'isDeleting':false,
                 'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-                'loading':false,'hasMore':true,
+                'loading':false,'hasMore':true, 'hashtagMongoID':hashtagMongoID,
                 'hasNewTweets':false, 'newTweetsList':[]
               };
             } else {
               panel = {
-                'tweets':panelTweets, 'hashtag':hashtag,
+                'tweets':panelTweets, 'hashtag':hashtag, 'isDeleting':false,
                 'mongoID':accountID, 'since_id':since_id,'max_id':max_id,
-                'loading':false,'hasMore':false,
+                'loading':false,'hasMore':false, 'hashtagMongoID':hashtagMongoID,
                 'hasNewTweets':false, 'newTweetsList':[]
               };
             }
@@ -225,7 +226,7 @@ accountModule.controller('accountController',
         $scope.hashtagsLength = arrayHashtags.length;
         if(!result.data.error){
           for(var i = 0; i < arrayHashtags.length; i++){
-            getHashtagPanel(arrayHashtags[i].hashtag, accountID, accountName);
+            getHashtagPanel(arrayHashtags[i].hashtag, arrayHashtags[i]._id, accountID, accountName);
           }
         }
       });
@@ -271,6 +272,7 @@ accountModule.controller('accountController',
     };
 
     $scope.saveHashtag = function(hashtag){
+        $scope.loadingHashtag = true;
         twitter.saveHashtag($stateParams.account_id, hashtag).then(function(result){
           if(!result.data.err){
             $scope.getHashtagsPanels($scope.userInfo.accountID, $scope.userInfo.accountName);
@@ -278,9 +280,31 @@ accountModule.controller('accountController',
             // Nothing
           }
           $scope.addingHashtag = false;
+          $scope.loadingHashtag = false;
           $scope.newHashtag = "";
         });
+    };
 
+    $scope.deleteHashtag = function(id, hashtag){
+        var index;
+        for(var i = 0; i < $scope.userInfo.hashtagsPanel.length; i++){
+            if($scope.userInfo.hashtagsPanel[i].hashtag == hashtag){
+                index = i;
+            }
+        }
+
+        $scope.userInfo.hashtagsPanel[index].isDeleting = true;
+        twitter.deleteHashtag($stateParams.account_id, id).then(function(result){
+            var index;
+            for(var i = 0; i < $scope.userInfo.hashtagsPanel.length; i++){
+                if($scope.userInfo.hashtagsPanel[i].hashtag == hashtag){
+                    index = i;
+                }
+            }
+            if(!result.data.error){
+                $scope.getHashtagsPanels($scope.userInfo.accountID, $scope.userInfo.accountName);
+            }
+        });
     };
 
     $scope.isTweeting = function(){
@@ -585,7 +609,16 @@ accountModule.controller('accountController',
       var tweetID;
       var tweetLink;
       var date;
+      var isRetweeted = false;
+      var authorRetweetName;
+      var authorRetweetLink;
+      var isAnswer = false;
+      var answerAuthorName;
+      var answerTweetLink;
       if(tweet.retweeted_status !== undefined){
+        isRetweeted = true;
+        authorRetweetName = tweet.user.name;
+        authorRetweetLink = "http://twitter.com/" + tweet.user.screen_name;
         author = tweet.retweeted_status.user.screen_name;
         name = tweet.retweeted_status.user.name;
         text = tweet.retweeted_status.text;
@@ -599,6 +632,12 @@ accountModule.controller('accountController',
         date = new Date(tweet.retweeted_status.created_at);
         date = $filter('date')(date, 'dd MMM yyyy');
       } else{
+        if(tweet.in_reply_to_status_id !== undefined && tweet.in_reply_to_status_id !== null){
+          isAnswer = true;
+          answerAuthorName = '@' + tweet.in_reply_to_screen_name;
+          answerTweetLink = "http://twitter.com/" + tweet.in_reply_to_screen_name +
+              "/status/" + tweet.in_reply_to_status_id_str;
+        }
         author = tweet.user.screen_name;
         name = tweet.user.name;
         text = tweet.text;
@@ -617,7 +656,9 @@ accountModule.controller('accountController',
       var finalTweet = {
         'author':author, 'name':name, 'text':text, 'imgLink':imgLinkT,
         'nRetweets':nRetweets, 'nLikes':nLikes, 'rted':rted, 'liked':liked,
-        'date':date, 'tweetLink':tweetLink, 'tweetID' : tweetID
+        'date':date, 'tweetLink':tweetLink, 'tweetID' : tweetID, 'isRetweeted' : isRetweeted,
+          'authorRetweetName' : authorRetweetName, 'authorRetweetLink' : authorRetweetLink,
+          'isAnswer' : isAnswer, 'answerAuthorName' : answerAuthorName, 'answerTweetLink' : answerTweetLink
       };
 
       return finalTweet;
