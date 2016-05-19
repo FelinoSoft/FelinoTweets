@@ -110,23 +110,25 @@ module.exports = function(app){
     /* DELETE /twitter_account/:id */
     deleteAccount = function(req,res){
         var response = {};
-        
+
         checkUser(req, res, function(err, result){
 
             if(err){
                 response = {"error" : true, "message" : "Error fetching data"};
                 res.json(response);
             } else{
-                
+
                 var userId = result.user_id;
                 var targetAccount = req.params.id;
-                
+
                 account.findById(targetAccount, function(err,data){
                     if(err){
                         response = {"error" : true, "message" : "Error fetching data"};
                     } else{
                         if( (result.admin) || (data.account_id == userId)) {
 
+                            // Elimina los tweets programados y hashtags del
+                            // usuario a eliminar
                             deleteAllTweets(req, res);
                             deleteAllHashtags(req, res);
 
@@ -172,7 +174,7 @@ module.exports = function(app){
             res.json(response);
         });
     };
-    
+
     addTweet = function(req,res){
         var newTweet = new tweet();
         var response = {};
@@ -194,7 +196,7 @@ module.exports = function(app){
             });
         });
     };
-    
+
     updateTweet = function(req, res){
         var response = {};
         tweet.find({'account_id' : req.params.id, '_id' : req.params.tweet_id}, function(err, data){
@@ -350,10 +352,6 @@ module.exports = function(app){
             });
         }
     };
-    
-    
-
-
 
     app.get('/twitter_accounts', findAllAccounts);
     app.get('/twitter_accounts/:id', findById);

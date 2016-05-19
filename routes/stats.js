@@ -23,14 +23,14 @@ module.exports = function(app){
   findRankingUsers = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
-    //
-    //   if (err) {
-    //     response = {"error" : true, "message" : "Error fetching data"};
-    //     res.json(response);
-    //   } else {
-    //
-    //     if (data.admin) {
+    checkUser(req, res, function(err, data) {
+
+      if (err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else {
+
+        if (data.admin) {
           var limit = req.params.limit;
           user.find({}, null, {sort: {n_tweets: -1}, limit: limit}, function(err,resData){
             if(err) {
@@ -43,7 +43,7 @@ module.exports = function(app){
                 var email = resData[i].email;
                 var n_tweets = resData[i].n_tweets;
 
-                if (n_tweets == null) {
+                if (n_tweets === null) {
                   n_tweets = 0;
                 }
 
@@ -55,27 +55,27 @@ module.exports = function(app){
             }
             res.json(response);
           });
-    //     }
-    //     else {
-    //       response = {"error" : true, "message" : "Admin permissions required."};
-    //       res.json(response);
-    //     }
-    //   }
-    // });
+        }
+        else {
+          response = {"error" : true, "message" : "Admin permissions required."};
+          res.json(response);
+        }
+      }
+    });
   };
 
   /* GET /stats/ranking/accounts */
   findRankingAccounts = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
-    //
-    //   if (err) {
-    //     response = {"error" : true, "message" : "Error fetching data"};
-    //     res.json(response);
-    //   } else {
-    //
-    //     if (data.admin) {
+    checkUser(req, res, function(err, data) {
+
+      if (err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else {
+
+        if (data.admin) {
           var limit = req.params.limit;
           user.find(function(err,resData){
             if(err) {
@@ -140,27 +140,27 @@ module.exports = function(app){
               });
             }
           });
-    //     }
-    //     else {
-    //       response = {"error" : true, "message" : "Admin permissions required."};
-    //       res.json(response);
-    //     }
-    //   }
-    // });
+        }
+        else {
+          response = {"error" : true, "message" : "Admin permissions required."};
+          res.json(response);
+        }
+      }
+    });
   };
 
   /* GET /stats/registrations/:days */
   findRegistrations = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
+    checkUser(req, res, function(err, data) {
 
-      // if (err) {
-      //   response = {"error" : true, "message" : "Error fetching data"};
-      //   res.json(response);
-      // } else {
+      if (err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else {
 
-        // if (data.admin) {
+        if (data.admin) {
 
           // creates the date to search for
           var days = req.params.days;
@@ -215,27 +215,27 @@ module.exports = function(app){
             }
             res.json(response);
           });
-        // }
-        // else {
-        //   response = {"error" : true, "message" : "Admin permissions required."};
-        //   res.json(response);
-        // }
-      // }
-    // });
+        }
+        else {
+          response = {"error" : true, "message" : "Admin permissions required."};
+          res.json(response);
+        }
+      }
+    });
   };
 
   /* GET /stats/registrations/:type/:days */
   findRegistrationsFiltered = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
+    checkUser(req, res, function(err, data) {
 
-      // if (err) {
-      //   response = {"error" : true, "message" : "Error fetching data"};
-      //   res.json(response);
-      // } else {
+      if (err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else {
 
-        // if (data.admin) {
+        if (data.admin) {
 
           // creates the date to search for
           var typeR = req.params.type;
@@ -276,13 +276,13 @@ module.exports = function(app){
             }
             res.json(response);
           });
-        // }
-        // else {
-        //   response = {"error" : true, "message" : "Admin permissions required."};
-        //   res.json(response);
-        // }
-      // }
-    // });
+        }
+        else {
+          response = {"error" : true, "message" : "Admin permissions required."};
+          res.json(response);
+        }
+      }
+    });
   };
 
   /* POST /stats/registrations */
@@ -290,48 +290,32 @@ module.exports = function(app){
     var response = {};
     var newReg = new registrations();
 
-    // checkUser(req, res, function(err, data) {
+    // creates the date to search for
+    newReg.type = req.body.type;
+    newReg.date = new Date();
 
-      // if (err) {
-      //   response = {"error" : true, "message" : "Error fetching data"};
-      //   res.json(response);
-      // } else {
-
-        // if (data.admin) {
-
-          // creates the date to search for
-          newReg.type = req.body.type;
-          newReg.date = new Date();
-
-          newReg.save(function(err,data){
-            if(err) {
-              response = {"error" : true, "message" : "Error saving registration"};
-            } else{
-              response = {"error" : false, "message" : "Registration added."};
-            }
-            res.json(response);
-          });
-        // }
-        // else {
-        //   response = {"error" : true, "message" : "Admin permissions required."};
-        //   res.json(response);
-        // }
-      // }
-    // });
+    newReg.save(function(err,data){
+      if(err) {
+        response = {"error" : true, "message" : "Error saving registration"};
+      } else{
+        response = {"error" : false, "message" : "Registration added."};
+      }
+      res.json(response);
+    });
   };
 
   /* GET /stats/activeUsers/:days */
   findActiveUsers = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
+    checkUser(req, res, function(err, data) {
 
-      // if (err) {
-      //   response = {"error" : true, "message" : "Error fetching data"};
-      //   res.json(response);
-      // } else {
+      if (err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else {
 
-        // if (data.admin) {
+        if (data.admin) {
 
           // creates the date to search for
           var days = req.params.days;
@@ -348,677 +332,582 @@ module.exports = function(app){
             }
             res.json(response);
           });
-        // }
-        // else {
-        //   response = {"error" : true, "message" : "Admin permissions required."};
-        //   res.json(response);
-        // }
-      // }
-    // });
+        }
+        else {
+          response = {"error" : true, "message" : "Admin permissions required."};
+          res.json(response);
+        }
+      }
+    });
   };
 
   /* GET /stats/mentions/:id */
   findMentionsByHour = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
-    //
-    //   if (err) {
-    //     response = {"error" : true, "message" : "Error fetching data"};
-    //     res.json(response);
-    //   } else {
-    //
-    //     if (data.admin) {
+      // generate labels for chart
+      var labels = [];
+      var data = [];
+      for (var h = 0; h < 24;h++) {
+        if (h < 10) {
+          h = '0' + h;
+        }
+        var date = moment('2016-05-18 ' + h + ':00').format('HH');
+        labels.push(date);
+      }
+      var result = {labels, data};
+      var user_id = req.params.id;
 
-          // generate labels for chart
-          var labels = [];
-          var data = [];
-          for (var h = 0; h < 24;h++) {
-            if (h < 10) {
-              h = '0' + h;
+      // Busca cuentas de twitter del usuario user_id
+      request({
+        uri: API + '/users/' + user_id + '/twitter_accounts',
+        method: "GET",
+      }, function(err, response, body) {
+        if(err) {
+          response = {"error" : true, "message" : "Error fetching data"};
+          res.json(response);
+        } else{
+          var accounts = JSON.parse(body).message;
+
+          // Para cada cuenta, busca las ultimas 200 menciones
+          var accountsSaved = 0;
+          accounts.forEach(function(account, i) {
+
+            // inicializa los menciones horarias de una cuenta
+            var accountData = [];
+            for (var l in labels) {
+              accountData.push(0);
             }
-            var date = moment('2016-05-18 ' + h + ':00').format('HH');
-            labels.push(date);
-          }
-          var result = {labels, data};
-          var user_id = req.params.id;
+            result.data.push({
+              'name': account.profile_name,
+              'values': accountData
+            });
+            var idTwitter = account._id;
 
-          // Busca cuentas de twitter del usuario user_id
+            request({
+              uri: API + '/twitter/mentions?id=' + idTwitter +
+                         '&user_id=' + user_id +
+                         '&count=' + 200 +
+                         '&since_id=' + -1 +
+                         '&max_id=' + -1,
+              method: "GET",
+            }, function(err, response, body) {
+              if(err) {
+                response = {"error" : true, "message" : "Error fetching data"};
+                res.json(response);
+              } else{
+                var mentions = JSON.parse(body).message;
+
+                // Para cada mencion (tweet) suma 1 a la hora de creacion
+                for (j in mentions) {
+                  var dateCreation = mentions[j].created_at;
+                  dateCreation = moment(new Date(dateCreation)).format('HH');
+
+                  // Para cada hora del dia, comprueba si el tweet se
+                  // ha generado a esa hora
+                  for (k in labels) {
+                    if (dateCreation == labels[k]) {
+                      data[i]['values'][k] =
+                        data[i]['values'][k] + 1;
+                    }
+                  }
+                }
+              }
+
+              if (accountsSaved + 1  == accounts.length) {
+                response = {"error" : false, "message" : result};
+                res.json(response);
+              } else {
+                accountsSaved = accountsSaved + 1;
+              }
+            });
+          });
+        }
+      });
+    };
+
+  /* GET /stats/hashtags/:id */
+  findHashtagsByHour = function(req,res){
+    var response = {};
+
+    // generate labels for chart
+    var labels = [];
+    var data = [];
+    for (var h = 0; h < 24;h++) {
+      if (h < 10) {
+        h = '0' + h;
+      }
+      var date = moment('2016-05-18 ' + h + ':00').format('HH');
+      labels.push(date);
+    }
+    var result = {labels, data};
+    var user_id = req.params.id;
+
+    // Busca cuentas de twitter del usuario user_id
+    request({
+      uri: API + '/users/' + user_id + '/twitter_accounts',
+      method: "GET",
+    }, function(err, response, body) {
+      if(err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else{
+        var accounts = JSON.parse(body).message;
+
+        // Para cada cuenta, busca las ultimas 200 menciones
+        var accountsSaved = 0;
+        accounts.forEach(function(account, i) {
+
+          // inicializa los menciones horarias de una cuenta
+          var accountData = [];
+          for (var l in labels) {
+            accountData.push(0);
+          }
+          result.data.push({
+            'name': account.profile_name,
+            'values': accountData
+          });
+          var idTwitter = account._id;
+
           request({
-            uri: API + '/users/' + user_id + '/twitter_accounts',
+            uri: API + '/twitter/tweetline?id=' + idTwitter +
+                       '&user_id=' + user_id +
+                       '&account=' +  account.profile_name +
+                       '&count=' + 200 +
+                       '&since_id=' + -1 +
+                       '&max_id=' + -1,
             method: "GET",
           }, function(err, response, body) {
             if(err) {
               response = {"error" : true, "message" : "Error fetching data"};
               res.json(response);
             } else{
-              var accounts = JSON.parse(body).message;
+              var tweets = JSON.parse(body).message;
 
-              // Para cada cuenta, busca las ultimas 200 menciones
-              var accountsSaved = 0;
-              accounts.forEach(function(account, i) {
+              var numTweets = [];
+              for (k in labels) {
+                numTweets.push(0);
+              }
 
-                // inicializa los menciones horarias de una cuenta
-                var accountData = [];
-                for (var l in labels) {
-                  accountData.push(0);
-                }
-                result.data.push({
-                  'name': account.profile_name,
-                  'values': accountData
-                });
-                var idTwitter = account._id;
+              // Para cada tweet suma 1 a la hora de creacion si tiene
+              // hashtag
+              for (j in tweets) {
+                var dateCreation = tweets[j].created_at;
+                dateCreation = moment(new Date(dateCreation)).format('HH');
 
-                request({
-                  uri: API + '/twitter/mentions?id=' + idTwitter +
-                             '&user_id=' + user_id +
-                             '&count=' + 200 +
-                             '&since_id=' + -1 +
-                             '&max_id=' + -1,
-                  method: "GET",
-                }, function(err, response, body) {
-                  if(err) {
-                    response = {"error" : true, "message" : "Error fetching data"};
-                    res.json(response);
-                  } else{
-                    var mentions = JSON.parse(body).message;
+                // obtains hashtags if available
+                var hashtags = tweets[j].entities.hashtags;
 
-                    // Para cada mencion (tweet) suma 1 a la hora de creacion
-                    for (j in mentions) {
-                      var dateCreation = mentions[j].created_at;
-                      dateCreation = moment(new Date(dateCreation)).format('HH');
+                // Para cada hora del dia, comprueba si el tweet se
+                // ha generado a esa hora, solo si tiene hashtags
 
-                      // Para cada hora del dia, comprueba si el tweet se
-                      // ha generado a esa hora
-                      for (k in labels) {
-                        if (dateCreation == labels[k]) {
-                          data[i]['values'][k] =
-                            data[i]['values'][k] + 1;
-                        }
-                      }
+                for (k in labels) {
+                  if (dateCreation == labels[k]) {
+                    if (hashtags.length > 0) {
+                      data[i]['values'][k] =
+                        data[i]['values'][k] + 1;
                     }
+                    numTweets[k] = numTweets[k] + 1;
                   }
+                }
+              }
 
-                  if (accountsSaved + 1  == accounts.length) {
-                    response = {"error" : false, "message" : result};
-                    res.json(response);
-                  } else {
-                    accountsSaved = accountsSaved + 1;
-                  }
-                });
-              })
+              // Calcula el porcentaje de tweets con hashtag
+              for (k in labels) {
+                if (numTweets[k] !== 0) {
+                  data[i][k] = (data[i][k] / numTweets[k]) * 100;
+                }
+              }
+            }
+
+            if (accountsSaved + 1  == accounts.length) {
+              response = {"error" : false, "message" : result};
+              res.json(response);
+            } else {
+              accountsSaved = accountsSaved + 1;
             }
           });
-          //     }
-          //     else {
-          //       response = {"error" : true, "message" : "Admin permissions required."};
-          //       res.json(response);
-          //     }
-          //   }
-          // });
-    }
-
-  /* GET /stats/hashtags/:id */
-  findHashtagsByHour = function(req,res){
-    var response = {};
-
-    // checkUser(req, res, function(err, data) {
-    //
-    //   if (err) {
-    //     response = {"error" : true, "message" : "Error fetching data"};
-    //     res.json(response);
-    //   } else {
-    //
-    //     if (data.admin) {
-
-            // generate labels for chart
-            var labels = [];
-            var data = [];
-            for (var h = 0; h < 24;h++) {
-              if (h < 10) {
-                h = '0' + h;
-              }
-              var date = moment('2016-05-18 ' + h + ':00').format('HH');
-              labels.push(date);
-            }
-            var result = {labels, data};
-            var user_id = req.params.id;
-
-            // Busca cuentas de twitter del usuario user_id
-            request({
-              uri: API + '/users/' + user_id + '/twitter_accounts',
-              method: "GET",
-            }, function(err, response, body) {
-              if(err) {
-                response = {"error" : true, "message" : "Error fetching data"};
-                res.json(response);
-              } else{
-                var accounts = JSON.parse(body).message;
-
-                // Para cada cuenta, busca las ultimas 200 menciones
-                var accountsSaved = 0;
-                accounts.forEach(function(account, i) {
-
-                  // inicializa los menciones horarias de una cuenta
-                  var accountData = [];
-                  for (var l in labels) {
-                    accountData.push(0);
-                  }
-                  result.data.push({
-                    'name': account.profile_name,
-                    'values': accountData
-                  });
-                  var idTwitter = account._id;
-
-                  request({
-                    uri: API + '/twitter/tweetline?id=' + idTwitter +
-                               '&user_id=' + user_id +
-                               '&account=' +  account.profile_name +
-                               '&count=' + 200 +
-                               '&since_id=' + -1 +
-                               '&max_id=' + -1,
-                    method: "GET",
-                  }, function(err, response, body) {
-                    if(err) {
-                      response = {"error" : true, "message" : "Error fetching data"};
-                      res.json(response);
-                    } else{
-                      var tweets = JSON.parse(body).message;
-
-                      var numTweets = [];
-                      for (k in labels) {
-                        numTweets.push(0);
-                      }
-
-                      // Para cada tweet suma 1 a la hora de creacion si tiene
-                      // hashtag
-                      for (j in tweets) {
-                        var dateCreation = tweets[j].created_at;
-                        dateCreation = moment(new Date(dateCreation)).format('HH');
-
-                        // obtains hashtags if available
-                        var hashtags = tweets[j].entities.hashtags;
-
-                        // Para cada hora del dia, comprueba si el tweet se
-                        // ha generado a esa hora, solo si tiene hashtags
-
-                        for (k in labels) {
-                          if (dateCreation == labels[k]) {
-                            if (hashtags.length > 0) {
-                              data[i]['values'][k] =
-                                data[i]['values'][k] + 1;
-                            }
-                            numTweets[k] = numTweets[k] + 1;
-                          }
-                        }
-                      }
-
-                      // Calcula el porcentaje de tweets con hashtag
-                      for (k in labels) {
-                        if (numTweets[k] !== 0) {
-                          data[i][k] = (data[i][k] / numTweets[k]) * 100;
-                        }
-                      }
-                    }
-
-                    if (accountsSaved + 1  == accounts.length) {
-                      response = {"error" : false, "message" : result};
-                      res.json(response);
-                    } else {
-                      accountsSaved = accountsSaved + 1;
-                    }
-                  });
-                })
-              }
-            });
-            //     }
-            //     else {
-            //       response = {"error" : true, "message" : "Admin permissions required."};
-            //       res.json(response);
-            //     }
-            //   }
-    // });
-  }
+        });
+      }
+    });
+  };
 
   /* GET /stats/multimedia/:id */
   findMultimediaByHour = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
-    //
-    //   if (err) {
-    //     response = {"error" : true, "message" : "Error fetching data"};
-    //     res.json(response);
-    //   } else {
-    //
-    //     if (data.admin) {
+    // generate labels for chart
+    var labels = [];
+    var data = [];
+    for (var h = 0; h < 24;h++) {
+      if (h < 10) {
+        h = '0' + h;
+      }
+      var date = moment('2016-05-18 ' + h + ':00').format('HH');
+      labels.push(date);
+    }
+    var result = {labels, data};
+    var user_id = req.params.id;
 
-            // generate labels for chart
-            var labels = [];
-            var data = [];
-            for (var h = 0; h < 24;h++) {
-              if (h < 10) {
-                h = '0' + h;
+    // Busca cuentas de twitter del usuario user_id
+    request({
+      uri: API + '/users/' + user_id + '/twitter_accounts',
+      method: "GET",
+    }, function(err, response, body) {
+      if(err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else{
+        var accounts = JSON.parse(body).message;
+
+        // Para cada cuenta, busca las ultimas 200 menciones
+        var accountsSaved = 0;
+        accounts.forEach(function(account, i) {
+
+          // inicializa los menciones horarias de una cuenta
+          var accountData = [];
+          for (var l in labels) {
+            accountData.push(0);
+          }
+          result.data.push({
+            'name': account.profile_name,
+            'values': accountData
+          });
+          var idTwitter = account._id;
+
+          request({
+            uri: API + '/twitter/tweetline?id=' + idTwitter +
+                       '&user_id=' + user_id +
+                       '&account=' +  account.profile_name +
+                       '&count=' + 200 +
+                       '&since_id=' + -1 +
+                       '&max_id=' + -1,
+            method: "GET",
+          }, function(err, response, body) {
+            if(err) {
+              response = {"error" : true, "message" : "Error fetching data"};
+              res.json(response);
+            } else{
+              var tweets = JSON.parse(body).message;
+
+              var numTweets = [];
+              for (k in labels) {
+                numTweets.push(0);
               }
-              var date = moment('2016-05-18 ' + h + ':00').format('HH');
-              labels.push(date);
-            }
-            var result = {labels, data};
-            var user_id = req.params.id;
 
-            // Busca cuentas de twitter del usuario user_id
-            request({
-              uri: API + '/users/' + user_id + '/twitter_accounts',
-              method: "GET",
-            }, function(err, response, body) {
-              if(err) {
-                response = {"error" : true, "message" : "Error fetching data"};
-                res.json(response);
-              } else{
-                var accounts = JSON.parse(body).message;
+              // Para cada tweet suma 1 a la hora de creacion si tiene
+              // hashtag
+              for (j in tweets) {
+                var dateCreation = tweets[j].created_at;
+                dateCreation = moment(new Date(dateCreation)).format('HH');
 
-                // Para cada cuenta, busca las ultimas 200 menciones
-                var accountsSaved = 0;
-                accounts.forEach(function(account, i) {
+                // obtains hashtags if available
+                var media = tweets[j].entities.media;
 
-                  // inicializa los menciones horarias de una cuenta
-                  var accountData = [];
-                  for (var l in labels) {
-                    accountData.push(0);
+                // Para cada hora del dia, comprueba si el tweet se
+                // ha generado a esa hora, solo si tiene hashtags
+
+                for (k in labels) {
+                  if (dateCreation == labels[k]) {
+                    if (media !== undefined) {
+                      data[i]['values'][k] =
+                        data[i]['values'][k] + 1;
+                    }
+                    numTweets[k] = numTweets[k] + 1;
                   }
-                  result.data.push({
-                    'name': account.profile_name,
-                    'values': accountData
-                  });
-                  var idTwitter = account._id;
-
-                  request({
-                    uri: API + '/twitter/tweetline?id=' + idTwitter +
-                               '&user_id=' + user_id +
-                               '&account=' +  account.profile_name +
-                               '&count=' + 200 +
-                               '&since_id=' + -1 +
-                               '&max_id=' + -1,
-                    method: "GET",
-                  }, function(err, response, body) {
-                    if(err) {
-                      response = {"error" : true, "message" : "Error fetching data"};
-                      res.json(response);
-                    } else{
-                      var tweets = JSON.parse(body).message;
-
-                      var numTweets = [];
-                      for (k in labels) {
-                        numTweets.push(0);
-                      }
-
-                      // Para cada tweet suma 1 a la hora de creacion si tiene
-                      // hashtag
-                      for (j in tweets) {
-                        var dateCreation = tweets[j].created_at;
-                        dateCreation = moment(new Date(dateCreation)).format('HH');
-
-                        // obtains hashtags if available
-                        var media = tweets[j].entities.media;
-
-                        // Para cada hora del dia, comprueba si el tweet se
-                        // ha generado a esa hora, solo si tiene hashtags
-
-                        for (k in labels) {
-                          if (dateCreation == labels[k]) {
-                            if (media !== undefined) {
-                              data[i]['values'][k] =
-                                data[i]['values'][k] + 1;
-                            }
-                            numTweets[k] = numTweets[k] + 1;
-                          }
-                        }
-                      }
-
-                      // Calcula el porcentaje de tweets con hashtag
-                      for (k in labels) {
-                        if (numTweets[k] !== 0) {
-                          data[i][k] = (data[i][k] / numTweets[k]) * 100;
-                        }
-                      }
-                    }
-
-                    if (accountsSaved + 1  == accounts.length) {
-                      response = {"error" : false, "message" : result};
-                      res.json(response);
-                    } else {
-                      accountsSaved = accountsSaved + 1;
-                    }
-                  });
-                })
+                }
               }
-            });
-            //     }
-            //     else {
-            //       response = {"error" : true, "message" : "Admin permissions required."};
-            //       res.json(response);
-            //     }
-            //   }
-    // });
-  }
+
+              // Calcula el porcentaje de tweets con hashtag
+              for (k in labels) {
+                if (numTweets[k] !== 0) {
+                  data[i][k] = (data[i][k] / numTweets[k]) * 100;
+                }
+              }
+            }
+
+            if (accountsSaved + 1  == accounts.length) {
+              response = {"error" : false, "message" : result};
+              res.json(response);
+            } else {
+              accountsSaved = accountsSaved + 1;
+            }
+          });
+        });
+      }
+    });
+  };
 
   /* GET /stats/retweets/:id */
   findRetweetsByHour = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
-    //
-    //   if (err) {
-    //     response = {"error" : true, "message" : "Error fetching data"};
-    //     res.json(response);
-    //   } else {
-    //
-    //     if (data.admin) {
+    // generate labels for chart
+    var labels = [];
+    var data = [];
+    for (var h = 0; h < 24;h++) {
+      if (h < 10) {
+        h = '0' + h;
+      }
+      var date = moment('2016-05-18 ' + h + ':00').format('HH');
+      labels.push(date);
+    }
+    var result = {labels, data};
+    var user_id = req.params.id;
 
-            // generate labels for chart
-            var labels = [];
-            var data = [];
-            for (var h = 0; h < 24;h++) {
-              if (h < 10) {
-                h = '0' + h;
-              }
-              var date = moment('2016-05-18 ' + h + ':00').format('HH');
-              labels.push(date);
-            }
-            var result = {labels, data};
-            var user_id = req.params.id;
+    // Busca cuentas de twitter del usuario user_id
+    request({
+      uri: API + '/users/' + user_id + '/twitter_accounts',
+      method: "GET",
+    }, function(err, response, body) {
+      if(err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else{
+        var accounts = JSON.parse(body).message;
 
-            // Busca cuentas de twitter del usuario user_id
-            request({
-              uri: API + '/users/' + user_id + '/twitter_accounts',
-              method: "GET",
-            }, function(err, response, body) {
-              if(err) {
-                response = {"error" : true, "message" : "Error fetching data"};
-                res.json(response);
-              } else{
-                var accounts = JSON.parse(body).message;
+        // Para cada cuenta, busca las ultimas 200 menciones
+        var accountsSaved = 0;
+        accounts.forEach(function(account, i) {
 
-                // Para cada cuenta, busca las ultimas 200 menciones
-                var accountsSaved = 0;
-                accounts.forEach(function(account, i) {
+          // inicializa los menciones horarias de una cuenta
+          var accountData = [];
+          for (var l in labels) {
+            accountData.push(0);
+          }
+          result.data.push({
+            'name': account.profile_name,
+            'values': accountData
+          });
+          var idTwitter = account._id;
 
-                  // inicializa los menciones horarias de una cuenta
-                  var accountData = [];
-                  for (var l in labels) {
-                    accountData.push(0);
+          request({
+            uri: API + '/twitter/tweetline?id=' + idTwitter +
+                       '&user_id=' + user_id +
+                       '&account=' +  account.profile_name +
+                       '&count=' + 200 +
+                       '&since_id=' + -1 +
+                       '&max_id=' + -1,
+            method: "GET",
+          }, function(err, response, body) {
+            if(err) {
+              response = {"error" : true, "message" : "Error fetching data"};
+              res.json(response);
+            } else{
+              var tweets = JSON.parse(body).message;
+
+              // Para cada tweet suma 1 a la hora de creacion si tiene
+              // hashtag
+              for (j in tweets) {
+                var dateCreation = tweets[j].created_at;
+                dateCreation = moment(new Date(dateCreation)).format('HH');
+
+                // obtains retweet count
+                var retweets = tweets[j].retweet_count;
+
+                // Para cada hora del dia, comprueba si el tweet se
+                // ha generado a esa hora, solo si tiene hashtags
+
+                for (k in labels) {
+                  if (dateCreation == labels[k]) {
+                    if (tweets[j].retweeted_status === undefined) {
+                      data[i]['values'][k] =
+                        data[i]['values'][k] + retweets;
+                    }
                   }
-                  result.data.push({
-                    'name': account.profile_name,
-                    'values': accountData
-                  });
-                  var idTwitter = account._id;
-
-                  request({
-                    uri: API + '/twitter/tweetline?id=' + idTwitter +
-                               '&user_id=' + user_id +
-                               '&account=' +  account.profile_name +
-                               '&count=' + 200 +
-                               '&since_id=' + -1 +
-                               '&max_id=' + -1,
-                    method: "GET",
-                  }, function(err, response, body) {
-                    if(err) {
-                      response = {"error" : true, "message" : "Error fetching data"};
-                      res.json(response);
-                    } else{
-                      var tweets = JSON.parse(body).message;
-
-                      // Para cada tweet suma 1 a la hora de creacion si tiene
-                      // hashtag
-                      for (j in tweets) {
-                        var dateCreation = tweets[j].created_at;
-                        dateCreation = moment(new Date(dateCreation)).format('HH');
-
-                        // obtains retweet count
-                        var retweets = tweets[j].retweet_count;
-
-                        // Para cada hora del dia, comprueba si el tweet se
-                        // ha generado a esa hora, solo si tiene hashtags
-
-                        for (k in labels) {
-                          if (dateCreation == labels[k]) {
-                            if (tweets[j].retweeted_status === undefined) {
-                              data[i]['values'][k] =
-                                data[i]['values'][k] + retweets;
-                            }
-                          }
-                        }
-                      }
-                    }
-
-                    if (accountsSaved + 1  == accounts.length) {
-                      response = {"error" : false, "message" : result};
-                      res.json(response);
-                    } else {
-                      accountsSaved = accountsSaved + 1;
-                    }
-                  });
-                });
+                }
               }
-            });
-            //     }
-            //     else {
-            //       response = {"error" : true, "message" : "Admin permissions required."};
-            //       res.json(response);
-            //     }
-            //   }
-    // });
+            }
+
+            if (accountsSaved + 1  == accounts.length) {
+              response = {"error" : false, "message" : result};
+              res.json(response);
+            } else {
+              accountsSaved = accountsSaved + 1;
+            }
+          });
+        });
+      }
+    });
   };
 
   /* GET /stats/ranking/mentions/:id */
   findRankingMentions = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
-    //
-    //   if (err) {
-    //     response = {"error" : true, "message" : "Error fetching data"};
-    //     res.json(response);
-    //   } else {
-    //
-    //     if (data.admin) {
-            var limit = req.params.limit;
-            var user_id = req.params.id;
+    var limit = req.params.limit;
+    var user_id = req.params.id;
 
-            var labels = [];
-            var data = [];
-            var result = {labels, data};
+    var labels = [];
+    var data = [];
+    var result = {labels, data};
 
-            // Busca cuentas de twitter del usuario user_id
-            request({
-              uri: API + '/users/' + user_id + '/twitter_accounts',
-              method: "GET",
-            }, function(err, response, body) {
-              if(err) {
-                response = {"error" : true, "message" : "Error fetching data"};
-                res.json(response);
-              } else{
-                var accounts = JSON.parse(body).message;
+    // Busca cuentas de twitter del usuario user_id
+    request({
+      uri: API + '/users/' + user_id + '/twitter_accounts',
+      method: "GET",
+    }, function(err, response, body) {
+      if(err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else{
+        var accounts = JSON.parse(body).message;
 
-                // Para cada cuenta, busca sus menciones
-                var accountsSaved = 0;
-                accounts.forEach(function(account, i) {
+        // Para cada cuenta, busca sus menciones
+        var accountsSaved = 0;
+        accounts.forEach(function(account, i) {
 
-                  // inicializa las menciones
-                  labels.push(account.profile_name);
-                  data.push(0);
+          // inicializa las menciones
+          labels.push(account.profile_name);
+          data.push(0);
 
-                  var idTwitter = account._id;
+          var idTwitter = account._id;
 
-                  request({
-                    uri: API + '/twitter/mentions?id=' + idTwitter +
-                               '&user_id=' + user_id +
-                               '&account=' +  account.profile_name +
-                               '&count=' + 200 +
-                               '&since_id=' + -1 +
-                               '&max_id=' + -1,
-                    method: "GET",
-                  }, function(err, response, body) {
-                    if(err) {
-                      response = {"error" : true, "message" : "Error fetching data"};
-                      res.json(response);
-                    } else{
-                      var tweets = JSON.parse(body).message;
+          request({
+            uri: API + '/twitter/mentions?id=' + idTwitter +
+                       '&user_id=' + user_id +
+                       '&account=' +  account.profile_name +
+                       '&count=' + 200 +
+                       '&since_id=' + -1 +
+                       '&max_id=' + -1,
+            method: "GET",
+          }, function(err, response, body) {
+            if(err) {
+              response = {"error" : true, "message" : "Error fetching data"};
+              res.json(response);
+            } else{
+              var tweets = JSON.parse(body).message;
 
-                      // Para cada mencion suma 1
-                      for (j in tweets) {
-                        data[i] = data[i] + 1;
-                      }
-                    }
-
-                    if (accountsSaved + 1  == accounts.length) {
-
-                      for(var k in accounts) {
-                        var mentions = data[k];
-                        data[k] = ['@' + labels[k], mentions];
-                      }
-
-                      // sorts and filters data array
-                      function Comparator(a,b){
-                        if (a[1] > b[1]) return -1;
-                        if (a[1] < b[1]) return 1;
-                        return 0;
-                      }
-                      data = data.sort(Comparator);
-
-                      // resets labels and data arrays
-                      var newData = data;
-                      labels = [];
-                      data = [];
-                      for (var j = 0; j < limit && j < accounts.length; j++) {
-                        labels[j] = newData[j][0];
-                        data[j] = newData[j][1];
-                      }
-                      result = {labels, data};
-
-                      response = {"error" : false, "message" : result};
-                      res.json(response);
-                    } else {
-                      accountsSaved = accountsSaved + 1;
-                    }
-                  });
-                })
+              // Para cada mencion suma 1
+              for (j in tweets) {
+                data[i] = data[i] + 1;
               }
-            });
-            //     }
-            //     else {
-            //       response = {"error" : true, "message" : "Admin permissions required."};
-            //       res.json(response);
-            //     }
-            //   }
-    // });
+            }
+
+            if (accountsSaved + 1  == accounts.length) {
+
+              for(var k in accounts) {
+                var mentions = data[k];
+                data[k] = ['@' + labels[k], mentions];
+              }
+
+              // sorts and filters data array
+              function Comparator(a,b){
+                if (a[1] > b[1]) return -1;
+                if (a[1] < b[1]) return 1;
+                return 0;
+              }
+              data = data.sort(Comparator);
+
+              // resets labels and data arrays
+              var newData = data;
+              labels = [];
+              data = [];
+              for (var j = 0; j < limit && j < accounts.length; j++) {
+                labels[j] = newData[j][0];
+                data[j] = newData[j][1];
+              }
+              result = {labels, data};
+
+              response = {"error" : false, "message" : result};
+              res.json(response);
+            } else {
+              accountsSaved = accountsSaved + 1;
+            }
+          });
+        });
+      }
+    });
   }
 
   /* GET /stats/tweets/:id */
   findTweetsByHour = function(req,res){
     var response = {};
 
-    // checkUser(req, res, function(err, data) {
-    //
-    //   if (err) {
-    //     response = {"error" : true, "message" : "Error fetching data"};
-    //     res.json(response);
-    //   } else {
-    //
-    //     if (data.admin) {
+    // generate labels for chart
+    var labels = [];
+    var data = [];
+    for (var h = 0; h < 24;h++) {
+      if (h < 10) {
+        h = '0' + h;
+      }
+      var date = moment('2016-05-18 ' + h + ':00').format('HH');
+      labels.push(date);
+    }
+    var result = {labels, data};
+    var user_id = req.params.id;
 
-            // generate labels for chart
-            var labels = [];
-            var data = [];
-            for (var h = 0; h < 24;h++) {
-              if (h < 10) {
-                h = '0' + h;
-              }
-              var date = moment('2016-05-18 ' + h + ':00').format('HH');
-              labels.push(date);
-            }
-            var result = {labels, data};
-            var user_id = req.params.id;
+    // Busca cuentas de twitter del usuario user_id
+    request({
+      uri: API + '/users/' + user_id + '/twitter_accounts',
+      method: "GET",
+    }, function(err, response, body) {
+      if(err) {
+        response = {"error" : true, "message" : "Error fetching data"};
+        res.json(response);
+      } else{
+        var accounts = JSON.parse(body).message;
 
-            // Busca cuentas de twitter del usuario user_id
-            request({
-              uri: API + '/users/' + user_id + '/twitter_accounts',
-              method: "GET",
-            }, function(err, response, body) {
-              if(err) {
-                response = {"error" : true, "message" : "Error fetching data"};
-                res.json(response);
-              } else{
-                var accounts = JSON.parse(body).message;
+        // Para cada cuenta, busca las ultimas 200 menciones
+        var accountsSaved = 0;
+        accounts.forEach(function(account, i) {
 
-                // Para cada cuenta, busca las ultimas 200 menciones
-                var accountsSaved = 0;
-                accounts.forEach(function(account, i) {
+          // inicializa los menciones horarias de una cuenta
+          var accountData = [];
+          for (var l in labels) {
+            accountData.push(0);
+          }
+          result.data.push({
+            'name': account.profile_name,
+            'values': accountData
+          });
+          var idTwitter = account._id;
 
-                  // inicializa los menciones horarias de una cuenta
-                  var accountData = [];
-                  for (var l in labels) {
-                    accountData.push(0);
+          request({
+            uri: API + '/twitter/tweetline?id=' + idTwitter +
+                       '&user_id=' + user_id +
+                       '&account=' +  account.profile_name +
+                       '&count=' + 200 +
+                       '&since_id=' + -1 +
+                       '&max_id=' + -1,
+            method: "GET",
+          }, function(err, response, body) {
+            if(err) {
+              response = {"error" : true, "message" : "Error fetching data"};
+              res.json(response);
+            } else{
+              var tweets = JSON.parse(body).message;
+
+              // Para cada tweet suma 1 a la hora de creacion si tiene
+              // hashtag
+              for (j in tweets) {
+                var dateCreation = tweets[j].created_at;
+                dateCreation = moment(new Date(dateCreation)).format('HH');
+
+                // Para cada hora del dia, comprueba si el tweet se
+                // ha generado a esa hora, solo si tiene hashtags
+
+                for (k in labels) {
+                  if (dateCreation == labels[k]) {
+                    if (tweets[j].retweeted_status === undefined) {
+                      data[i]['values'][k] =
+                        data[i]['values'][k] + 1;
+                    }
                   }
-                  result.data.push({
-                    'name': account.profile_name,
-                    'values': accountData
-                  });
-                  var idTwitter = account._id;
-
-                  request({
-                    uri: API + '/twitter/tweetline?id=' + idTwitter +
-                               '&user_id=' + user_id +
-                               '&account=' +  account.profile_name +
-                               '&count=' + 200 +
-                               '&since_id=' + -1 +
-                               '&max_id=' + -1,
-                    method: "GET",
-                  }, function(err, response, body) {
-                    if(err) {
-                      response = {"error" : true, "message" : "Error fetching data"};
-                      res.json(response);
-                    } else{
-                      var tweets = JSON.parse(body).message;
-
-                      // Para cada tweet suma 1 a la hora de creacion si tiene
-                      // hashtag
-                      for (j in tweets) {
-                        var dateCreation = tweets[j].created_at;
-                        dateCreation = moment(new Date(dateCreation)).format('HH');
-
-                        // Para cada hora del dia, comprueba si el tweet se
-                        // ha generado a esa hora, solo si tiene hashtags
-
-                        for (k in labels) {
-                          if (dateCreation == labels[k]) {
-                            if (tweets[j].retweeted_status === undefined) {
-                              data[i]['values'][k] =
-                                data[i]['values'][k] + 1;
-                            }
-                          }
-                        }
-                      }
-                    }
-
-                    if (accountsSaved + 1  == accounts.length) {
-                      response = {"error" : false, "message" : result};
-                      res.json(response);
-                    } else {
-                      accountsSaved = accountsSaved + 1;
-                    }
-                  });
-                })
+                }
               }
-            });
-            //     }
-            //     else {
-            //       response = {"error" : true, "message" : "Admin permissions required."};
-            //       res.json(response);
-            //     }
-            //   }
-    // });
+            }
+
+            if (accountsSaved + 1  == accounts.length) {
+              response = {"error" : false, "message" : result};
+              res.json(response);
+            } else {
+              accountsSaved = accountsSaved + 1;
+            }
+          });
+        })
+      }
+    });
   }
 
   /* checks if the user is admin or not */
