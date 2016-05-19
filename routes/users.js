@@ -102,17 +102,17 @@ module.exports = function(app){
       var response = {};
 
       // checks if the user is allowed to edit
-      checkUser(req, res, function(err, data) {
+      checkUser(req, res, function(err, result) {
 
         if (err) {
           response = {"error" : true, "message" : "Error fetching data"};
           res.json(response);
         } else {
 
-          var userId = data.user_id;
+          var userId = result.user_id;
           var targetId = req.params.id;
 
-          if( (data.admin) || (targetId == userId ) ) {
+          if( (result.admin) || (targetId == userId ) ) {
 
             user.findById(req.params.id,function(err,data){
                 if(req.body.admin !== undefined){
@@ -141,7 +141,11 @@ module.exports = function(app){
                                 response = {"error" : true, "message" : "Error updating data"};
                                 res.json(response);
                             } else{
-                                findAllUsers(req,res);
+                                if(result.admin){
+                                    findAllUsers(req,res);
+                                } else{
+                                    response = {"error" : false, "message" : data}
+                                }
                             }
                         });
                     });
@@ -151,7 +155,11 @@ module.exports = function(app){
                             response = {"error" : true, "message" : "Error updating data"};
                             res.json(response);
                         } else{
-                            findAllUsers(req,res);
+                            if(result.admin){
+                                findAllUsers(req,res);
+                            } else{
+                                response = {"error" : false, "message" : data}
+                            }
                         }
                     });
                 }
