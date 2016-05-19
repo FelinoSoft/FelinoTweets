@@ -1,4 +1,5 @@
 var shortener = require('../src/shortener.js');
+var jwt = require('jsonwebtoken');
 /**
  * Este fichero es el encargado de ejecutar la operacion correspondiente a la
  * peticion recibida, para la coleccion users
@@ -88,30 +89,60 @@ module.exports = function(app){
     deleteAllAccounts = function(req,res){
         var response = {};
 
-        account.remove({}, function(err){
-            if(err){
-                response = {"error" : true, "message" : "Error deleting data"};
-                res.json(response);
-            } else{
-                findAllAccounts(req,res);
-            }
+        checkUser(req, res, function(err, result){
+            if(result.admin){
+                account.remove({}, function(err){
+                    if(err){
+                        response = {"error" : true, "message" : "Error deleting data"};
+                        res.json(response);
+                    } else{
+                        findAllAccounts(req,res);
+                    }
 
+                });
+            } else{
+                response = {"error" : true, "message" : "Error deleting data. Admin permissions required"};
+                res.json(response);
+            }
         });
     };
 
     /* DELETE /twitter_account/:id */
     deleteAccount = function(req,res){
         var response = {};
-        account.findById(req.params.id, function(err,data){
+        
+        checkUser(req, res, function(err, result){
+
             if(err){
                 response = {"error" : true, "message" : "Error fetching data"};
+                res.json(response);
             } else{
-                account.remove({_id : req.params.id}, function(err){
+                
+                var userId = result.user_id;
+                var targetAccount = req.params.id;
+                
+                account.findById(targetAccount, function(err,data){
                     if(err){
-                        response = {"error" : true, "message" : "Error deleting data"};
-                        res.json(response);
+                        response = {"error" : true, "message" : "Error fetching data"};
                     } else{
-                        findAllAccounts(req,res);
+                        if( (result.admin) || (data.account_id == userId)) {
+
+                            deleteAllTweets(req, res);
+                            deleteAllHashtags(req, res);
+
+                            account.remove({_id: req.params.id}, function (err) {
+                                if (err) {
+                                    response = {"error": true, "message": "Error deleting data"};
+                                    res.json(response);
+                                } else {
+
+                                    findAllAccounts(req, res);
+                                }
+                            });
+                        } else{
+                            response = {"error" : true, "message" : "Error deleting data. Admin permissions required"};
+                            res.json(response);
+                        }
                     }
                 });
             }
@@ -203,8 +234,6 @@ module.exports = function(app){
             if(err){
                 response = {"error" : true, "message" : "Error deleting data"};
                 res.json(response);
-            } else{
-                findAllScheduledTweets(req,res);
             }
         });
     };
@@ -287,10 +316,39 @@ module.exports = function(app){
             if(err){
                 response = {"error" : true, "message" : "Error deleting data"};
                 res.json(response);
-            } else{
-                findAllHashtags(req,res);
             }
         });
+    };
+
+    checkUser = function(req, res, callback) {
+
+        // check header or url parameters or post parameters for token
+        var token = req.body.token ||
+            req.query.token ||
+            req.headers['authorization'];
+
+        // decode token
+        if (token) {
+
+            // verifies secret and checks exp
+            jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+                if (err) {
+                    return res.json({ error: true, message: 'Failed to authenticate token.'});
+                } else {
+
+                    // if everything is good, save to request for use in other routes
+                    callback(false, decoded);
+                }
+            });
+        } else {
+
+            // if there is no token
+            // return an error
+            return res.status(403).send({
+                error : true,
+                message: 'No token provided.'
+            });
+        }
     };
     
     
