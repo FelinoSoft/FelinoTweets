@@ -379,21 +379,6 @@ homeStatsModule.controller('homeStatsController',
       });
     };
 
-    $scope.getActiveUsers = function() {
-      stats.getActiveUsers($scope.activUsersDays).then(function(result) {
-        if (result.data.error) {
-
-          // login error, resets only the password field
-          $scope.messageError =
-                  "Error: no se ha podido recuperar a los usuarios activos.";
-          $scope.notError = false;
-        }
-        else {
-          $scope.activeUsers = result.data.message;
-        }
-      });
-    };
-
     $scope.showChart = function(index) {
       if ($scope.stats) {
         var ctx = document.getElementById('chart-' + index);
@@ -418,5 +403,4 @@ homeStatsModule.controller('homeStatsController',
     $scope.getRetweetsByHour();
     $scope.getTweetsByHour();
     $scope.getRankingMentions();
-    $scope.getActiveUsers();
 });
