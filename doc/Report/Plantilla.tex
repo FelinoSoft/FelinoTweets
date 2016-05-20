@@ -352,7 +352,117 @@ Alejandro Royo Amondarain (NIP: 560285)\\
 		\paragraph{} El servidor se ha implementado con \textit{node.js}, de esta forma se asegura una buena escalabilidad de la aplicación. En este sentido la gestión de la base de datos mediante \textit{Mongoose} también ayuda a mejorar esta característica.
 		
 \section{Modelo de navegación}
-
+\paragraph{}A continuación se muestran capturas de pantalla de la aplicación con una breve descripción de los enlaces existentes entre dichas pantallas.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{img/main.png}
+	\caption{Vista principal de la aplicación}
+	\label{fig:diagarq}
+\end{figure}
+\paragraph{} Desde esta vista, \textbf{principal}, se puede acceder a:
+\begin{itemize}
+	\item La vista de login, a través del botón Entrar
+	\item La vista de registro, a través del botón Registrarse
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{img/login.png}
+	\caption{Vista de login de la aplicación}
+	\label{fig:diagarq}
+\end{figure}
+\paragraph{} Desde esta vista, \textbf{login}, se puede acceder a:
+\begin{itemize}
+	\item La vista de login, a través del botón Entrar
+	\item La vista de registro, a través del botón Registrarse
+	\item La vista de home, a través de un correcto login en la aplicación
+	\item La vista del panel de administrador, a través de un correcto login del administrador en la aplicación
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{img/register.png}
+	\caption{Vista de registro de la aplicación}
+	\label{fig:diagarq}
+\end{figure}
+\paragraph{} Desde esta vista, \textbf{registro}, se puede acceder a:
+\begin{itemize}
+	\item La vista de login, a través del botón Entrar
+	\item La vista de registro, a través del botón Registrarse
+	\item La vista de home, a través de un correcto registro en la aplicación
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{img/home-twitter.png}
+	\caption{Vista de home de la aplicación}
+	\label{fig:diagarq}
+\end{figure}
+\paragraph{} Desde esta vista, \textbf{home}, se puede acceder a:
+\begin{itemize}
+	\item La vista de perfil, a través del botón Mi cuenta
+	\item La vista principal, a través del botón Salir
+	\item La vista de la cuenta de twitter, a través de los enlaces situados en los nombres de las cuentas de twitter que haya
+	\item La vista de estadísticas del usuario, a través del botón Estadísticas
+	\item La vista de autorizar cuenta de twitter, a través del botón Add account
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{img/profile.png}
+	\caption{Vista de perfil de la aplicación}
+	\label{fig:diagarq}
+\end{figure}
+\paragraph{} Desde esta vista, \textbf{perfil}, se puede acceder a:
+\begin{itemize}
+	\item La vista de perfil, a través del botón Mi cuenta
+	\item La vista principal, a través del botón Salir
+	\item La vista de home, a través del botón Home
+	\item La vista de estadísticas del usuario, a través del botón Estadísticas
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{img/estadisticas.png}
+	\caption{Vista de estadísticas de la aplicación}
+	\label{fig:diagarq}
+\end{figure}
+\paragraph{} Desde esta vista, \textbf{estadisticas}, se puede acceder a:
+\begin{itemize}
+	\item La vista de perfil, a través del botón Mi cuenta
+	\item La vista principal, a través del botón Salir
+	\item La vista de home, a través del botón Home
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{img/account.png}
+	\caption{Vista de la cuenta de twitter de la aplicación}
+	\label{fig:diagarq}
+\end{figure}
+\paragraph{} Desde esta vista, \textbf{cuenta de twitter}, se puede acceder a:
+\begin{itemize}
+	\item La vista de perfil, a través del botón Mi cuenta
+	\item La vista principal, a través del botón Salir
+	\item La vista del home, a través del botón Home
+	\item La vista de estadísticas del usuario, a través del botón Estadísticas
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{img/admin.png}
+	\caption{Vista del panel del administrador de la aplicación}
+	\label{fig:diagarq}
+\end{figure}
+\paragraph{} Desde esta vista, \textbf{el panel del administrador}, se puede acceder a:
+\begin{itemize}
+	\item La vista principal, a través del botón Salir
+	\item La vista de estadísticas del administrador, a través del botón Estadísticas
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{img/estadisticasadmin.png}
+	\caption{Vista de las estadísticas del administrador de la aplicación}
+	\label{fig:diagarq}
+\end{figure}
+\paragraph{} Desde esta vista, \textbf{estadísticas del administrador}, se puede acceder a:
+\begin{itemize}
+	\item La vista principal, a través del botón Salir
+	\item La vista del panel del administrador, a través del botón Home
+\end{itemize}
 \section{Despliegue del sistema (instrucciones)}
 \paragraph{}Para desplegar el sistema se hace uso de Heroku, una plataforma que permite montar la aplicación de manera gratuita (con limitaciones, pero para el alcance del proyecto es más que suficiente) de una manera fácil y sencilla. Está configurado de tal manera que se despliegue automáticamente a partir del repositorio de GitHub de \href{https://github.com/FelinoSoft/FelinoTweets}{FelinoTweets}. De esta forma, la aplicación se actualizará con cada commit realizado sobre la branch principal del repositorio.
 \paragraph{}La aplicación contiene un fichero de configuración, siguiendo la ruta a partir de la raíz \textit{/confi/config.json}. En él hay que definir los siguientes campos;
