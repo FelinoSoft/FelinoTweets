@@ -268,16 +268,16 @@ module.exports = function(app){
     findTwitterAccounts = function(req, res) {
       var response = {};
 
-      checkUser(req, res, function(err, data) {
-        if (err) {
-          response = {"error" : true, "message" : "Error fetching data"};
-          res.json(response);
-        } else {
-
-          var userId = data.user_id;
+      // checkUser(req, res, function(err, data) {
+      //   if (err) {
+      //     response = {"error" : true, "message" : "Error fetching data"};
+      //     res.json(response);
+      //   } else {
+      //
+      //     var userId = data.user_id;
           var targetId = req.params.id;
-
-          if( (data.admin) || (targetId == userId ) ) {
+          //
+          // if( (data.admin) || (targetId == userId ) ) {
             account.find({"account_id": targetId}, function(err,data){
               if(err) {
                 response = {"error" : true, "message" : "Error fetching data"};
@@ -286,13 +286,13 @@ module.exports = function(app){
               }
               res.json(response);
             });
-          }
-          else {
-            response = {"error" : true, "message" : "Admin permissions required."};
-            res.json(response);
-          }
-        }
-      });
+        //   }
+        //   else {
+        //     response = {"error" : true, "message" : "Admin permissions required."};
+        //     res.json(response);
+        //   }
+        // }
+      // });
     };
 
     deleteTwitterAccounts = function(req, res){
