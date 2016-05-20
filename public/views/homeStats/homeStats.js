@@ -17,7 +17,7 @@ homeStatsModule.controller('homeStatsController',
 
     // chart's info
     $scope.opt = [];
-    $scope.topAccounts = 2;
+    $scope.topAccounts = 5;
     $scope.statTitle = ['Menciones por franja horaria',
                         'Tweets escritos por usuario por franja horaria',
                         'Porcentaje de tweets con contenido multimedia por franja horaria',
